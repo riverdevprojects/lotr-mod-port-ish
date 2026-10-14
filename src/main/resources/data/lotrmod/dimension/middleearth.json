@@ -1,0 +1,42 @@
+{
+  "type": "lotrmod:middleearth",
+  "generator": {
+    "type": "lotrmod:middleearth",
+    "biome_source": {
+      "type": "lotrmod:middleearth",
+      "ocean_biome": "minecraft:ocean",
+      "fallback_biome": "lotrmod:eriador",
+      "possible_biomes": [
+        "lotrmod:anduin_river",
+        "lotrmod:arnor",
+        "lotrmod:blue_mountains",
+        "lotrmod:celduin",
+        "lotrmod:dale",
+        "lotrmod:dead_lands",
+        "lotrmod:eastern_rhovanian_plains",
+        "lotrmod:erebor",
+        "lotrmod:eriador",
+        "lotrmod:fangorn_forest",
+        "lotrmod:forodwaith",
+        "lotrmod:gondor",
+        "lotrmod:grey_mountains",
+        "lotrmod:harad",
+        "lotrmod:iron_hills",
+        "lotrmod:lindon",
+        "lotrmod:lothlorien",
+        "lotrmod:mirkwood",
+        "lotrmod:misty_mountains",
+        "lotrmod:mordor",
+        "lotrmod:mountains_of_shadow",
+        "lotrmod:rhun",
+        "lotrmod:rivendell",
+        "lotrmod:rohan",
+        "lotrmod:sea_of_rhun",
+        "lotrmod:the_shire",
+        "lotrmod:vale_of_anduin",
+        "lotrmod:white_mountains"
+      ]
+    },
+    "settings": "lotrmod:middleearth"
+  }
+}
