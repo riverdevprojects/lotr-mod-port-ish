@@ -1,5 +1,6 @@
 package com.lotrmod;
 
+import com.lotrmod.command.MiddleEarthCommand;
 import com.lotrmod.worldgen.LOTRWorldGen;
 import com.lotrmod.worldgen.LandmaskLoader;
 import com.lotrmod.worldgen.RegionMapLoader;
@@ -11,6 +12,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
@@ -19,8 +21,7 @@ import org.slf4j.Logger;
  * landmask PNG and whose biomes come from a region map PNG, one biome per region.
  *
  * <p>Nothing else is registered — no blocks, items, entities or structures. To
- * visit the dimension, use vanilla:
- * {@code /execute in lotrmod:middleearth run tp @s ~ ~ ~}
+ * visit the dimension, use {@code /middleearth}.
  */
 @Mod(LOTRMod.MODID)
 public class LOTRMod {
@@ -42,6 +43,11 @@ public class LOTRMod {
         ResourceManager resourceManager = event.getServer().getResourceManager();
         LandmaskLoader.loadLandmask(resourceManager);
         RegionMapLoader.loadRegionMap(resourceManager);
+    }
+
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        MiddleEarthCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent

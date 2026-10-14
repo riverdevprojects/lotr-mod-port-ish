@@ -4,7 +4,7 @@
     "type": "lotrmod:middleearth",
     "biome_source": {
       "type": "lotrmod:middleearth",
-      "ocean_biome": "minecraft:ocean",
+      "ocean_biome": "lotrmod:ocean",
       "fallback_biome": "lotrmod:eriador",
       "possible_biomes": [
         "lotrmod:anduin_river",

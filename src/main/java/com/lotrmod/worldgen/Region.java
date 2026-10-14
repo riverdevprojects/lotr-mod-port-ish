@@ -11,8 +11,8 @@ import java.awt.Color;
  * biome id — hangs off the enum constant.
  *
  * <p>{@link #OCEAN} is the one exception: ocean is decided by the landmask rather
- * than the region map, and it resolves to {@code minecraft:ocean}, so it has no
- * biome of its own.
+ * than the region map, and it resolves to the dimension's {@code ocean_biome}
+ * ({@code lotrmod:ocean}) instead of a per-region biome.
  */
 public enum Region {
     // ──────────────────────────────────────────────────────────────────────────

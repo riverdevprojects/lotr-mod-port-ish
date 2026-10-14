@@ -1,5 +1,5 @@
 #!/bin/bash
-# One-shot generator for the 28 region biome JSONs.
+# One-shot generator for the 28 region biome JSONs, plus the ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -20,6 +20,13 @@ mkdir -p "$OUT"
 # 19 flower_flower_forest 20 forest_flowers     21 flower_default
 # 22 patch_berry_common  23 patch_pumpkin       24 patch_sugar_cane
 # 25 patch_melon         26 brown_mushroom_normal 27 red_mushroom_normal
+# 28 seagrass_normal     29 kelp_cold
+#
+# The ocean is ours too (lotrmod:ocean), not minecraft:ocean. Vanilla's ocean
+# orders its vegetation differently (mushrooms before sugar cane, sugar cane
+# before pumpkin), so pairing it with any biome that follows the master order
+# closes a cycle — vale_of_anduin + minecraft:ocean did exactly that. Never
+# point the dimension at a vanilla biome.
 
 ORES='"minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"'
 
@@ -41,6 +48,14 @@ EOF
 {"type":"minecraft:creeper","weight":100,"minCount":4,"maxCount":4}
 EOF
     ;;
+    ocean) cat <<'EOF'
+{"type":"minecraft:spider","weight":100,"minCount":1,"maxCount":4},
+{"type":"minecraft:zombie","weight":95,"minCount":4,"maxCount":4},
+{"type":"minecraft:skeleton","weight":100,"minCount":4,"maxCount":4},
+{"type":"minecraft:creeper","weight":100,"minCount":4,"maxCount":4},
+{"type":"minecraft:drowned","weight":100,"minCount":1,"maxCount":1}
+EOF
+    ;;
     *) cat <<'EOF'
 {"type":"minecraft:spider","weight":100,"minCount":1,"maxCount":4},
 {"type":"minecraft:zombie","weight":95,"minCount":4,"maxCount":4},
@@ -56,7 +71,7 @@ crt() {
   case "$1" in
     desert) printf '%s' '{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
     cold)   printf '%s' '{"type":"minecraft:rabbit","weight":10,"minCount":2,"maxCount":3},{"type":"minecraft:polar_bear","weight":1,"minCount":1,"maxCount":2},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4}' ;;
-    barren) printf '%s' '' ;;
+    barren|ocean) printf '%s' '' ;;
     forest) printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4},{"type":"minecraft:wolf","weight":5,"minCount":4,"maxCount":4}' ;;
     *)      printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":6},{"type":"minecraft:donkey","weight":1,"minCount":1,"maxCount":3},{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
   esac
@@ -86,7 +101,13 @@ biome() {
     printf '  },\n'
     printf '  "spawners": {\n'
     printf '    "monster": [%s],\n' "$(mon "$prof" | tr -d '\n')"
-    printf '    "creature": [%s]\n' "$(crt "$prof")"
+    if [ "$prof" = ocean ]; then
+      printf '    "creature": [],\n'
+      printf '    "water_creature": [{"type":"minecraft:squid","weight":1,"minCount":1,"maxCount":4}],\n'
+      printf '    "water_ambient": [{"type":"minecraft:cod","weight":10,"minCount":3,"maxCount":6}]\n'
+    else
+      printf '    "creature": [%s]\n' "$(crt "$prof")"
+    fi
     printf '  },\n'
     printf '  "spawn_costs": {},\n'
     printf '  "carvers": { "air": [%s] },\n' "$CARVERS"
@@ -132,6 +153,7 @@ P_MORDOR="4994063 6187100 4159204 329011 6971191 6971191"
 P_BARREN="7838783 12638463 4159204 329011 10387789 10066329"
 P_SWAMP="7907327 12638463 6388580 2302743 9154376 6975545"
 P_RIVER="7907327 12638463 4159204 329011 9470285 7842607"
+P_OCEAN="8103167 12638463 4159204 329011 9470285 7842607"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.7 0.8 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers patch_berry_common brown_mushroom_normal red_mushroom_normal)" ""
@@ -162,5 +184,8 @@ biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_no
 biome forodwaith               0.0 0.5 true $P_SNOW   cold   "$(V patch_grass_taiga_2)" "$FREEZE"
 biome the_shire                0.7 0.7 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_berry_common patch_pumpkin)" ""
 biome rivendell                0.6 0.7 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
+
+# ── the sea (decided by the landmask, not a region on the map) ──────────────
+biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""
 
 echo "wrote $(ls -1 "$OUT" | wc -l) biome files"

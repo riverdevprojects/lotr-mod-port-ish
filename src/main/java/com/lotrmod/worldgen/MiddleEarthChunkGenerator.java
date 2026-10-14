@@ -52,9 +52,13 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
     private final PerlinSimplexNoise coastlineNoise;
 
     private static final int SEA_LEVEL = 63;
-    // Land/coastal terrain is kept above this so beaches stay just above the
-    // waterline; ocean seabed is allowed below sea level (see oceanFloorHeight).
-    private static final int MIN_TERRAIN_HEIGHT = 65;
+    // Land/coastal terrain is kept at or above this — level with the water
+    // surface — so the beach meets the sea without a ledge; ocean seabed is
+    // allowed below sea level (see oceanFloorHeight).
+    private static final int MIN_TERRAIN_HEIGHT = SEA_LEVEL;
+    // Land this close to the coast and this low is finished as sand beach.
+    private static final double BEACH_WIDTH = 20.0;
+    private static final int BEACH_MAX_HEIGHT = SEA_LEVEL + 3;
 
     public MiddleEarthChunkGenerator(BiomeSource biomeSource, Holder<NoiseGeneratorSettings> settings) {
         super(biomeSource, settings);
@@ -96,11 +100,9 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
                 int worldZ = startZ + z;
                 int terrainHeight = getTerrainHeight(worldX, worldZ);
 
-                // Slight position jitter so region surface boundaries look organic
-                double jScale = 1.0 / 40.0;
-                int jx = (int)(detailNoise.getValue(worldX * jScale, worldZ * jScale, false) * 14.0);
-                int jz = (int)(detailNoise.getValue((worldX + 7919) * jScale, worldZ * jScale, false) * 14.0);
-                Region region = getRegionAt(worldX + jx, worldZ + jz);
+                // Same (warped) lookup the biome source uses, so the ground
+                // and the biome change over at the same line.
+                Region region = getRegionAt(worldX, worldZ);
 
                 for (int y = chunk.getMaxBuildHeight() - 1; y >= chunk.getMinBuildHeight(); y--) {
                     pos.set(startX + x, y, startZ + z);
@@ -114,6 +116,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
                             // deeper water. Never grass, even over a land region.
                             boolean deep = terrainHeight < SEA_LEVEL - 8;
                             surfaceBlock = (deep ? Blocks.GRAVEL : Blocks.SAND).defaultBlockState();
+                            underBlock = surfaceBlock;
+                        } else if (terrainHeight <= BEACH_MAX_HEIGHT
+                                && coastDistance(worldX, worldZ) < beachWidth(worldX, worldZ)) {
+                            // Beach: sand down to the waterline, whatever the region
+                            surfaceBlock = Blocks.SAND.defaultBlockState();
                             underBlock = surfaceBlock;
                         } else {
                             // Snow cap on high peaks
@@ -373,62 +380,81 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         return t * t * (3.0 - 2.0 * t);
     }
 
+    /** Blocks inland over which land eases down to the beach. */
+    private static final double COAST_RAMP = 128.0;
+    /** Blocks offshore over which the seabed shelves down to full depth. */
+    private static final double SHELF_WIDTH = 96.0;
+    /** Extra height given to land clear of the coast, for prominence. */
+    private static final double INLAND_BOOST = 8.0;
+
     /**
-     * Uses the landmask to shape Middle-earth's geography.
-     * Land pixels → terrain unmodified (above sea level).
-     * Coastal zones slope down to the shoreline.
-     * Ocean pixels → submerged seabed below sea level; {@link #doFill} floods
-     * water above it up to {@link #SEA_LEVEL}, so oceans read as real ocean
-     * rather than dry grassland.
+     * Uses the landmask to shape Middle-earth's geography, by distance to the
+     * coastline rather than by raw mask brightness: the mask is essentially
+     * black and white at 16 blocks a pixel, so brightness swings from land to
+     * sea in a few blocks and anything ramped on it comes out as a sheer cliff.
      *
-     * The OCEAN threshold (200) matches MiddleEarthBiomeSource's ocean-biome
-     * cutoff, so the water line and the ocean biome stay in agreement.
+     * Land eases down to a beach just above the waterline over
+     * {@link #COAST_RAMP} blocks. Sea gets a submerged seabed below sea level;
+     * {@link #doFill} floods water above it up to {@link #SEA_LEVEL}.
+     *
+     * The shoreline (distance zero) is the same one MiddleEarthBiomeSource uses
+     * for the ocean biome, so the water line and the biome stay in agreement.
      */
     private double applyLandmask(int worldX, int worldZ, double height) {
         if (!LandmaskLoader.isLoaded()) return Math.max(MIN_TERRAIN_HEIGHT, height);
 
-        double noiseOffX = coastlineNoise.getValue(worldX / 80.0, worldZ / 80.0, false) * 10.0;
-        double noiseOffZ = coastlineNoise.getValue((worldX + 10000) / 80.0, (worldZ + 10000) / 80.0, false) * 10.0;
+        double shoreDist = coastDistance(worldX, worldZ);
 
-        double brightness = LandmaskLoader.getInterpolatedBrightness(
-                worldX + (int) noiseOffX,
-                worldZ + (int) noiseOffZ);
-
-        final double LAND_MAX    = 100.0;  // fully land
-        final double COAST_START = 140.0;  // start of coastal lowering
-        final double SHORE       = 200.0;  // waterline (matches ocean biome cutoff)
-
-        if (brightness <= LAND_MAX) {
-            // Deep inland: landmask pushes height up slightly for prominence
-            double boost = ((LAND_MAX - brightness) / LAND_MAX) * 8.0;
-            return Math.max(MIN_TERRAIN_HEIGHT, height + boost);
-        } else if (brightness < COAST_START) {
-            // Near-coastal land: no change
-            return Math.max(MIN_TERRAIN_HEIGHT, height);
-        } else if (brightness < SHORE) {
-            // Coastal transition: slope down toward the shoreline (a beach just
-            // above the waterline)
-            double t = smoothstep((brightness - COAST_START) / (SHORE - COAST_START));
-            double shoreTarget = SEA_LEVEL + 2.0; // just above the water at the beach
-            double blended = height * (1.0 - t) + shoreTarget * t;
-            return Math.max(MIN_TERRAIN_HEIGHT, blended);
-        } else {
-            // Ocean pixel → submerged seabed (water floods above this in doFill)
-            return oceanFloorHeight(worldX, worldZ, brightness);
+        if (shoreDist < 0) {
+            // Sea → submerged seabed (water floods above this in doFill)
+            return oceanFloorHeight(worldX, worldZ, -shoreDist);
         }
+
+        // Smoothstep is flat at both ends: a level beach at the waterline that
+        // rises and then settles into the regional terrain inland.
+        double t = smoothstep(Math.min(1.0, shoreDist / COAST_RAMP));
+        double shoreTarget = MIN_TERRAIN_HEIGHT; // level with the water at the beach
+        double inland = height + INLAND_BOOST;
+        return Math.max(MIN_TERRAIN_HEIGHT, shoreTarget + (inland - shoreTarget) * t);
     }
 
     /**
-     * Height of the ocean floor for an ocean pixel. Slopes from a shallow shelf
-     * just below the surface near the coast down to deeper water offshore, with
-     * gentle seabed variation. Always below {@link #SEA_LEVEL} so water fills above.
+     * Signed distance to the coast in blocks (positive on land, negative at
+     * sea), sampled through a little noise so the coastline wanders off the
+     * 16-block pixel grid.
      */
-    private double oceanFloorHeight(int worldX, int worldZ, double brightness) {
-        double depthT = smoothstep(Math.min(1.0, (brightness - 200.0) / (255.0 - 200.0)));
-        double shelf = SEA_LEVEL - 2.0;   // shallow water at the coast
+    private double coastDistance(int worldX, int worldZ) {
+        double noiseOffX = coastlineNoise.getValue(worldX / 80.0, worldZ / 80.0, false) * 10.0;
+        double noiseOffZ = coastlineNoise.getValue((worldX + 10000) / 80.0, (worldZ + 10000) / 80.0, false) * 10.0;
+        return LandmaskLoader.getShoreDistance(worldX + (int) noiseOffX, worldZ + (int) noiseOffZ);
+    }
+
+    /**
+     * How far inland the beach reaches here. Varied with noise because the
+     * shore-distance field is interpolated in straight lines between pixels,
+     * so a fixed-width beach shows those lines as its inland edge.
+     */
+    private double beachWidth(int worldX, int worldZ) {
+        double n = coastlineNoise.getValue((worldX + 5000) / 30.0, (worldZ - 5000) / 30.0, false);
+        return BEACH_WIDTH + n * 12.0;
+    }
+
+    /**
+     * Height of the ocean floor {@code offshore} blocks out from the coast.
+     * Slopes from a shallow shelf just below the surface down to deeper water,
+     * with gentle seabed variation. Always below {@link #SEA_LEVEL} so water
+     * fills above.
+     */
+    private double oceanFloorHeight(int worldX, int worldZ, double offshore) {
+        // Ease-out rather than smoothstep: the seabed falls away straight from
+        // the shore and levels off offshore, instead of lingering in the shallows.
+        double u = Math.min(1.0, offshore / SHELF_WIDTH);
+        double depthT = 1.0 - (1.0 - u) * (1.0 - u);
+        double shelf = SEA_LEVEL - 1.0;   // one block of water at the coast
         double deep  = SEA_LEVEL - 22.0;  // deeper water offshore
         double floor = shelf + (deep - shelf) * depthT;
-        double bump  = coastlineNoise.getValue(worldX / 55.0, worldZ / 55.0, false) * 3.0;
+        // Seabed variation fades in offshore so it can't build shoals at the beach
+        double bump  = coastlineNoise.getValue(worldX / 55.0, worldZ / 55.0, false) * 3.0 * depthT;
         // Keep the seabed strictly below the waterline so ocean never dries out
         return Math.min(SEA_LEVEL - 1.0, floor + bump);
     }
@@ -564,13 +590,14 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         info.add("Region map: " + RegionMapLoader.isLoaded());
 
         if (RegionMapLoader.isLoaded()) {
-            Region region = RegionMapLoader.getRegion(pos.getX(), pos.getZ());
+            Region region = getRegionAt(pos.getX(), pos.getZ());
             info.add("Region: " + region.getDisplayName() + " (" + region.getShape() + ")");
         }
 
         if (LandmaskLoader.isLoaded()) {
             double brightness = LandmaskLoader.getInterpolatedBrightness(pos.getX(), pos.getZ());
             info.add(String.format("Landmask brightness: %.1f", brightness));
+            info.add(String.format("Shore distance: %.1f", LandmaskLoader.getShoreDistance(pos.getX(), pos.getZ())));
         }
 
         info.add("Terrain height: " + getTerrainHeight(pos.getX(), pos.getZ()));
