@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,6 +23,15 @@ public class RegionMapLoader {
     private static int imageWidth;
     private static int imageHeight;
     private static boolean loaded = false;
+
+    /**
+     * The region of every pixel, by ordinal, row-major. Matching a colour to a
+     * region means measuring its distance to every region's colour, far too slow
+     * to repeat for each of the thousands of lookups a chunk makes, so it is done
+     * once per pixel on load.
+     */
+    private static byte[] regionIndex;
+    private static final Region[] REGIONS = Region.values();
 
     public static final int BLOCKS_PER_PIXEL = 16; // Same scale as landmask
 
@@ -58,18 +69,17 @@ public class RegionMapLoader {
 
             Resource resource = resourceOpt.get();
 
+            BufferedImage image;
             try (InputStream stream = resource.open()) {
-                regionMapImage = ImageIO.read(stream);
+                image = ImageIO.read(stream);
             }
 
-            if (regionMapImage == null) {
+            if (image == null) {
                 LOTRMod.LOGGER.error("Failed to read region map image from resource manager");
                 return false;
             }
 
-            imageWidth = regionMapImage.getWidth();
-            imageHeight = regionMapImage.getHeight();
-            loaded = true;
+            setImage(image);
 
             LOTRMod.LOGGER.info("========================================");
             LOTRMod.LOGGER.info("REGION MAP LOADED FROM RESOURCE MANAGER!");
@@ -105,14 +115,13 @@ public class RegionMapLoader {
                 if (Files.exists(path)) {
                     LOTRMod.LOGGER.info("Found file at: {}", path.toAbsolutePath());
 
+                    BufferedImage image;
                     try (InputStream stream = Files.newInputStream(path)) {
-                        regionMapImage = ImageIO.read(stream);
+                        image = ImageIO.read(stream);
                     }
 
-                    if (regionMapImage != null) {
-                        imageWidth = regionMapImage.getWidth();
-                        imageHeight = regionMapImage.getHeight();
-                        loaded = true;
+                    if (image != null) {
+                        setImage(image);
 
                         LOTRMod.LOGGER.info("========================================");
                         LOTRMod.LOGGER.info("REGION MAP LOADED FROM FILESYSTEM!");
@@ -143,61 +152,56 @@ public class RegionMapLoader {
         LOTRMod.LOGGER.warn("All regions will default to OCEAN");
         LOTRMod.LOGGER.warn("========================================");
 
-        regionMapImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
         for (int x = 0; x < 256; x++) {
             for (int y = 0; y < 256; y++) {
-                regionMapImage.setRGB(x, y, 0xFFFFFF); // White = Ocean
+                image.setRGB(x, y, 0xFFFFFF); // White = Ocean
             }
         }
-        imageWidth = 256;
-        imageHeight = 256;
+        setImage(image);
         loaded = false;
     }
 
+    /** Installs a freshly read map and indexes its pixels by region. */
+    private static void setImage(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        byte[] index = new byte[width * height];
+        Map<Integer, Region> byColour = new HashMap<>();
+        int[] row = new int[width];
+        for (int z = 0; z < height; z++) {
+            image.getRGB(0, z, width, 1, row, 0, width);
+            for (int x = 0; x < width; x++) {
+                Region region = byColour.computeIfAbsent(row[x] & 0xFFFFFF,
+                        rgb -> Region.fromRGB((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF));
+                index[z * width + x] = (byte) region.ordinal();
+            }
+        }
+
+        regionMapImage = image;
+        imageWidth = width;
+        imageHeight = height;
+        regionIndex = index;
+        loaded = true;
+    }
+
     /**
-     * Get the region at a world position using interpolated sampling
-     * Uses bilinear interpolation to eliminate chunky boundaries
+     * The region at a world position: the nearest pixel's, so a region keeps
+     * its exact colour from the map rather than blending into its neighbours.
      *
      * @param worldX The X coordinate in world space
      * @param worldZ The Z coordinate in world space
      * @return The region at this position
      */
     public static Region getRegion(int worldX, int worldZ) {
-        if (!loaded || regionMapImage == null) {
+        if (!loaded || regionIndex == null) {
             return Region.OCEAN;
         }
 
-        // Use floating-point division for sub-pixel sampling
-        double exactPixelX = worldX / (double) BLOCKS_PER_PIXEL;
-        double exactPixelZ = worldZ / (double) BLOCKS_PER_PIXEL;
-
-        // Convert to image coordinates (centered at 0,0)
-        exactPixelX += imageWidth / 2.0;
-        exactPixelZ += imageHeight / 2.0;
-
-        // Get the 4 surrounding pixel coordinates for bilinear interpolation
-        int x0 = (int) Math.floor(exactPixelX);
-        int z0 = (int) Math.floor(exactPixelZ);
-        int x1 = x0 + 1;
-        int z1 = z0 + 1;
-
-        // Get fractional parts for interpolation weights
-        double fx = exactPixelX - x0;
-        double fz = exactPixelZ - z0;
-
-        // Sample 4 surrounding pixels and get their regions
-        Region r00 = getRegionAtPixel(x0, z0); // top-left
-        Region r10 = getRegionAtPixel(x1, z0); // top-right
-        Region r01 = getRegionAtPixel(x0, z1); // bottom-left
-        Region r11 = getRegionAtPixel(x1, z1); // bottom-right
-
-        // For region selection, we use the closest pixel (nearest neighbor)
-        // instead of color interpolation, to avoid creating intermediate regions
-        // Determine which corner is closest based on fractional position
-        if (fx < 0.5 && fz < 0.5) return r00; // Closer to top-left
-        if (fx >= 0.5 && fz < 0.5) return r10; // Closer to top-right
-        if (fx < 0.5 && fz >= 0.5) return r01; // Closer to bottom-left
-        return r11; // Closer to bottom-right
+        // Pixel centres sit on whole pixel coordinates, centred on world 0,0
+        int pixelX = (int) Math.floor(worldX / (double) BLOCKS_PER_PIXEL + imageWidth / 2.0 + 0.5);
+        int pixelZ = (int) Math.floor(worldZ / (double) BLOCKS_PER_PIXEL + imageHeight / 2.0 + 0.5);
+        return getRegionAtPixel(pixelX, pixelZ);
     }
 
     /**
@@ -270,17 +274,12 @@ public class RegionMapLoader {
      * @param pixelZ The Z pixel coordinate
      * @return The region at this pixel, or OCEAN if out of bounds
      */
-    private static Region getRegionAtPixel(int pixelX, int pixelZ) {
-        if (pixelX < 0 || pixelX >= imageWidth || pixelZ < 0 || pixelZ >= imageHeight) {
+    static Region getRegionAtPixel(int pixelX, int pixelZ) {
+        byte[] index = regionIndex;
+        if (index == null || pixelX < 0 || pixelX >= imageWidth || pixelZ < 0 || pixelZ >= imageHeight) {
             return Region.OCEAN;
         }
-
-        int rgb = regionMapImage.getRGB(pixelX, pixelZ);
-        int r = (rgb >> 16) & 0xFF;
-        int g = (rgb >> 8) & 0xFF;
-        int b = rgb & 0xFF;
-
-        return Region.fromRGB(r, g, b);
+        return REGIONS[index[pixelZ * imageWidth + pixelX]];
     }
 
     /**
@@ -305,6 +304,14 @@ public class RegionMapLoader {
 
     public static boolean isLoaded() {
         return loaded;
+    }
+
+    static int getImageWidth() {
+        return imageWidth;
+    }
+
+    static int getImageHeight() {
+        return imageHeight;
     }
 
     public static int getWorldWidth() {

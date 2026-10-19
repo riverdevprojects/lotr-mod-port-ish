@@ -3,6 +3,7 @@ package com.lotrmod;
 import com.lotrmod.command.MiddleEarthCommand;
 import com.lotrmod.worldgen.LOTRWorldGen;
 import com.lotrmod.worldgen.LandmaskLoader;
+import com.lotrmod.worldgen.MiddleEarthClimate;
 import com.lotrmod.worldgen.RegionMapLoader;
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,8 +30,8 @@ public class LOTRMod {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public LOTRMod(IEventBus modEventBus, ModContainer modContainer) {
-        // The chunk generator and biome source codecs are the only registry
-        // entries this mod contributes.
+        // The chunk generator, biome source and climate density function codecs
+        // are the only registry entries this mod contributes.
         LOTRWorldGen.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
@@ -40,9 +41,13 @@ public class LOTRMod {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        ResourceManager resourceManager = event.getServer().getResourceManager();
+        loadMaps(event.getServer().getResourceManager());
+    }
+
+    private static void loadMaps(ResourceManager resourceManager) {
         LandmaskLoader.loadLandmask(resourceManager);
         RegionMapLoader.loadRegionMap(resourceManager);
+        MiddleEarthClimate.rebuild();
     }
 
     @SubscribeEvent
@@ -55,9 +60,6 @@ public class LOTRMod {
         // Reload the maps when resources are reloaded, so editing either PNG
         // does not need a game restart.
         event.addListener((preparationBarrier, resourceManager, profilerFiller, profilerFiller2, executor, executor2) ->
-                preparationBarrier.wait(null).thenRunAsync(() -> {
-                    LandmaskLoader.loadLandmask(resourceManager);
-                    RegionMapLoader.loadRegionMap(resourceManager);
-                }, executor2));
+                preparationBarrier.wait(null).thenRunAsync(() -> loadMaps(resourceManager), executor2));
     }
 }

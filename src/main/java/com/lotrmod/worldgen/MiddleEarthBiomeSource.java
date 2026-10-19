@@ -19,10 +19,10 @@ import java.util.stream.Stream;
 /**
  * Assigns biomes straight from the region map: one region is one biome.
  *
- * <p>Ocean is decided first, by the landmask rather than the region map, so the
- * waterline and the ocean biome always agree — both this and
- * {@code MiddleEarthChunkGenerator} put the coast where the landmask's shore
- * distance crosses zero.
+ * <p>Ocean is decided first, by the landmask rather than the region map, on the
+ * same coastline the terrain is built around
+ * ({@link MiddleEarthClimate#coastDistance}), so the ocean biome follows the
+ * sea.
  *
  * <p>There is deliberately no noise-based sub-selection. A region's colour on
  * the map is the whole answer, which means a biome boundary is exactly a region
@@ -103,7 +103,7 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     /** Whether the landmask marks this column as ocean. */
     private boolean isOcean(int worldX, int worldZ) {
         return LandmaskLoader.isLoaded()
-                && LandmaskLoader.getShoreDistance(worldX, worldZ) < 0;
+                && MiddleEarthClimate.coastDistance(worldX, worldZ) < 0;
     }
 
     /**

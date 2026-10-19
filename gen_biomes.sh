@@ -77,9 +77,9 @@ crt() {
   esac
 }
 
-# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv>
+# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv> [<underground-structures-csv> <surface-structures-csv>]
 biome() {
-  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}"
+  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}" ustruct="${14}" sstruct="${15}"
   {
     printf '{\n'
     printf '  "has_precipitation": %s,\n' "$precip"
@@ -115,8 +115,8 @@ biome() {
     printf '    [],\n'      # raw_generation
     printf '    [],\n'      # lakes
     printf '    [],\n'      # local_modifications
-    printf '    [],\n'      # underground_structures
-    printf '    [],\n'      # surface_structures
+    printf '    [%s],\n' "$ustruct"   # underground_structures
+    printf '    [%s],\n' "$sstruct"   # surface_structures
     printf '    [],\n'      # strongholds
     printf '    [%s],\n' "$ORES"
     printf '    ["minecraft:amethyst_geode"],\n'
@@ -165,7 +165,7 @@ biome grey_mountains           0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_ta
 biome white_mountains          0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome mountains_of_shadow      0.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome gondor                   0.9 0.5 true $P_PLAIN  temp   "$(V trees_plains patch_grass_plain patch_tall_grass flower_default patch_melon)" ""
-biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" ""
+biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" "" "$(V fossil_upper fossil_lower)" "$(V desert_well)"
 biome lothlorien               0.8 0.8 true $P_GOLD   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
 biome mirkwood                 0.6 0.8 true $P_DARK   forest "$(V patch_grass_forest patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
 biome dale                     0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_pumpkin)" ""
