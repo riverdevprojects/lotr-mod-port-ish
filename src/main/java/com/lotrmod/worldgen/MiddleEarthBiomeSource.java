@@ -5,9 +5,11 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.levelgen.synth.PerlinSimplexNoise;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -17,18 +19,16 @@ import java.util.stream.Stream;
 /**
  * Assigns biomes straight from the region map: one region is one biome.
  *
- * <p>Ocean is decided first, by the landmask rather than the region map, so the
- * waterline and the ocean biome always agree — the brightness cutoff here is
- * the same 200 that {@code MiddleEarthChunkGenerator} uses to start the seabed.
+ * <p>Ocean is decided first, by the landmask rather than the region map, on the
+ * same coastline the terrain is built around
+ * ({@link MiddleEarthClimate#coastDistance}), so the ocean biome follows the
+ * sea.
  *
  * <p>There is deliberately no noise-based sub-selection. A region's colour on
  * the map is the whole answer, which means a biome boundary is exactly a region
  * boundary and nothing else.
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
-    /** Landmask brightness at or above which a column is ocean. */
-    private static final double OCEAN_BRIGHTNESS = 200.0;
-
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     Biome.CODEC.fieldOf("ocean_biome").forGetter((MiddleEarthBiomeSource s) -> s.oceanBiome),
@@ -43,6 +43,14 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
     /** Region to biome holder, resolved once from the dimension JSON. */
     private final Map<Region, Holder<Biome>> byRegion;
+
+    /** Feature size of the region-boundary warp, as a noise input scale. */
+    private static final double WARP_SCALE = 1.0 / 40.0;
+    /** How far, in blocks, the warp can shift a region lookup. */
+    private static final double WARP_BLOCKS = 18.0;
+
+    private final PerlinSimplexNoise regionWarp =
+            new PerlinSimplexNoise(RandomSource.create(24680L), List.of(0, 1, 2));
 
     public MiddleEarthBiomeSource(Holder<Biome> oceanBiome, Holder<Biome> fallbackBiome, List<Holder<Biome>> regionBiomes) {
         this.oceanBiome = oceanBiome;
@@ -95,16 +103,24 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     /** Whether the landmask marks this column as ocean. */
     private boolean isOcean(int worldX, int worldZ) {
         return LandmaskLoader.isLoaded()
-                && LandmaskLoader.getInterpolatedBrightness(worldX, worldZ) > OCEAN_BRIGHTNESS;
+                && MiddleEarthClimate.coastDistance(worldX, worldZ) < 0;
     }
 
     /**
      * The region at a world position. Falls back to Eriador only if the region
      * map failed to load, which also shows up as {@code Region map: false} on
      * the debug screen.
+     *
+     * <p>The lookup is domain-warped: the region map is one pixel per 16
+     * blocks, so sampled straight it draws every region boundary as a
+     * staircase of 16x16 squares. Shifting the sample point by a smooth noise
+     * offset bends those edges into organic lines. This is the one region
+     * lookup for both biomes and surface blocks, so the two always agree.
      */
     public Region getRegion(int worldX, int worldZ) {
         if (!RegionMapLoader.isLoaded()) return Region.ERIADOR;
-        return RegionMapLoader.getRegion(worldX, worldZ);
+        int wx = (int) Math.round(regionWarp.getValue(worldX * WARP_SCALE, worldZ * WARP_SCALE, false) * WARP_BLOCKS);
+        int wz = (int) Math.round(regionWarp.getValue((worldX + 7919) * WARP_SCALE, (worldZ - 7919) * WARP_SCALE, false) * WARP_BLOCKS);
+        return RegionMapLoader.getRegion(worldX + wx, worldZ + wz);
     }
 }

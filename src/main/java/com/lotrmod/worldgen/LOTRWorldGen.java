@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -13,12 +14,15 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * Registration for custom world generation components
  */
 public class LOTRWorldGen {
-    // Deferred registers for chunk generators and biome sources
+    // Deferred registers for chunk generators, biome sources and density functions
     public static final DeferredRegister<MapCodec<? extends ChunkGenerator>> CHUNK_GENERATORS =
             DeferredRegister.create(Registries.CHUNK_GENERATOR, LOTRMod.MODID);
 
     public static final DeferredRegister<MapCodec<? extends BiomeSource>> BIOME_SOURCES =
             DeferredRegister.create(Registries.BIOME_SOURCE, LOTRMod.MODID);
+
+    public static final DeferredRegister<MapCodec<? extends DensityFunction>> DENSITY_FUNCTION_TYPES =
+            DeferredRegister.create(Registries.DENSITY_FUNCTION_TYPE, LOTRMod.MODID);
 
     // Register our custom chunk generator
     public static final DeferredHolder<MapCodec<? extends ChunkGenerator>, MapCodec<MiddleEarthChunkGenerator>> MIDDLEEARTH_CHUNK_GENERATOR =
@@ -28,10 +32,14 @@ public class LOTRWorldGen {
     public static final DeferredHolder<MapCodec<? extends BiomeSource>, MapCodec<MiddleEarthBiomeSource>> MIDDLEEARTH_BIOME_SOURCE =
             BIOME_SOURCES.register("middleearth", () -> MiddleEarthBiomeSource.CODEC);
 
+    // The map-driven climate values the noise settings build terrain from
+    public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<ClimateDensityFunction>> CLIMATE =
+            DENSITY_FUNCTION_TYPES.register("climate", () -> ClimateDensityFunction.DATA_CODEC);
+
     public static void register(IEventBus modEventBus) {
-        // Register chunk generators and biome sources
         CHUNK_GENERATORS.register(modEventBus);
         BIOME_SOURCES.register(modEventBus);
+        DENSITY_FUNCTION_TYPES.register(modEventBus);
 
         LOTRMod.LOGGER.info("Registered LOTR world generation components");
     }
