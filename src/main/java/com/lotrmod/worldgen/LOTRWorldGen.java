@@ -36,6 +36,10 @@ public class LOTRWorldGen {
     public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<ClimateDensityFunction>> CLIMATE =
             DENSITY_FUNCTION_TYPES.register("climate", () -> ClimateDensityFunction.DATA_CODEC);
 
+    // Reshapes the terrain for the mountain ranges and the rivers
+    public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<TerrainBlendDensityFunction>> TERRAIN_BLEND =
+            DENSITY_FUNCTION_TYPES.register("terrain_blend", () -> TerrainBlendDensityFunction.DATA_CODEC);
+
     public static void register(IEventBus modEventBus) {
         CHUNK_GENERATORS.register(modEventBus);
         BIOME_SOURCES.register(modEventBus);

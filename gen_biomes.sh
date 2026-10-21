@@ -14,13 +14,18 @@ mkdir -p "$OUT"
 #  1 patch_dead_bush      2 patch_cactus_desert  3 trees_savanna
 #  4 trees_jungle         5 bamboo_vegetation    6 trees_plains
 #  7 trees_birch          8 trees_flower_forest  9 trees_meadow
-# 10 patch_grass_savanna 11 patch_grass_jungle  12 patch_grass_taiga_2
-# 13 patch_grass_forest  14 patch_grass_plain   15 patch_grass_normal
-# 16 patch_tall_grass    17 patch_large_fern    18 flower_meadow
-# 19 flower_flower_forest 20 forest_flowers     21 flower_default
-# 22 patch_berry_common  23 patch_pumpkin       24 patch_sugar_cane
-# 25 patch_melon         26 brown_mushroom_normal 27 red_mushroom_normal
-# 28 seagrass_normal     29 kelp_cold
+# 10 lotrmod:trees_marsh (vanilla's swamp oak, one tree per three chunks)
+# 11 patch_grass_savanna 12 patch_grass_jungle  13 patch_grass_taiga_2
+# 14 patch_grass_forest  15 patch_grass_plain   16 patch_grass_normal
+# 17 patch_tall_grass    18 patch_large_fern    19 flower_meadow
+# 20 flower_flower_forest 21 forest_flowers     22 flower_default
+# 23 flower_swamp        24 patch_berry_common  25 patch_pumpkin
+# 26 patch_sugar_cane    27 lotrmod:patch_cattail_marsh
+# 28 lotrmod:patch_cattail                      29 patch_melon
+# 30 patch_waterlily     31 brown_mushroom_normal 32 red_mushroom_normal
+# 33 seagrass_normal     34 kelp_cold
+#
+# Names without a namespace are minecraft's.
 #
 # The ocean is ours too (lotrmod:ocean), not minecraft:ocean. Vanilla's ocean
 # orders its vegetation differently (mushrooms before sugar cane, sugar cane
@@ -128,11 +133,14 @@ biome() {
   } > "$OUT/$name.json"
 }
 
-V() { # join feature short-names into a quoted csv
+V() { # join feature short-names into a quoted csv; bare names are minecraft's
   local out=""
   for f in "$@"; do
     [ -n "$out" ] && out="$out,"
-    out="$out\"minecraft:$f\""
+    case "$f" in
+      *:*) out="$out\"$f\"" ;;
+      *)   out="$out\"minecraft:$f\"" ;;
+    esac
   done
   printf '%s' "$out"
 }
@@ -175,12 +183,12 @@ biome rohan                    0.8 0.4 true $P_STEPPE temp   "$(V trees_savanna 
 biome mordor                   1.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome rhun                     0.9 0.3 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome fangorn_forest           0.7 0.9 true $P_DARK   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern forest_flowers brown_mushroom_normal red_mushroom_normal)" ""
-biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
-biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V patch_grass_normal patch_tall_grass patch_large_fern patch_sugar_cane brown_mushroom_normal red_mushroom_normal)" ""
+biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
+biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_large_fern flower_swamp patch_sugar_cane lotrmod:patch_cattail_marsh patch_waterlily brown_mushroom_normal red_mushroom_normal)" ""
 biome dead_lands               0.6 0.1 false $P_BARREN barren "$(V patch_dead_bush)" ""
-biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
+biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome eastern_rhovanian_plains 0.8 0.4 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
-biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
+biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome forodwaith               0.0 0.5 true $P_SNOW   cold   "$(V patch_grass_taiga_2)" "$FREEZE"
 biome the_shire                0.7 0.7 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_berry_common patch_pumpkin)" ""
 biome rivendell                0.6 0.7 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""

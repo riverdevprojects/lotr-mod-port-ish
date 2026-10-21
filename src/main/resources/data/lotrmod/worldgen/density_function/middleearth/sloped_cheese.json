@@ -1,4 +1,6 @@
 {
+  "type": "lotrmod:terrain_blend",
+  "argument": {
   "type": "minecraft:add",
   "argument1": {
     "type": "minecraft:mul",
@@ -29,4 +31,5 @@
     }
   },
   "argument2": "minecraft:overworld/base_3d_noise"
+}
 }

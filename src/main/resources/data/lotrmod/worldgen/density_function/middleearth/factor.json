@@ -152,7 +152,7 @@
                         "derivative": 0.0,
                         "location": 0.45,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -185,7 +185,7 @@
                         "derivative": 0.0,
                         "location": 0.55,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -351,7 +351,7 @@
                         "derivative": 0.0,
                         "location": 0.45,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -384,7 +384,7 @@
                         "derivative": 0.0,
                         "location": 0.55,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -550,7 +550,7 @@
                         "derivative": 0.0,
                         "location": 0.45,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -583,7 +583,7 @@
                         "derivative": 0.0,
                         "location": 0.55,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -744,7 +744,7 @@
                         "derivative": 0.0,
                         "location": 0.05,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -777,7 +777,7 @@
                         "derivative": 0.0,
                         "location": 0.4,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -810,7 +810,7 @@
                         "derivative": 0.0,
                         "location": 0.45,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,
@@ -843,7 +843,7 @@
                         "derivative": 0.0,
                         "location": 0.55,
                         "value": {
-                          "coordinate": "minecraft:overworld/ridges_folded",
+                          "coordinate": "lotrmod:middleearth/ridges_folded",
                           "points": [
                             {
                               "derivative": 0.0,

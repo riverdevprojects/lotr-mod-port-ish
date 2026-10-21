@@ -24,6 +24,9 @@ import java.util.stream.Stream;
  * ({@link MiddleEarthClimate#coastDistance}), so the ocean biome follows the
  * sea.
  *
+ * <p>Rivers come next, from the river map: a river's channel takes its
+ * region's biome ({@code lotrmod:anduin_river}, {@code lotrmod:celduin}).
+ *
  * <p>There is deliberately no noise-based sub-selection. A region's colour on
  * the map is the whole answer, which means a biome boundary is exactly a region
  * boundary and nothing else.
@@ -96,8 +99,31 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
         if (isOcean(worldX, worldZ)) return oceanBiome;
 
+        Holder<Biome> river = riverBiome(worldX, worldZ);
+        if (river != null) return river;
+
         Holder<Biome> biome = byRegion.get(getRegion(worldX, worldZ));
         return biome != null ? biome : fallbackBiome;
+    }
+
+    /** The column last looked up on this thread; biomes are asked for a column at a time. */
+    private final ThreadLocal<RiverColumn> lastRiverColumn = ThreadLocal.withInitial(RiverColumn::new);
+
+    private static final class RiverColumn {
+        long column = Long.MIN_VALUE;
+        Holder<Biome> biome;
+    }
+
+    /** The river's biome if this is in a river channel from the river map, else null. */
+    private Holder<Biome> riverBiome(int worldX, int worldZ) {
+        long column = ((long) worldX << 32) | (worldZ & 0xFFFFFFFFL);
+        RiverColumn last = lastRiverColumn.get();
+        if (last.column != column) {
+            last.column = column;
+            RiverMap.Sample river = RiverMap.sample(worldX, worldZ);
+            last.biome = river != null && RiverTerrain.inChannel(river) ? byRegion.get(river.river()) : null;
+        }
+        return last.biome;
     }
 
     /** Whether the landmask marks this column as ocean. */
