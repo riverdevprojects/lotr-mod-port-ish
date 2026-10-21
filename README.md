@@ -93,10 +93,11 @@ fills the channel with water up to the waterline itself; vanilla's aquifer only
 sometimes floods ground cut below sea level, and left to it rivers came out dry in
 stretches. Rivers only ever lower the ground, so where one runs into the sea or the Sea
 of Rhûn the water stays as deep as it was. The channel takes the river's biome
-(`lotrmod:anduin_river`, `lotrmod:celduin`). The Anduin widens from 60 blocks at
-its source to 90 at its mouth, and the Celduin from 36 to 56.
+(`lotrmod:anduin_river`, `lotrmod:celduin`). The Anduin widens from 69 blocks at
+its source to 103 at its mouth, and the Celduin from 41 to 64.
 
-Marshes are the third. The Vale of Anduin (shape `MARSH`) is built from
+Marshes are the third. The Vale of Anduin (shape `MARSH`), painted on the region
+map as a band about 290 blocks wide either side of the upper Anduin, is built from
 `MarshTerrain`: ground held within a block or two of the waterline, so the dips
 between low hummocks become shallow pools, which the chunk generator fills with
 water the same way it fills rivers.

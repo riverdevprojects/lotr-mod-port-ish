@@ -43,7 +43,7 @@ public final class RiverMap {
     private static final int CELL = 128;
 
     /** How far from its centreline a river can reach, its valley included. */
-    public static final double MAX_REACH = 220.0;
+    public static final double MAX_REACH = 240.0;
 
     /** How far, in blocks, the meander can shift a river sideways, and its feature size. */
     private static final double MEANDER_BLOCKS = 22.0;
@@ -201,7 +201,15 @@ public final class RiverMap {
             zs[i] = (p[1] - imageHeight / 2.0) * BLOCKS_PER_PIXEL;
             ws[i] = p[2];
         }
-        Region river = Region.values()[chain.get(0)[3]];
+        // The river most of the chain belongs to: a chain leaving a junction
+        // starts on a pixel that may be the other river's colour
+        int[] votes = new int[Region.values().length];
+        for (int[] p : chain) votes[p[3]]++;
+        int best = 0;
+        for (int i = 1; i < votes.length; i++) {
+            if (votes[i] > votes[best]) best = i;
+        }
+        Region river = Region.values()[best];
 
         // Chaikin corner cutting, keeping both ends where they are so chains
         // still meet at their junctions
