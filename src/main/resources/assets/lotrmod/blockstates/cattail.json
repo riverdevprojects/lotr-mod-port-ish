@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "half=lower": { "model": "lotrmod:block/cattail_bottom" },
+    "half=upper": { "model": "lotrmod:block/cattail_top" }
+  }
+}

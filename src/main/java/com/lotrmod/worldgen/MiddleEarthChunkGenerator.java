@@ -7,14 +7,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
@@ -27,17 +30,23 @@ import java.util.List;
  * Terrain for the Middle-earth dimension: vanilla's overworld terrain, steered
  * by the maps.
  *
- * <p>Everything about the ground's shape — the height splines, 3D noise, caves,
- * aquifers and ore veins — is vanilla's, from {@code noise_settings/middleearth.json}.
+ * <p>The ground's shape — the height splines, 3D noise, caves, aquifers and ore
+ * veins — is vanilla's, from {@code noise_settings/middleearth.json}, except
+ * inside the mountain ranges, which keep their own shape ({@link MountainTerrain}),
+ * and along the rivers, which cut their own channels ({@link RiverTerrain}).
  * The maps come in through two of the climate values vanilla shapes terrain from,
  * continentalness and erosion (see {@link MiddleEarthClimate}): the landmask puts
  * the coast where it draws it, and each region sets how rugged its ground is.
  * The surface rule in the same JSON finishes each region's biome with its own
  * ground.
  *
- * <p>The one thing this class adds is beaches. Vanilla makes beaches out of a
- * beach biome; here every inch of land belongs to a region, so low ground near
- * the landmask's coast is turned to sand after the surface rule has run.
+ * <p>This class adds water and beaches. River channels and marsh pools are
+ * filled with water up to the waterline, since vanilla's aquifer only
+ * sometimes floods ground cut below sea level.
+ *
+ * <p>Vanilla makes beaches out of a beach biome; here every inch of land
+ * belongs to a region, so low ground near the landmask's coast is turned to
+ * sand after the surface rule has run.
  */
 public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
     public static final MapCodec<MiddleEarthChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(
@@ -46,6 +55,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
                     NoiseGeneratorSettings.CODEC.fieldOf("settings").forGetter(gen -> gen.generatorSettings())
             ).apply(instance, MiddleEarthChunkGenerator::new)
     );
+
+    /** Deepest a river or marsh is filled with water, from the waterline down. */
+    private static final int FLOOD_MAX_DEPTH = 16;
+    /** Marsh pools fill where the ground is at least this much marsh. */
+    private static final double MARSH_FLOOD_WEIGHT = 0.5;
 
     /** Beaches only form on ground at most this far above sea level. */
     private static final int BEACH_MAX_RISE = 3;
@@ -75,8 +89,58 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
 
     @Override
     public void buildSurface(WorldGenRegion level, StructureManager structureManager, RandomState random, ChunkAccess chunk) {
+        // Water first, so the surface rule sees it and gives river beds and
+        // marsh pools their underwater ground
+        flood(chunk);
         super.buildSurface(level, structureManager, random, chunk);
         addBeaches(chunk);
+    }
+
+    @Override
+    public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager,
+            StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {
+        super.applyCarvers(level, seed, random, biomeManager, structureManager, chunk, step);
+        // A cave or canyon cut under a river can take its water with it
+        flood(chunk);
+    }
+
+    /**
+     * Fills river channels and marsh pools with water up to the waterline.
+     * Vanilla's aquifer only sometimes floods ground cut below sea level, so a
+     * river left to it comes out dry in stretches. Only open air is filled, down
+     * to the ground, and never more than {@link #FLOOD_MAX_DEPTH} deep, so a cave
+     * mouth in a river bed isn't flooded all the way down.
+     */
+    private void flood(ChunkAccess chunk) {
+        ChunkPos chunkPos = chunk.getPos();
+        int waterTop = getSeaLevel() - 1;
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        BlockState water = Blocks.WATER.defaultBlockState();
+
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int worldX = chunkPos.getMinBlockX() + x;
+                int worldZ = chunkPos.getMinBlockZ() + z;
+                if (!isWet(worldX, worldZ)) continue;
+
+                for (int depth = 0; depth < FLOOD_MAX_DEPTH; depth++) {
+                    pos.set(worldX, waterTop - depth, worldZ);
+                    BlockState state = chunk.getBlockState(pos);
+                    if (state.isAir()) {
+                        chunk.setBlockState(pos, water, false);
+                    } else if (!state.getFluidState().is(FluidTags.WATER)) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    /** Whether ground below the waterline here is under water: a river or a marsh. */
+    private static boolean isWet(int x, int z) {
+        if (MiddleEarthClimate.marshWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
+        RiverMap.Sample river = RiverMap.sample(x, z);
+        return river != null && RiverTerrain.isWater(river);
     }
 
     /**
@@ -125,11 +189,32 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         if (getBiomeSource() instanceof MiddleEarthBiomeSource src && RegionMapLoader.isLoaded()) {
             Region region = src.getRegion(x, z);
             info.add("Region: " + region.getDisplayName() + " (" + region.getShape() + ")");
+            ShireZones.Zone zone = ShireZones.zone(x, z, region);
+            if (zone != ShireZones.Zone.NONE) {
+                info.add(String.format("Shire: %s, %.0f blocks from the border", zone, ShireZones.borderDistance(x, z)));
+            }
         }
         info.add(String.format("Shore distance: %.1f", MiddleEarthClimate.coastDistance(x, z)));
         info.add(String.format("Climate: continentalness %.3f, erosion %.3f ± %.3f",
                 MiddleEarthClimate.continentalness(x, z),
                 MiddleEarthClimate.erosion(x, z),
                 MiddleEarthClimate.erosionSpread(x, z)));
+        RiverMap.Sample river = RiverMap.sample(x, z);
+        if (river != null) {
+            info.add(String.format("River: %s, %.0f blocks away, %.0f wide",
+                    river.river().getDisplayName(), river.distance(), river.width()));
+        }
+        double marsh = MiddleEarthClimate.marshWeight(x, z);
+        if (marsh > 0.0) {
+            info.add(String.format("Marsh: %.0f%%, height %.1f", marsh * 100.0, MarshTerrain.height(x, z)));
+        }
+        double shire = MiddleEarthClimate.shireWeight(x, z);
+        if (shire > 0.0) {
+            info.add(String.format("Downs: %.0f%%, height %.1f", shire * 100.0, ShireTerrain.height(x, z)));
+        }
+        double mountain = MiddleEarthClimate.mountainWeight(x, z);
+        if (mountain > 0.0) {
+            info.add(String.format("Mountain: %.0f%%, height %.1f", mountain * 100.0, MountainTerrain.height(x, z)));
+        }
     }
 }

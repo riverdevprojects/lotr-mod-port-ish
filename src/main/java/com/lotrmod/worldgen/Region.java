@@ -39,7 +39,7 @@ public enum Region {
     RHUN                     (0x8C4A2F, "Rhûn",                     Shape.FLAT),
     FANGORN_FOREST           (0x3E6B4E, "Fangorn Forest",           Shape.FOREST),
     ANDUIN_RIVER             (0x4FA3C7, "Anduin River",             Shape.RIVER),
-    VALE_OF_ANDUIN           (0x9FAE9A, "Vale of Anduin",           Shape.FLAT),
+    VALE_OF_ANDUIN           (0x9FAE9A, "Vale of Anduin",           Shape.MARSH),
     DEAD_LANDS               (0x8B7A5E, "Dead Lands",               Shape.FLAT),
     CELDUIN                  (0x6FA8C8, "Celduin",                  Shape.RIVER),
     EASTERN_RHOVANIAN_PLAINS (0xA89F7A, "Eastern Rhovanian Plains", Shape.FLAT),
@@ -65,7 +65,10 @@ public enum Region {
         FOREST     ( 0.20,            0.10,   0.25),
         MIXED      ( 0.25,           -0.10,   0.35),
         DESERT     ( 0.20,            0.05,   0.30),
-        // Sits just above sea level, so the land is half water: a floodplain
+        // Flat and low; the ground itself comes from MarshTerrain
+        MARSH      ( 0.15,            0.30,   0.15),
+        // Rivers aren't painted on the region map, so these values go unused:
+        // a river region's biome is laid along its channel from the river map
         RIVER      (-0.12,            0.60,   0.10),
         // Low enough to drop below sea level and fill as an inland sea
         LAKE       (-0.30,            0.30,   0.10);
@@ -190,6 +193,29 @@ public enum Region {
     /** How far erosion wanders either side of {@link #getErosion()}. */
     public double getErosionSpread() {
         return shape.getErosionSpread();
+    }
+
+    /** Whether this region is a marsh, built with {@link MarshTerrain}. */
+    public boolean isMarsh() {
+        return shape == Shape.MARSH;
+    }
+
+    /** Whether this region is a mountain range, built with {@link MountainTerrain}. */
+    public boolean isMountain() {
+        return shape == Shape.MOUNTAIN;
+    }
+
+    /**
+     * Height of this range's ridgelines in {@link MountainTerrain}, in blocks
+     * above its baseline. Zero for anything that isn't a mountain region.
+     */
+    public double getRidgeHeight() {
+        return switch (this) {
+            case BLUE_MOUNTAINS, MISTY_MOUNTAINS, MOUNTAINS_OF_SHADOW -> 110.0;
+            case WHITE_MOUNTAINS, GREY_MOUNTAINS -> 85.0;
+            case IRON_HILLS, EREBOR -> 60.0;
+            default -> 0.0;
+        };
     }
 
     /** Every region that has a biome of its own — i.e. all but {@link #OCEAN}. */

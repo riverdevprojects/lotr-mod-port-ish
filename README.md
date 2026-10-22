@@ -3,12 +3,15 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region**. There are no blocks, items, entities, structures or recipes — this is
-landscape generation and nothing else.
+per region** (the Shire is the one exception, split into rings; see below). Apart
+from the plants the landscape needs that vanilla lacks — the cattail, and the
+aspen and shire pine from the original mod, whose logs craft into birch and spruce
+planks — there are no blocks, items, entities or structures: this is landscape
+generation and nothing else.
 
 ## Getting there
 
-`/middleearth` (op level 2) takes you to the same x/z in Middle-earth, standing on
+`/middleearth` (op level 2) takes you to the middle of the Shire (-9536, -8384), standing on
 the surface. Vanilla works too:
 
 ```
@@ -20,13 +23,14 @@ shape, the distance to the coast and the climate values the terrain is built fro
 
 ## How it works
 
-Two PNGs under `src/main/resources/data/lotrmod/maps/`, each pixel covering
+Three PNGs under `src/main/resources/data/lotrmod/maps/`, each pixel covering
 16×16 blocks and centred on world origin:
 
 | Map | Role |
 | --- | --- |
 | `middleearth_landmask.png` | Dark = land, light = ocean. Decides the coastline. |
 | `middleearth_regions.png` | One flat colour per region. Decides the biome and how rugged the land is. |
+| `middleearth_rivers.png` | One-pixel river centrelines in the river's region colour; alpha = width in blocks. |
 
 They live under `data/` rather than `assets/` on purpose. Worldgen is server-side,
 and a dedicated server's `ResourceManager` only loads `data/` — maps under `assets/`
@@ -52,46 +56,113 @@ where two of the climate values vanilla shapes the ground from come from:
   rugged, high is flat) and a spread, and vanilla's erosion noise wanders between
   them so no region is uniform.
 
-Vanilla's ridge noise still adds peaks, valleys and rivers everywhere. Region
-values are blurred over about a hundred blocks, so mountains rise out of the
+Vanilla's ridge noise still adds peaks and valleys, but is kept out of its
+deepest valleys (`density_function/middleearth/ridges_folded.json`), so vanilla
+carves no rivers of its own and leaves only the odd small lake. Region values are
+blurred over about a hundred blocks, so mountains rise out of the
 plains instead of stepping up at the map's pixel edges.
 
 | Shape | Regions | Continentalness | Erosion |
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
-| `HILLY` | Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 |
-| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, Vale of Anduin, E. Rhovanion | 0.15 | 0.30 ± 0.15 |
+| `HILLY` | Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
+| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 |
+| `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lindon, Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
 | `MIXED` | Mordor, Forodwaith, Rivendell | 0.25 | −0.10 ± 0.35 |
-| `RIVER` | Anduin, Celduin | −0.12 | 0.60 ± 0.10 (a wet floodplain at sea level) |
+| `RIVER` | Anduin, Celduin | unused: rivers come from the river map (below) | |
 | `LAKE` | Sea of Rhûn | −0.30 | 0.30 ± 0.10 (sinks below sea level and fills) |
 
 `MiddleEarthClimate` works the values out from the maps and the `lotrmod:climate`
 density function hands them to the JSON in `data/lotrmod/worldgen/`.
-`density_function/middleearth/continents.json` and `erosion.json` are written by
-hand. The rest of that folder, and everything in `noise_settings/middleearth.json`
+`density_function/middleearth/continents.json`, `erosion.json` and
+`ridges_folded.json` are written by hand. The rest of that folder, and everything in `noise_settings/middleearth.json`
 above the surface rule, are vanilla's own files renamed to read the Middle-earth
 values. `gen_terrain.sh` regenerates them from the Minecraft jar.
+
+The mountain ranges are the exception. Inside them the terrain fades over, across
+about a hundred blocks, to the mod's original mountain heightfield
+(`MountainTerrain`): stacked 2D noise plus a ridge layer, 110 blocks high in the
+Misty, Blue and Shadow mountains, 85 in the White and Grey, and 60 in Erebor and
+the Iron Hills. Vanilla's top slide still caps peaks at about y 250.
+
+Rivers are the other exception. `RiverMap` traces each line on the river map,
+smooths it and lets it meander a little, and `RiverTerrain` cuts a channel along
+it: a bed a few blocks below sea level, a low bank, and a valley either side
+easing back into the land over a hundred blocks or so. `MiddleEarthChunkGenerator`
+fills the channel with water up to the waterline itself; vanilla's aquifer only
+sometimes floods ground cut below sea level, and left to it rivers came out dry in
+stretches. Rivers only ever lower the ground, so where one runs into the sea or the Sea
+of Rhûn the water stays as deep as it was. The channel takes the river's biome
+(`lotrmod:anduin_river`, `lotrmod:celduin`). The Anduin widens from 69 blocks at
+its source to 103 at its mouth, and the Celduin from 41 to 64.
+
+Marshes are the third. The Vale of Anduin (shape `MARSH`), painted on the region
+map as a band about 290 blocks wide either side of the upper Anduin, is built from
+`MarshTerrain`: ground held within a block or two of the waterline, so the dips
+between low hummocks become shallow pools, which the chunk generator fills with
+water the same way it fills rivers.
+
+The Shire is the fourth. Vanilla's terrain is lumpier at any erosion than the
+original mod's gentlest land biome, so inside the Shire the ground fades over to
+`ShireTerrain`: soft downs, swells a couple of hundred blocks across with a smaller
+roll on top, around y 74 and kept above the waterline.
+
+All four are done by the `lotrmod:terrain_blend` density function. It wraps
+vanilla's density before caves are carved, so mountains, marshes, the Shire and
+river valleys still get vanilla's caves, aquifers and ore veins.
 
 ### Ground
 
 What each region is finished with — sand over sandstone in Harad, snow and bare
-rock on the high peaks, podzol in Mirkwood, mud in the Vale of Anduin — is the
+rock on the high peaks, podzol in Mirkwood, grass and mud in the Vale of Anduin — is the
 surface rule at the end of `noise_settings/middleearth.json`, keyed by biome and
 built from vanilla's own rules. A region that isn't named there gets vanilla's
-grass and dirt. Beaches are the one thing added in Java: low ground near the
-landmask's coast is turned to sand by `MiddleEarthChunkGenerator`.
+grass and dirt. Beaches are added in Java: low ground near the landmask's coast is
+turned to sand by `MiddleEarthChunkGenerator`.
+
+The Vale of Anduin is planted as a marsh: cattails (`lotrmod:cattail`, a two-tall
+plant that grows on the bank or in one block of water) thick around its pools, lily
+pads, blue orchids and a scattering of vanilla's swamp oaks. Cattails also line
+the rivers and the Sea of Rhûn, more thinly. The features are
+`worldgen/configured_feature/patch_cattail.json` and the placed features beside it.
+
+### The Shire
+
+The Shire is laid out in rings, as in the original mod, by distance from its
+border on the region map (`ShireZones`), with noise pushing each ring's edge in
+and out by up to 220 blocks:
+
+| Ring | Biome | Where | Trees |
+| --- | --- | --- | --- |
+| Heart | `lotrmod:the_shire` | more than ~300 blocks inside the border | Oaks and large oaks dotted over open grass, with woody patches of oak, aspen and birch filling the gaps |
+| Outskirts | `lotrmod:shire_outskirts` | the ~300 blocks inside the border | Woodland throughout: thick mixed woods on one side of a noise, aspen stands on the other |
+| Shire Woodlands | `lotrmod:shire_woodlands` | Eriador or Arnor within ~480 blocks of the border | Thick shire pine forest with aspens, birches and oaks, on Eriador's hills |
+
+The tree mixes follow the original biomes' weights. Aspen and shire pine are
+literal ports of the original generators (`AspenFeature`, `ShirePineFeature`,
+under `worldgen/feature`), with the original textures; large aspens have a 2×2
+trunk. The mixes are the `random_selector` configured features `trees_shire`,
+`trees_shire_woods`, `trees_aspen_stand` and `trees_shire_woodlands`. The Shire's
+bright grass colour is the original's.
 
 ## Editing the maps
 
-Both maps reload with `/reload` — no restart needed. Already-generated chunks keep
+All three maps reload with `/reload` — no restart needed. Already-generated chunks keep
 their old terrain, so test map changes in a fresh world.
 
 Adding a region takes two steps: add the enum constant with its map colour and
 shape, and add `data/lotrmod/worldgen/biome/<name>.json`. Then add it to
 `possible_biomes` in `data/lotrmod/dimension/middleearth.json`, and to the surface
 rule if its ground should be anything but grass.
+
+To add or move a river, draw it on `middleearth_rivers.png` as a line one pixel
+wide (8-connected), in the colour of its region (`ANDUIN_RIVER`, `CELDUIN`, or a
+new `Shape.RIVER` region), with each pixel's alpha set to the width in blocks
+there. Run the line a pixel or two into the water it flows into, and join
+tributaries to the river they feed. Don't paint rivers on the region map: the land
+either side of a river belongs to the regions it runs between.
 
 ## A warning about biome features
 
@@ -101,5 +172,5 @@ biomes disagree about which of two shared features comes first, NeoForge's
 feature-order sort hits a cycle and the game **crashes on world load**. If you
 hand-edit a biome's `features`, keep the master order.
 
-`gen_biomes.sh` regenerates all 28 biome JSONs from that single ordering. Prefer
+`gen_biomes.sh` regenerates all 31 biome JSONs from that single ordering. Prefer
 editing the script over editing the JSONs.

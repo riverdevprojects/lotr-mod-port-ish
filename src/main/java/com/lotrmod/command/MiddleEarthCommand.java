@@ -16,14 +16,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 /**
- * {@code /middleearth} — sends the player to the Middle-earth dimension at
- * their current x/z, standing on the surface (or the water, over the sea).
+ * {@code /middleearth} — sends the player to the Middle-earth dimension, into
+ * the middle of the Shire, standing on the surface.
  *
  * <p>Needs permission level 2, the same as {@code /tp}.
  */
 public final class MiddleEarthCommand {
     public static final ResourceKey<Level> MIDDLE_EARTH = ResourceKey.create(
             Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(LOTRMod.MODID, "middleearth"));
+
+    /**
+     * Arrival point: the middle of the Shire on the region map, over 1000
+     * blocks from its edge. World 0,0 is in Harad, so arriving at the player's
+     * own x/z usually meant landing in the desert.
+     */
+    private static final int ARRIVAL_X = -9536;
+    private static final int ARRIVAL_Z = -8384;
 
     private static final SimpleCommandExceptionType ALREADY_THERE =
             new SimpleCommandExceptionType(Component.literal("You are already in Middle-earth"));
@@ -45,8 +53,8 @@ public final class MiddleEarthCommand {
         ServerLevel middleEarth = source.getServer().getLevel(MIDDLE_EARTH);
         if (middleEarth == null) throw MISSING.create();
 
-        int x = player.getBlockX();
-        int z = player.getBlockZ();
+        int x = ARRIVAL_X;
+        int z = ARRIVAL_Z;
         // Level.getHeight reports the bottom of the world for a chunk that isn't
         // loaded, so load (and if need be generate) the target chunk first.
         middleEarth.getChunk(x >> 4, z >> 4);

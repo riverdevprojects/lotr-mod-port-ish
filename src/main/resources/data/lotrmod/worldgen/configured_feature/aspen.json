@@ -1,0 +1,8 @@
+{
+  "type": "lotrmod:aspen",
+  "config": {
+    "min_height": 8,
+    "max_height": 15,
+    "extra_trunk": 0
+  }
+}

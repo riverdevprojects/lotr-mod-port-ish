@@ -1,5 +1,6 @@
 #!/bin/bash
-# One-shot generator for the 28 region biome JSONs, plus the ocean biome.
+# One-shot generator for the 28 region biome JSONs, the Shire's two rings
+# (shire_outskirts, shire_woodlands; see ShireZones), plus the ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -14,13 +15,23 @@ mkdir -p "$OUT"
 #  1 patch_dead_bush      2 patch_cactus_desert  3 trees_savanna
 #  4 trees_jungle         5 bamboo_vegetation    6 trees_plains
 #  7 trees_birch          8 trees_flower_forest  9 trees_meadow
-# 10 patch_grass_savanna 11 patch_grass_jungle  12 patch_grass_taiga_2
-# 13 patch_grass_forest  14 patch_grass_plain   15 patch_grass_normal
-# 16 patch_tall_grass    17 patch_large_fern    18 flower_meadow
-# 19 flower_flower_forest 20 forest_flowers     21 flower_default
-# 22 patch_berry_common  23 patch_pumpkin       24 patch_sugar_cane
-# 25 patch_melon         26 brown_mushroom_normal 27 red_mushroom_normal
-# 28 seagrass_normal     29 kelp_cold
+#  The Shire's trees (aspen and shire pine are ours, ported from the original):
+# 10 lotrmod:trees_shire           11 lotrmod:trees_shire_woody
+# 12 lotrmod:trees_shire_outskirts 13 lotrmod:trees_shire_thicket
+# 14 lotrmod:trees_aspen_stand     15 lotrmod:trees_shire_woodlands
+# 16 lotrmod:shire_bushes
+# 17 lotrmod:trees_marsh (vanilla's swamp oak, one tree per three chunks)
+# 18 patch_grass_savanna 19 patch_grass_jungle  20 patch_grass_taiga
+# 21 patch_grass_taiga_2 22 patch_grass_forest  23 patch_grass_plain
+# 24 patch_grass_normal  25 patch_tall_grass    26 patch_large_fern
+# 27 flower_meadow       28 flower_plains       29 flower_flower_forest
+# 30 forest_flowers      31 flower_default      32 flower_swamp
+# 33 patch_berry_common  34 patch_pumpkin       35 patch_sugar_cane
+# 36 lotrmod:patch_cattail_marsh                37 lotrmod:patch_cattail
+# 38 patch_melon         39 patch_waterlily     40 brown_mushroom_normal
+# 41 red_mushroom_normal 42 seagrass_normal     43 kelp_cold
+#
+# Names without a namespace are minecraft's.
 #
 # The ocean is ours too (lotrmod:ocean), not minecraft:ocean. Vanilla's ocean
 # orders its vegetation differently (mushrooms before sugar cane, sugar cane
@@ -128,11 +139,14 @@ biome() {
   } > "$OUT/$name.json"
 }
 
-V() { # join feature short-names into a quoted csv
+V() { # join feature short-names into a quoted csv; bare names are minecraft's
   local out=""
   for f in "$@"; do
     [ -n "$out" ] && out="$out,"
-    out="$out\"minecraft:$f\""
+    case "$f" in
+      *:*) out="$out\"$f\"" ;;
+      *)   out="$out\"minecraft:$f\"" ;;
+    esac
   done
   printf '%s' "$out"
 }
@@ -154,6 +168,10 @@ P_BARREN="7838783 12638463 4159204 329011 10387789 10066329"
 P_SWAMP="7907327 12638463 6388580 2302743 9154376 6975545"
 P_RIVER="7907327 12638463 4159204 329011 9470285 7842607"
 P_OCEAN="8103167 12638463 4159204 329011 9470285 7842607"
+# The Shire's bright grass is the original mod's; the woodlands' is vanilla's
+# colour for the original's climate (0.8, 0.9)
+P_SHIRE="7907327 12638463 4159204 329011 8111137 4568097"
+P_SHIRE_WOOD="7907327 12638463 4159204 329011 6997070 4568097"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.7 0.8 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers patch_berry_common brown_mushroom_normal red_mushroom_normal)" ""
@@ -175,15 +193,19 @@ biome rohan                    0.8 0.4 true $P_STEPPE temp   "$(V trees_savanna 
 biome mordor                   1.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome rhun                     0.9 0.3 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome fangorn_forest           0.7 0.9 true $P_DARK   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern forest_flowers brown_mushroom_normal red_mushroom_normal)" ""
-biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
-biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V patch_grass_normal patch_tall_grass patch_large_fern patch_sugar_cane brown_mushroom_normal red_mushroom_normal)" ""
+biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
+biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_large_fern flower_swamp patch_sugar_cane lotrmod:patch_cattail_marsh patch_waterlily brown_mushroom_normal red_mushroom_normal)" ""
 biome dead_lands               0.6 0.1 false $P_BARREN barren "$(V patch_dead_bush)" ""
-biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
+biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome eastern_rhovanian_plains 0.8 0.4 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
-biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane)" ""
+biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome forodwaith               0.0 0.5 true $P_SNOW   cold   "$(V patch_grass_taiga_2)" "$FREEZE"
-biome the_shire                0.7 0.7 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_berry_common patch_pumpkin)" ""
+biome the_shire                0.8 0.9 true $P_SHIRE  temp   "$(V lotrmod:trees_shire lotrmod:trees_shire_woody lotrmod:shire_bushes patch_grass_plain patch_tall_grass flower_plains flower_default patch_pumpkin)" ""
 biome rivendell                0.6 0.7 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
+
+# ── the Shire's rings (not regions on the map: see ShireZones) ─────────────
+biome shire_outskirts          0.8 0.9 true $P_SHIRE  temp   "$(V lotrmod:trees_shire_outskirts lotrmod:trees_shire_thicket lotrmod:trees_aspen_stand lotrmod:shire_bushes patch_grass_forest patch_tall_grass forest_flowers flower_default brown_mushroom_normal)" ""
+biome shire_woodlands          0.8 0.9 true $P_SHIRE_WOOD forest "$(V lotrmod:trees_shire_woodlands patch_grass_taiga patch_large_fern forest_flowers flower_default patch_berry_common brown_mushroom_normal)" ""
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

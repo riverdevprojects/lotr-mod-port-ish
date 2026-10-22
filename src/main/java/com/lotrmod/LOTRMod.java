@@ -1,10 +1,13 @@
 package com.lotrmod;
 
+import com.lotrmod.block.ModBlocks;
 import com.lotrmod.command.MiddleEarthCommand;
 import com.lotrmod.worldgen.LOTRWorldGen;
 import com.lotrmod.worldgen.LandmaskLoader;
 import com.lotrmod.worldgen.MiddleEarthClimate;
 import com.lotrmod.worldgen.RegionMapLoader;
+import com.lotrmod.worldgen.RiverMap;
+import com.lotrmod.worldgen.ShireZones;
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.bus.api.IEventBus;
@@ -19,10 +22,12 @@ import org.slf4j.Logger;
 
 /**
  * Middle-earth landscape only: a custom dimension whose landmass comes from a
- * landmask PNG and whose biomes come from a region map PNG, one biome per region.
+ * landmask PNG, whose biomes come from a region map PNG, one biome per region, and
+ * whose rivers come from a river map PNG.
  *
- * <p>Nothing else is registered — no blocks, items, entities or structures. To
- * visit the dimension, use {@code /middleearth}.
+ * <p>Beyond worldgen, the only thing registered is the plants the landscape
+ * needs that vanilla lacks (the cattail). No entities or structures. To visit
+ * the dimension, use {@code /middleearth}.
  */
 @Mod(LOTRMod.MODID)
 public class LOTRMod {
@@ -30,9 +35,10 @@ public class LOTRMod {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public LOTRMod(IEventBus modEventBus, ModContainer modContainer) {
-        // The chunk generator, biome source and climate density function codecs
-        // are the only registry entries this mod contributes.
+        // The chunk generator, biome source and density function codecs, and
+        // the marsh plants
         LOTRWorldGen.register(modEventBus);
+        ModBlocks.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -47,7 +53,9 @@ public class LOTRMod {
     private static void loadMaps(ResourceManager resourceManager) {
         LandmaskLoader.loadLandmask(resourceManager);
         RegionMapLoader.loadRegionMap(resourceManager);
+        RiverMap.load(resourceManager);
         MiddleEarthClimate.rebuild();
+        ShireZones.rebuild();
     }
 
     @SubscribeEvent
