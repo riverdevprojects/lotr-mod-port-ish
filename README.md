@@ -146,7 +146,7 @@ and out by up to 220 blocks:
 
 | Ring | Biome | Where | Trees |
 | --- | --- | --- | --- |
-| Heart | `lotrmod:the_shire` | more than ~300 blocks inside the border | Oaks and large oaks dotted over open grass, with woody patches of oak, aspen and birch filling the gaps |
+| Heart | `lotrmod:the_shire` | more than ~300 blocks inside the border | Mostly open grass: a lone oak or large oak in about one chunk in seven, and the odd small, thin woody patch of oak, aspen and birch |
 | Outskirts | `lotrmod:shire_outskirts` | the ~300 blocks inside the border | Woodland throughout: thick mixed woods on one side of a noise, aspen stands on the other |
 | Shire Woodlands | `lotrmod:shire_woodlands` | Eriador or Arnor within ~480 blocks of the border | Thick shire pine forest with aspens, birches and oaks, on Eriador's hills |
 
