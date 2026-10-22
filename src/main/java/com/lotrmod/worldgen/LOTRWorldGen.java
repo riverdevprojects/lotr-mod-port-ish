@@ -2,6 +2,7 @@ package com.lotrmod.worldgen;
 
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
+import com.lotrmod.worldgen.feature.BoulderFeature;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
 import com.lotrmod.worldgen.structure.HobbitHolePiece;
 import com.lotrmod.worldgen.structure.HobbitHoleStructure;
@@ -57,11 +58,13 @@ public class LOTRWorldGen {
     public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<TerrainBlendDensityFunction>> TERRAIN_BLEND =
             DENSITY_FUNCTION_TYPES.register("terrain_blend", () -> TerrainBlendDensityFunction.DATA_CODEC);
 
-    // The Shire's trees, ported from the original mod's generators
+    // The Shire's trees and Eriador's boulders, ported from the original mod's generators
     public static final DeferredHolder<Feature<?>, AspenFeature> ASPEN =
             FEATURES.register("aspen", () -> new AspenFeature(AspenFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, ShirePineFeature> SHIRE_PINE =
             FEATURES.register("shire_pine", () -> new ShirePineFeature(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, BoulderFeature> BOULDER =
+            FEATURES.register("boulder", () -> new BoulderFeature(BoulderFeature.Config.CODEC));
 
     // The Shire's hobbit holes, ported from the original mod's
     public static final DeferredHolder<StructureType<?>, StructureType<HobbitHoleStructure>> HOBBIT_HOLE =

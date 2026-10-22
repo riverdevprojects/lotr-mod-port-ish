@@ -1,0 +1,44 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.1252
+      },
+      {
+        "feature": "lotrmod:chestnut_checked",
+        "chance": 0.0716
+      },
+      {
+        "feature": "minecraft:birch_checked",
+        "chance": 0.0848
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.0842
+      },
+      {
+        "feature": "lotrmod:aspen_checked",
+        "chance": 0.046
+      },
+      {
+        "feature": "lotrmod:beech_checked",
+        "chance": 0.0193
+      },
+      {
+        "feature": "lotrmod:chestnut_large_checked",
+        "chance": 0.0098
+      },
+      {
+        "feature": "lotrmod:aspen_large_checked",
+        "chance": 0.005
+      },
+      {
+        "feature": "lotrmod:beech_large_checked",
+        "chance": 0.002
+      }
+    ],
+    "default": "minecraft:oak_checked"
+  }
+}
