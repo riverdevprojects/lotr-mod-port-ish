@@ -32,6 +32,10 @@ import java.util.stream.Stream;
  * {@link ShireZones}. The Shire's outskirts are {@code lotrmod:shire_outskirts},
  * and the band of Eriador and Arnor around it is
  * {@code lotrmod:shire_woodlands}.
+ *
+ * <p>Lindon is split too, as the original mod had it: open fields
+ * ({@code lotrmod:lindon}) broken by broad woods ({@code lotrmod:lindon_woodlands})
+ * wherever {@link #LINDON_WOODS} rises high enough.
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -52,6 +56,8 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     /** The Shire's rings, or null if the dimension JSON doesn't list them. */
     private final Holder<Biome> shireOutskirts;
     private final Holder<Biome> shireWoodlands;
+    /** Lindon's woods, or null if the dimension JSON doesn't list them. */
+    private final Holder<Biome> lindonWoodlands;
 
     /** Feature size of the region-boundary warp, as a noise input scale. */
     private static final double WARP_SCALE = 1.0 / 40.0;
@@ -60,6 +66,12 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
     private final PerlinSimplexNoise regionWarp =
             new PerlinSimplexNoise(RandomSource.create(24680L), List.of(0, 1, 2));
+
+    /** Where Lindon is wooded: above {@link #LINDON_WOODS_THRESHOLD}, on features about this many blocks across. */
+    private static final double LINDON_WOODS_SCALE = 1.0 / 600.0;
+    private static final double LINDON_WOODS_THRESHOLD = 0.15;
+    private static final PerlinSimplexNoise LINDON_WOODS =
+            new PerlinSimplexNoise(RandomSource.create(44045L), List.of(0, 1, 2));
 
     public MiddleEarthBiomeSource(Holder<Biome> oceanBiome, Holder<Biome> fallbackBiome, List<Holder<Biome>> regionBiomes) {
         this.oceanBiome = oceanBiome;
@@ -85,6 +97,7 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
         this.shireOutskirts = findBiome(regionBiomes, "shire_outskirts");
         this.shireWoodlands = findBiome(regionBiomes, "shire_woodlands");
+        this.lindonWoodlands = findBiome(regionBiomes, "lindon_woodlands");
 
         LOTRMod.LOGGER.info("MiddleEarthBiomeSource: resolved {} of {} region biomes",
                 byRegion.size(), Region.biomeRegions().length);
@@ -126,6 +139,10 @@ public class MiddleEarthBiomeSource extends BiomeSource {
         };
         if (ring != null) return ring;
 
+        if (region == Region.LINDON && lindonWoodlands != null && isLindonWoods(worldX, worldZ)) {
+            return lindonWoodlands;
+        }
+
         Holder<Biome> biome = byRegion.get(region);
         return biome != null ? biome : fallbackBiome;
     }
@@ -148,6 +165,12 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             last.biome = river != null && RiverTerrain.inChannel(river) ? byRegion.get(river.river()) : null;
         }
         return last.biome;
+    }
+
+    /** Whether this column of Lindon lies in its woods rather than its fields. */
+    private static boolean isLindonWoods(int worldX, int worldZ) {
+        return LINDON_WOODS.getValue(worldX * LINDON_WOODS_SCALE, worldZ * LINDON_WOODS_SCALE, false)
+                > LINDON_WOODS_THRESHOLD;
     }
 
     /** Whether the landmask marks this column as ocean. */

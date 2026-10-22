@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:birch_large_checked",
+        "chance": 0.1043
+      },
+      {
+        "feature": "minecraft:birch_checked",
+        "chance": 0.7767
+      }
+    ],
+    "default": "lotrmod:lindon_tree"
+  }
+}

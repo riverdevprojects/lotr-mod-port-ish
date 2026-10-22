@@ -1,0 +1,19 @@
+{
+  "type": "lotrmod:poplar",
+  "config": {
+    "log": {
+      "Name": "lotrmod:poplar_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "leaves": {
+      "Name": "lotrmod:red_poplar_leaves",
+      "Properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    }
+  }
+}

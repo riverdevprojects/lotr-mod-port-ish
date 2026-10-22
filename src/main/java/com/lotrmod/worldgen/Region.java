@@ -19,7 +19,7 @@ public enum Region {
     // ──────────────────────────────────────────────────────────────────────────
     //                            colour   display name          shape
     // ──────────────────────────────────────────────────────────────────────────
-    LINDON                   (0x3FA9C6, "Lindon",                   Shape.FOREST),
+    LINDON                   (0x3FA9C6, "Lindon",                   Shape.HILLY),
     BLUE_MOUNTAINS           (0x4B6A88, "Blue Mountains",           Shape.MOUNTAIN),
     ERIADOR                  (0x7FA36C, "Eriador",                  Shape.HILLY),
     ARNOR                    (0x5E7C5A, "Arnor",                    Shape.HILLY),

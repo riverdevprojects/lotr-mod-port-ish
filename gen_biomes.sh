@@ -1,6 +1,7 @@
 #!/bin/bash
 # One-shot generator for the 28 region biome JSONs, the Shire's two rings
-# (shire_outskirts, shire_woodlands; see ShireZones), plus the ocean biome.
+# (shire_outskirts, shire_woodlands; see ShireZones), Lindon's woods
+# (lindon_woodlands; see MiddleEarthBiomeSource), plus the ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -24,15 +25,21 @@ mkdir -p "$OUT"
 # 17 lotrmod:trees_eriador         18 lotrmod:trees_eriador_grove
 # 19 lotrmod:trees_beech_copse     20 lotrmod:trees_aspen_copse
 # 21 lotrmod:trees_marsh (vanilla's swamp oak, one tree per three chunks)
-# 22 patch_grass_savanna 23 patch_grass_jungle  24 patch_grass_taiga
-# 25 patch_grass_taiga_2 26 patch_grass_forest  27 patch_grass_plain
-# 28 patch_grass_normal  29 patch_tall_grass    30 patch_large_fern
-# 31 flower_meadow       32 flower_plains       33 flower_flower_forest
-# 34 forest_flowers      35 flower_default      36 flower_swamp
-# 37 patch_berry_common  38 patch_pumpkin       39 patch_sugar_cane
-# 40 lotrmod:patch_cattail_marsh                41 lotrmod:patch_cattail
-# 42 patch_melon         43 patch_waterlily     44 brown_mushroom_normal
-# 45 red_mushroom_normal 46 seagrass_normal     47 kelp_cold
+#  Lindon's (birch first, then aspen, beech and oak, as the original's):
+# 22 lotrmod:trees_lindon          23 lotrmod:trees_lindon_woodlands
+# 24 lotrmod:trees_lindon_grove    25 lotrmod:trees_lindon_birch_copse
+# 26 lotrmod:trees_lindon_aspen_copse           27 lotrmod:trees_lindon_beech_copse
+#  and its woods' red poplars (vanilla 26.3's, which 1.21.1 lacks):
+# 28 lotrmod:trees_lindon_poplar   29 lotrmod:trees_lindon_poplar_stand
+# 30 patch_grass_savanna 31 patch_grass_jungle  32 patch_grass_taiga
+# 33 patch_grass_taiga_2 34 patch_grass_forest  35 patch_grass_plain
+# 36 patch_grass_normal  37 patch_tall_grass    38 patch_large_fern
+# 39 flower_meadow       40 flower_plains       41 flower_flower_forest
+# 42 forest_flowers      43 flower_default      44 flower_swamp
+# 45 patch_berry_common  46 patch_pumpkin       47 patch_sugar_cane
+# 48 lotrmod:patch_cattail_marsh                49 lotrmod:patch_cattail
+# 50 patch_melon         51 patch_waterlily     52 brown_mushroom_normal
+# 53 red_mushroom_normal 54 seagrass_normal     55 kelp_cold
 #
 # Only Eriador has anything in local_modifications (lotrmod:eriador_boulders),
 # so that step has no order to keep.
@@ -180,9 +187,13 @@ P_SHIRE="7907327 12638463 4159204 329011 8111137 4568097"
 P_SHIRE_WOOD="7907327 12638463 4159204 329011 6997070 4568097"
 # Eriador's is vanilla's colour for the original's climate (0.9, 0.8)
 P_ERIADOR="7907327 12638463 4159204 329011 6932037 4502806"
+# So is Lindon's (0.9, 0.9). Its woodlands' grass is vanilla's for (0.9, 1.0)
+# taken a third of the way to the dappled forest's orange, for an autumn floor
+P_LINDON="7907327 12638463 4159204 329011 6277186 3651602"
+P_LINDON_WOOD="7907327 12638463 4159204 329011 8759095 2865935"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
-biome lindon                   0.7 0.8 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers patch_berry_common brown_mushroom_normal red_mushroom_normal)" ""
+biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
 biome blue_mountains           0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome eriador                  0.9 0.8 true $P_ERIADOR temp  "$(V lotrmod:trees_eriador lotrmod:trees_eriador_grove lotrmod:trees_beech_copse lotrmod:trees_aspen_copse patch_grass_plain patch_tall_grass flower_plains flower_default patch_berry_common)" "" "" "" "$(V lotrmod:eriador_boulders)"
 biome arnor                    0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default)" ""
@@ -214,6 +225,9 @@ biome rivendell                0.6 0.7 true $P_FOREST forest "$(V trees_birch tr
 # ── the Shire's rings (not regions on the map: see ShireZones) ─────────────
 biome shire_outskirts          0.8 0.9 true $P_SHIRE  temp   "$(V lotrmod:trees_shire_outskirts lotrmod:trees_shire_thicket lotrmod:trees_aspen_stand lotrmod:shire_bushes patch_grass_forest patch_tall_grass forest_flowers flower_default brown_mushroom_normal)" ""
 biome shire_woodlands          0.8 0.9 true $P_SHIRE_WOOD forest "$(V lotrmod:trees_shire_woodlands patch_grass_taiga patch_large_fern forest_flowers flower_default patch_berry_common brown_mushroom_normal)" ""
+
+# ── Lindon's woods (not a region on the map: see MiddleEarthBiomeSource) ───
+biome lindon_woodlands         0.9 1.0 true $P_LINDON_WOOD forest "$(V lotrmod:trees_lindon_woodlands lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse lotrmod:trees_lindon_poplar lotrmod:trees_lindon_poplar_stand patch_grass_forest patch_tall_grass forest_flowers flower_default brown_mushroom_normal)" ""
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

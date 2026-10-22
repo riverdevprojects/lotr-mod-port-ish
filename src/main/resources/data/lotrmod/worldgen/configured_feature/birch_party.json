@@ -1,0 +1,25 @@
+{
+  "type": "lotrmod:party_tree",
+  "config": {
+    "log": {
+      "Name": "minecraft:birch_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "wood": {
+      "Name": "minecraft:birch_wood",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "leaves": {
+      "Name": "minecraft:birch_leaves",
+      "Properties": {
+        "distance": "7",
+        "persistent": "false",
+        "waterlogged": "false"
+      }
+    }
+  }
+}

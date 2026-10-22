@@ -64,6 +64,13 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> CHESTNUT_LEAVES = BLOCKS.register("chestnut_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LEAVES)));
 
+    // Lindon's red poplar, from vanilla's dappled forest (Java 26.3), which
+    // 1.21.1 doesn't have. Untinted too.
+    public static final DeferredBlock<RotatedPillarBlock> POPLAR_LOG = BLOCKS.register("poplar_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LOG)));
+    public static final DeferredBlock<LeavesBlock> RED_POPLAR_LEAVES = BLOCKS.register("red_poplar_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LEAVES)));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -72,6 +79,8 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> BEECH_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(BEECH_LEAVES);
     public static final DeferredItem<BlockItem> CHESTNUT_LOG_ITEM = ITEMS.registerSimpleBlockItem(CHESTNUT_LOG);
     public static final DeferredItem<BlockItem> CHESTNUT_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(CHESTNUT_LEAVES);
+    public static final DeferredItem<BlockItem> POPLAR_LOG_ITEM = ITEMS.registerSimpleBlockItem(POPLAR_LOG);
+    public static final DeferredItem<BlockItem> RED_POPLAR_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(RED_POPLAR_LEAVES);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -161,6 +170,8 @@ public final class ModBlocks {
             event.accept(BEECH_LEAVES_ITEM);
             event.accept(CHESTNUT_LOG_ITEM);
             event.accept(CHESTNUT_LEAVES_ITEM);
+            event.accept(POPLAR_LOG_ITEM);
+            event.accept(RED_POPLAR_LEAVES_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);
