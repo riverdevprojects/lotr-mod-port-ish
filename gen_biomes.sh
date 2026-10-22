@@ -34,20 +34,28 @@ mkdir -p "$OUT"
 #  Fangorn's (its giant oaks and beeches are a structure, lotrmod:fangorn_tree):
 # 30 lotrmod:trees_fangorn         31 lotrmod:fangorn_logs
 # 32 lotrmod:fangorn_bushes
-# 33 patch_grass_savanna 34 patch_grass_jungle  35 patch_grass_taiga
-# 36 patch_grass_taiga_2 37 patch_grass_forest  38 patch_grass_plain
-# 39 patch_grass_normal  40 patch_tall_grass    41 patch_large_fern
-# 42 flower_meadow       43 flower_plains       44 flower_flower_forest
-# 45 forest_flowers      46 flower_default      47 flower_swamp
-# 48 lotrmod:fangorn_plants
-# 49 patch_berry_common  50 patch_pumpkin       51 patch_sugar_cane
-# 52 lotrmod:patch_cattail_marsh                53 lotrmod:patch_cattail
-# 54 patch_melon         55 patch_waterlily     56 brown_mushroom_normal
-# 57 red_mushroom_normal 58 lotrmod:ent_jars    59 seagrass_normal
-# 60 kelp_cold
+#  Rohan's (trees, copses and scrub; its own grasses, dry and lush):
+# 33 lotrmod:trees_rohan           34 lotrmod:trees_rohan_lone
+# 35 lotrmod:trees_rohan_copse     36 lotrmod:rohan_scrub
+# 37 lotrmod:rohan_copse_scrub     38 lotrmod:patch_rohan_tall_grass
+# 39 lotrmod:patch_rohan_grass     40 lotrmod:patch_rohan_lush_grass
+# 41 patch_grass_savanna 42 patch_grass_jungle  43 patch_grass_taiga
+# 44 patch_grass_taiga_2 45 patch_grass_forest  46 patch_grass_plain
+# 47 patch_grass_normal  48 patch_tall_grass    49 patch_large_fern
+# 50 flower_meadow       51 flower_plains       52 flower_flower_forest
+# 53 forest_flowers      54 flower_default      55 flower_swamp
+# 56 lotrmod:fangorn_plants
+# 57 patch_berry_common  58 patch_pumpkin       59 patch_sugar_cane
+# 60 lotrmod:patch_cattail_marsh
+# 61 lotrmod:patch_cattail
+# 62 patch_melon         63 patch_waterlily     64 brown_mushroom_normal
+# 65 red_mushroom_normal
+# 66 lotrmod:ent_jars
+# 67 seagrass_normal     68 kelp_cold
 #
-# Only Eriador has anything in local_modifications (lotrmod:eriador_boulders),
-# so that step has no order to keep.
+# Only Eriador and Rohan have anything in local_modifications, each its own
+# boulders (lotrmod:eriador_boulders, lotrmod:rohan_boulders), so that step
+# has no order to keep.
 #
 # Names without a namespace are minecraft's.
 #
@@ -60,6 +68,8 @@ mkdir -p "$OUT"
 ORES='"minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"'
 
 CARVERS='"minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"'
+# Rohan's ravines are a seventh as common as vanilla's, to leave its plains whole
+CARVERS_ROHAN='"minecraft:cave","minecraft:cave_extra_underground","lotrmod:canyon_rare"'
 
 mon() {
   case "$1" in
@@ -101,6 +111,8 @@ crt() {
     desert) printf '%s' '{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
     cold)   printf '%s' '{"type":"minecraft:rabbit","weight":10,"minCount":2,"maxCount":3},{"type":"minecraft:polar_bear","weight":1,"minCount":1,"maxCount":2},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4}' ;;
     barren|ocean) printf '%s' '' ;;
+    # Horse country: herds of horses, with the odd donkey, sheep and cattle
+    rohan)  printf '%s' '{"type":"minecraft:horse","weight":14,"minCount":3,"maxCount":8},{"type":"minecraft:donkey","weight":2,"minCount":1,"maxCount":3},{"type":"minecraft:sheep","weight":8,"minCount":3,"maxCount":5},{"type":"minecraft:cow","weight":6,"minCount":2,"maxCount":4},{"type":"minecraft:rabbit","weight":6,"minCount":2,"maxCount":3},{"type":"minecraft:chicken","weight":3,"minCount":2,"maxCount":4}' ;;
     forest) printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4},{"type":"minecraft:wolf","weight":5,"minCount":4,"maxCount":4}' ;;
     *)      printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":6},{"type":"minecraft:donkey","weight":1,"minCount":1,"maxCount":3},{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
   esac
@@ -139,7 +151,9 @@ biome() {
     fi
     printf '  },\n'
     printf '  "spawn_costs": {},\n'
-    printf '  "carvers": { "air": [%s] },\n' "$CARVERS"
+    local carvers="$CARVERS"
+    [ "$name" = rohan ] && carvers="$CARVERS_ROHAN"
+    printf '  "carvers": { "air": [%s] },\n' "$carvers"
     printf '  "features": [\n'
     printf '    [],\n'      # raw_generation
     printf '    [],\n'      # lakes
@@ -199,6 +213,10 @@ P_ERIADOR="7907327 12638463 4159204 329011 6932037 4502806"
 # So is Lindon's (0.9, 0.9). Its woodlands' grass is vanilla's for (0.9, 1.0)
 # taken a third of the way to the dappled forest's orange, for an autumn floor
 P_LINDON="7907327 12638463 4159204 329011 6277186 3651602"
+# Rohan's grass colour is a fallback: in game it is worked out from the
+# ground (client/RohanGrassColors), straw over the swells, sage in the swales.
+# A pale, wide sky over a warm, hazy horizon, and dusty olive leaves
+P_ROHAN="8956382 13884130 4159204 329011 12888412 8163141"
 P_LINDON_WOOD="7907327 12638463 4159204 329011 8759095 2865935"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
@@ -217,7 +235,7 @@ biome mirkwood                 0.6 0.8 true $P_DARK   forest "$(V patch_grass_fo
 biome dale                     0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_pumpkin)" ""
 biome erebor                   0.3 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome iron_hills               0.4 0.4 true $P_MOUNT  cold   "$(V patch_grass_normal)" ""
-biome rohan                    0.8 0.4 true $P_STEPPE temp   "$(V trees_savanna patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
+biome rohan                    0.8 0.3 true $P_ROHAN  rohan  "$(V lotrmod:trees_rohan lotrmod:trees_rohan_lone lotrmod:trees_rohan_copse lotrmod:rohan_scrub lotrmod:rohan_copse_scrub lotrmod:patch_rohan_tall_grass lotrmod:patch_rohan_grass lotrmod:patch_rohan_lush_grass)" "" "" "" "$(V lotrmod:rohan_boulders)"
 biome mordor                   1.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome rhun                     0.9 0.3 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome fangorn_forest           0.7 0.8 true $P_FANGORN forest "$(V lotrmod:trees_fangorn lotrmod:fangorn_logs lotrmod:fangorn_bushes patch_grass_taiga patch_tall_grass patch_large_fern forest_flowers flower_default lotrmod:fangorn_plants brown_mushroom_normal red_mushroom_normal lotrmod:ent_jars)" ""

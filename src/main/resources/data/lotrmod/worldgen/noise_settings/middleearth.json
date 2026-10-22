@@ -79,7 +79,7 @@
                               "argument2": {
                                 "type": "minecraft:mul",
                                 "argument1": 5.0,
-                                "argument2": "minecraft:overworld/caves/entrances"
+                                "argument2": {"type": "lotrmod:cave_entrances", "argument": "minecraft:overworld/caves/entrances"}
                               }
                             },
                             "when_out_of_range": {
@@ -1065,6 +1065,125 @@
                             "type": "minecraft:block",
                             "result_state": {
                               "Name": "minecraft:snow_block"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "minecraft:condition",
+                      "if_true": {
+                        "type": "minecraft:biome",
+                        "biome_is": [
+                          "lotrmod:rohan"
+                        ]
+                      },
+                      "then_run": {
+                        "type": "minecraft:sequence",
+                        "sequence": [
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:y_above",
+                              "anchor": {
+                                "absolute": 86
+                              },
+                              "surface_depth_multiplier": 0,
+                              "add_stone_depth": false
+                            },
+                            "then_run": {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:noise_threshold",
+                                "noise": "lotrmod:eriador_rocks",
+                                "min_threshold": 0.45,
+                                "max_threshold": 1.7976931348623157e+308
+                              },
+                              "then_run": {
+                                "type": "minecraft:sequence",
+                                "sequence": [
+                                  {
+                                    "type": "minecraft:condition",
+                                    "if_true": {
+                                      "type": "minecraft:noise_threshold",
+                                      "noise": "lotrmod:eriador_rocks_gravel",
+                                      "min_threshold": 0.45,
+                                      "max_threshold": 1.7976931348623157e+308
+                                    },
+                                    "then_run": {
+                                      "type": "minecraft:block",
+                                      "result_state": {
+                                        "Name": "minecraft:gravel"
+                                      }
+                                    }
+                                  },
+                                  {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                      "Name": "minecraft:stone"
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "lotrmod:rohan_bare",
+                              "min_threshold": 0.5,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:sequence",
+                              "sequence": [
+                                {
+                                  "type": "minecraft:condition",
+                                  "if_true": {
+                                    "type": "minecraft:noise_threshold",
+                                    "noise": "lotrmod:lindon_podzol_speckle",
+                                    "min_threshold": -0.25,
+                                    "max_threshold": 1.7976931348623157e+308
+                                  },
+                                  "then_run": {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                      "Name": "minecraft:coarse_dirt"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "minecraft:condition",
+                                  "if_true": {
+                                    "type": "minecraft:noise_threshold",
+                                    "noise": "lotrmod:lindon_podzol_speckle",
+                                    "min_threshold": -1.7976931348623157e+308,
+                                    "max_threshold": -0.85
+                                  },
+                                  "then_run": {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                      "Name": "minecraft:gravel"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "lotrmod:lindon_podzol_speckle",
+                              "min_threshold": 0.9,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:block",
+                              "result_state": {
+                                "Name": "minecraft:coarse_dirt"
+                              }
                             }
                           }
                         ]

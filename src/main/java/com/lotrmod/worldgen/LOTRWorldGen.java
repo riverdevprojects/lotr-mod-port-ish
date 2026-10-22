@@ -6,6 +6,7 @@ import com.lotrmod.worldgen.feature.BoulderFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
+import com.lotrmod.worldgen.feature.RohanMoistureFilter;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
 import com.lotrmod.worldgen.structure.FangornTreePiece;
 import com.lotrmod.worldgen.structure.FangornTreeStructure;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.neoforged.bus.api.IEventBus;
@@ -41,6 +43,9 @@ public class LOTRWorldGen {
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(Registries.FEATURE, LOTRMod.MODID);
 
+    public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS =
+            DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, LOTRMod.MODID);
+
     public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES =
             DeferredRegister.create(Registries.STRUCTURE_TYPE, LOTRMod.MODID);
 
@@ -63,6 +68,10 @@ public class LOTRWorldGen {
     public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<TerrainBlendDensityFunction>> TERRAIN_BLEND =
             DENSITY_FUNCTION_TYPES.register("terrain_blend", () -> TerrainBlendDensityFunction.DATA_CODEC);
 
+    // Keeps cave entrances from breaking out through Rohan's plains
+    public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<CaveEntranceDensityFunction>> CAVE_ENTRANCES =
+            DENSITY_FUNCTION_TYPES.register("cave_entrances", () -> CaveEntranceDensityFunction.DATA_CODEC);
+
     // The Shire's trees and Eriador's boulders, ported from the original mod's generators
     public static final DeferredHolder<Feature<?>, AspenFeature> ASPEN =
             FEATURES.register("aspen", () -> new AspenFeature(AspenFeature.Config.CODEC));
@@ -80,6 +89,10 @@ public class LOTRWorldGen {
     // Fangorn's fallen logs and stumps
     public static final DeferredHolder<Feature<?>, FallenLogFeature> FALLEN_LOG =
             FEATURES.register("fallen_log", () -> new FallenLogFeature(FallenLogFeature.Config.CODEC));
+
+    // Keeps Rohan's scrub to its swales, by how wet the ground is
+    public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =
+            PLACEMENT_MODIFIERS.register("rohan_moisture", () -> () -> RohanMoistureFilter.CODEC);
 
     // Fangorn's giant trees, grown as structures so their crowns come out whole
     public static final DeferredHolder<StructureType<?>, StructureType<FangornTreeStructure>> FANGORN_TREE =
@@ -100,6 +113,7 @@ public class LOTRWorldGen {
         BIOME_SOURCES.register(modEventBus);
         DENSITY_FUNCTION_TYPES.register(modEventBus);
         FEATURES.register(modEventBus);
+        PLACEMENT_MODIFIERS.register(modEventBus);
         STRUCTURE_TYPES.register(modEventBus);
         STRUCTURE_PIECES.register(modEventBus);
 

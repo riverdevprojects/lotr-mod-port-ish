@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:rohan_juniper_checked",
+        "chance": 0.3
+      },
+      {
+        "feature": "lotrmod:rohan_oak_bush_checked",
+        "chance": 0.25
+      }
+    ],
+    "default": "lotrmod:rohan_bush_checked"
+  }
+}

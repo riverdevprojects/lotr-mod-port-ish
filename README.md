@@ -7,7 +7,7 @@ per region** (the Shire and Lindon are the exceptions, split up; see below). Apa
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
-newer dappled forest, whose logs craft into birch planks — the one addition is the Shire's **hobbit holes**, with the blocks they
+newer dappled forest, whose logs craft into birch planks, and Rohan's dry grasses — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -68,7 +68,7 @@ plains instead of stepping up at the map's pixel edges.
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
 | `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
-| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 |
+| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Rohan's ground itself comes from `RohanTerrain`, below) |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
@@ -111,9 +111,12 @@ original mod's gentlest land biome, so inside the Shire the ground fades over to
 `ShireTerrain`: soft downs, swells a couple of hundred blocks across with a smaller
 roll on top, around y 74 and kept above the waterline.
 
-All four are done by the `lotrmod:terrain_blend` density function. It wraps
-vanilla's density before caves are carved, so mountains, marshes, the Shire and
-river valleys still get vanilla's caves, aquifers and ore veins.
+Rohan is the fifth: inside it the ground fades over to `RohanTerrain`, wide
+rolling grassland (see below).
+
+All five are done by the `lotrmod:terrain_blend` density function. It wraps
+vanilla's density before caves are carved, so mountains, marshes, the Shire,
+Rohan and river valleys still get vanilla's caves, aquifers and ore veins.
 
 ### Ground
 
@@ -260,6 +263,58 @@ muted, misty look.
 
 The original's willows (which grow only near water), fallen leaves, Ents and
 Huorns are left out.
+
+### Rohan
+
+Rohan (`lotrmod:rohan`) is not a port of the original's: it is built from
+scratch as dry, open, very grassy horse country, gold grass under a wide pale
+sky, with dark scrub only along the low ground.
+
+- **Ground** (`RohanTerrain`): long swells about 500 blocks across around
+  y 72, gentler rolls on them, now and then a broad, low down up to 20 blocks
+  higher, and shallow swales a few blocks deep winding across the plain like
+  dry streambeds. `RohanTerrain.moisture` says how wet the ground is: highest
+  in the swales, then the hollows, lowest on the swells and downs. The grass
+  colour and the scrub both follow it.
+- **Grass colour** (`client/RohanGrassColors`): a biome has one grass tint,
+  so in Rohan it is worked out from the ground instead, through a colour
+  resolver registered on the client: drifts of straw and tawny over the dry
+  ground, turning sage and then green down in the swales. Grass blocks, grass
+  and ferns take it; outside Rohan they keep the biome's colour as before.
+  The biome JSON's `grass_color` is only a fallback.
+- **Grasses**: three new plants, coloured in their textures so they stay gold
+  everywhere: `lotrmod:dry_grass` (short straw tufts), `lotrmod:tall_dry_grass`
+  (two tall, gone to seed in russet plumes) and `lotrmod:wild_oats`. They drop
+  seeds like vanilla grass, or themselves with shears.
+  `patch_rohan_grass` covers the dry ground in mostly dry grass,
+  `patch_rohan_lush_grass` the wet ground in mostly vanilla grass, and
+  `patch_rohan_tall_grass` puts waist-high stands of seeded grass where a
+  noise rises. About 40% of the ground carries a plant.
+- **Scrub and trees** (`rohan_scrub`, `trees_rohan`): bushes of dark oak,
+  oak and spruce, and small oaks and birches, only in the swales. They are
+  kept there by `lotrmod:rohan_moisture`, a placement filter that passes
+  where the moisture lies between a `min` and a `max`. Out on the plain stands
+  the odd lone tree (`trees_rohan_lone`), one in about 32 chunks.
+- **Copses** (`trees_rohan_copse`, `rohan_copse_scrub`): small woods of oak
+  and birch, with a little large oak and scrub among them, five to a dozen
+  trees thick, where vanilla's biome noise peaks; one every couple of hundred
+  blocks, with open grass between.
+- **Fewer holes**: ravines are a seventh as common as elsewhere (the biome
+  uses `lotrmod:canyon_rare`, vanilla's canyon at probability 0.0015). The
+  gashes vanilla's noise caves open through the ground are mostly closed
+  over too: near the surface the terrain is the lesser of the ground and the
+  cave entrance noise, and `lotrmod:cave_entrances` raises that noise inside
+  Rohan (`CaveEntranceDensityFunction`, wrapped in by `gen_terrain.sh`).
+  Caves further down are left as they are.
+- **Stone**: small boulders of stone, andesite and cobblestone
+  (`rohan_boulders`, the same `lotrmod:boulder` feature as Eriador's) in about
+  one chunk in five. On the downs above y 86, bare rock and gravel break
+  through the grass.
+- **Bare earth**: patches of coarse dirt with a little gravel where the
+  `lotrmod:rohan_bare` noise is high, and the odd bare spot elsewhere. These
+  are the `lotrmod:rohan` rules in the surface rule.
+- **Animals**: herds of horses, a few donkeys, sheep, cattle, rabbits and
+  chickens. No pigs.
 
 ### Hobbit holes
 
