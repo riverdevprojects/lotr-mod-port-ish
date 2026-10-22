@@ -1,0 +1,10 @@
+{
+  "type": "lotrmod:mirk_oak",
+  "config": {
+    "min_height": 14,
+    "max_height": 35,
+    "trunk_width": 1,
+    "leaf_layers": 5,
+    "vine_chance": 10
+  }
+}

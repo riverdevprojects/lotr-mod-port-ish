@@ -1,0 +1,11 @@
+{
+  "type": "lotrmod:fallen_log",
+  "config": {
+    "log": {
+      "Name": "lotrmod:mirk_oak_log",
+      "Properties": {
+        "axis": "y"
+      }
+    }
+  }
+}

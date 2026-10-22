@@ -37,5 +37,11 @@
   "block.lotrmod.fangorn_plant_silver": "Silver Fangorn Plant",
   "block.lotrmod.dry_grass": "Dry Grass",
   "block.lotrmod.tall_dry_grass": "Tall Dry Grass",
-  "block.lotrmod.wild_oats": "Wild Oats"
+  "block.lotrmod.wild_oats": "Wild Oats",
+  "block.lotrmod.mirk_oak_log": "Mirk Oak Log",
+  "block.lotrmod.mirk_oak_wood": "Mirk Oak Wood",
+  "block.lotrmod.mirk_oak_leaves": "Mirk Oak Leaves",
+  "block.lotrmod.mirk_vines": "Mirk Vines",
+  "block.lotrmod.pine_log": "Pine Log",
+  "block.lotrmod.pine_leaves": "Pine Leaves"
 }

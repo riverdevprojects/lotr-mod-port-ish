@@ -7,7 +7,8 @@ per region** (the Shire and Lindon are the exceptions, split up; see below). Apa
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
-newer dappled forest, whose logs craft into birch planks, and Rohan's dry grasses — the one addition is the Shire's **hobbit holes**, with the blocks they
+newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
+pine and vines, whose logs craft into dark oak and spruce planks, and Rohan's dry grasses — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -263,6 +264,49 @@ muted, misty look.
 
 The original's willows (which grow only near water), fallen leaves, Ents and
 Huorns are left out.
+
+### Mirkwood
+
+Mirkwood (`lotrmod:mirkwood`) follows the original's `LOTRBiomeGenMirkwoodCorrupted`,
+made thicker and gloomier: more trees, a deeper canopy, and far less light.
+Under the trees almost every column has leaves overhead, most of them three or
+more deep. Its grass, leaves and black water are the original's; its sky is a
+dull grey-green and its fog near black.
+
+- **Mirk oaks** (`trees_mirkwood`): a port of the original's
+  `LOTRWorldGenMirkOak` (`MirkOakFeature`, `lotrmod:mirk_oak`). A three-wide
+  trunk 14 to 35 tall throws boughs out all round its top, each ending in a
+  flat-topped crown that widens as it goes down, propped on a star of wood,
+  with roots spreading from its foot. The crowns are five layers deep (the
+  original's were four), leaves droop under them half the time rather than a
+  third, and vines hang twice as often. Twelve tries a chunk (the original's
+  eight), a pine one time in three and vanilla's large oak now and then.
+- **Understory** (`trees_mirkwood_understory`): the original's small mirk oak,
+  a one-wide trunk under a single crown, six tries a chunk.
+  Every Mirkwood tree is placed on the ground under any leaves already
+  there, rather than on top of them, so they fill in beneath each other's crowns.
+- **Pines** (`lotrmod:pine`): a port of the original's `LOTRWorldGenPine`
+  (`PineFeature`): a bare trunk 12 to 24 tall under a ragged spire of leaf
+  rings, rising out of the oak canopy.
+- **Mirk vines** (`lotrmod:mirk_vines`): the original's dark vines, untinted,
+  climbable, hanging from the oaks' crowns.
+- **Fallen logs** (`mirkwood_logs`): `FallenLogFeature` in mirk oak, three a
+  chunk, as the original's.
+- **Webs** (`mirkwood_webs`): cobwebs for the original's webs of Ungoliant,
+  only where there is a leaf just overhead or a trunk alongside.
+- **Forest floor**: Fangorn's podzol, coarse dirt and gravel rule, ferns and
+  mushrooms.
+- **Spawns**: mostly spiders and cave spiders; few animals.
+- **Gloom** (`client/MirkwoodGloom`): fading in over three seconds, the
+  lightmap is dimmed by up to 60% (torchlight least, so a lit camp stands
+  out), a fog closes in nearer than Fangorn's, and its colour is darkened.
+  Biome JSON can't dim the light, so the dimension's sky effects are ours
+  (`lotrmod:middleearth`, `client/MiddleEarthEffects`): the overworld's in
+  every way except for that one call. This only changes what the client draws:
+  the game's light level, which mob spawning reads, comes from the canopy itself.
+
+The original's Wood-elf ruins, Mirkwood spiders, Dol Guldur orcs and
+mirk trolls are left out.
 
 ### Rohan
 

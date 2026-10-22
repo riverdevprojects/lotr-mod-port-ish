@@ -11,7 +11,7 @@
   "ambient_light": 0.0,
   "infiniburn": "#minecraft:infiniburn_overworld",
   "logical_height": 384,
-  "effects": "minecraft:overworld",
+  "effects": "lotrmod:middleearth",
   "min_y": -64,
   "height": 384,
   "monster_spawn_light_level": {
