@@ -3,10 +3,11 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region** (the Shire is the one exception, split into rings; see below). Apart
+per region** (the Shire and Lindon are the exceptions, split up; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
-into birch, spruce, oak and dark oak planks — the one addition is the Shire's **hobbit holes**, with the blocks they
+into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
+newer dappled forest, whose logs craft into birch planks — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -66,10 +67,10 @@ plains instead of stepping up at the map's pixel edges.
 | Shape | Regions | Continentalness | Erosion |
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
-| `HILLY` | Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
+| `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
 | `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
-| `FOREST` | Lindon, Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
+| `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
 | `MIXED` | Mordor, Forodwaith, Rivendell | 0.25 | −0.10 ± 0.35 |
 | `RIVER` | Anduin, Celduin | unused: rivers come from the river map (below) | |
@@ -171,6 +172,46 @@ few trees of its own.
 Beech and chestnut are vanilla tree features with the original's textures:
 straight trunks and blob leaves for the small trees, fancy trunks and leaves
 for the large ones.
+
+### Lindon
+
+Lindon follows the original's `LOTRBiomeGenLindon` and
+`LOTRBiomeGenLindonWoodlands`: open rolling fields broken by broad woods. Where
+a noise in `MiddleEarthBiomeSource` rises high enough (about a third of Lindon,
+in woods a few hundred blocks across) the biome is `lotrmod:lindon_woodlands`;
+elsewhere it is `lotrmod:lindon`. Grass is vanilla's colour for the original
+climates (0.9 and 0.9; 0.9 and 1.0 in the woods, there taken a third of the
+way to the dappled forest's orange).
+
+- **Trees** (`trees_lindon`): mostly birch and tall birch, then aspen, large
+  birch, oak and beech, with the odd chestnut, large oak and great "party" birch,
+  by the original's weights (its few apple and pear trees are left out). In the
+  fields one chunk in ten gets a tree and one in twenty a clump of six to ten
+  (`trees_lindon_grove`); the woods get six or seven a chunk
+  (`trees_lindon_woodlands`) as well as the clumps.
+- **Copses** (`trees_lindon_birch_copse`, `_aspen_copse`, `_beech_copse`): where
+  a noise peaks, small stands of one tree, as the original's forest variants.
+- **Party birch** (`birch_party`): a port of the original's
+  `LOTRWorldGenPartyTrees` (`PartyTreeFeature`), a trunk three blocks square
+  with thick boughs spreading near the top. The large birch is vanilla's fancy
+  tree in birch.
+- **Red poplars** (`trees_lindon_poplar`, `trees_lindon_poplar_stand`): in the
+  woods only, one in about three chunks and denser stands where a noise peaks.
+  The poplar is from vanilla's dappled forest (Java 26.3), which 1.21.1 doesn't
+  have: `PoplarFeature` reproduces its trunk and foliage placers, with the
+  numbers from vanilla's `red_poplar` and vanilla's textures, the leaves
+  darkened and muted. Its shelf
+  mushrooms, leaf litter and falling-leaf particles are left out, as 1.21.1
+  has none of them.
+- **Forest floor**: in the woods, patches of podzol and coarse dirt, as the
+  original's `enablePodzol` gave dense woods. These are the
+  `lotrmod:lindon_woodlands` rules in the surface rule, driven by the
+  `lotrmod:lindon_podzol` noises.
+- **Rocky ground**: as Eriador's, from the same rules.
+
+Birch leaves use the original mod's olive texture, untinted as the original drew
+them (`assets/minecraft/models/block/birch_leaves.json`). That changes birch
+leaves everywhere, as the original did.
 
 ### Hobbit holes
 

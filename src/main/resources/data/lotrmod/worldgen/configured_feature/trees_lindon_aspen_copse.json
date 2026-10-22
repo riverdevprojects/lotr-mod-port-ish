@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:aspen_large_checked",
+        "chance": 0.0381
+      },
+      {
+        "feature": "lotrmod:aspen_checked",
+        "chance": 0.7921
+      }
+    ],
+    "default": "lotrmod:lindon_tree"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:oak_checked",
+        "chance": 0.0513
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.0135
+      },
+      {
+        "feature": "lotrmod:birch_large_checked",
+        "chance": 0.1096
+      },
+      {
+        "feature": "lotrmod:birch_party_checked",
+        "chance": 0.0308
+      },
+      {
+        "feature": "lotrmod:beech_checked",
+        "chance": 0.0635
+      },
+      {
+        "feature": "lotrmod:beech_large_checked",
+        "chance": 0.0169
+      },
+      {
+        "feature": "lotrmod:chestnut_checked",
+        "chance": 0.0276
+      },
+      {
+        "feature": "lotrmod:chestnut_large_checked",
+        "chance": 0.0071
+      },
+      {
+        "feature": "lotrmod:aspen_checked",
+        "chance": 0.2143
+      },
+      {
+        "feature": "lotrmod:aspen_large_checked",
+        "chance": 0.0909
+      },
+      {
+        "feature": "minecraft:super_birch_bees_0002",
+        "chance": 0.5
+      }
+    ],
+    "default": "minecraft:birch_checked"
+  }
+}

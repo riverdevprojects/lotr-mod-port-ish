@@ -3,6 +3,8 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.PartyTreeFeature;
+import com.lotrmod.worldgen.feature.PoplarFeature;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
 import com.lotrmod.worldgen.structure.HobbitHolePiece;
 import com.lotrmod.worldgen.structure.HobbitHoleStructure;
@@ -65,6 +67,12 @@ public class LOTRWorldGen {
             FEATURES.register("shire_pine", () -> new ShirePineFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, BoulderFeature> BOULDER =
             FEATURES.register("boulder", () -> new BoulderFeature(BoulderFeature.Config.CODEC));
+    // Lindon's great birches
+    public static final DeferredHolder<Feature<?>, PartyTreeFeature> PARTY_TREE =
+            FEATURES.register("party_tree", () -> new PartyTreeFeature(PartyTreeFeature.Config.CODEC));
+    // Vanilla 26.3's poplar, for Lindon's woods
+    public static final DeferredHolder<Feature<?>, PoplarFeature> POPLAR =
+            FEATURES.register("poplar", () -> new PoplarFeature(PoplarFeature.Config.CODEC));
 
     // The Shire's hobbit holes, ported from the original mod's
     public static final DeferredHolder<StructureType<?>, StructureType<HobbitHoleStructure>> HOBBIT_HOLE =
