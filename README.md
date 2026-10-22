@@ -217,8 +217,9 @@ leaves everywhere, as the original did.
 
 Fangorn (`lotrmod:fangorn_forest`) follows the original's `LOTRBiomeGenFangorn`:
 a dark, close forest of tall trees under the crowns of giant ones, in a green
-haze. Grass and leaves are vanilla's colours for the original's climate (0.7
-and 0.8); the sky and fog are the original's.
+haze. Its colours (vanilla's grass and leaves for the original's climate, 0.7
+and 0.8, and the original's sky and fog) are taken half way to grey for a
+muted, misty look.
 
 - **Giant trees** (`lotrmod:fangorn_tree`): a port of the original's
   `LOTRWorldGenFangornTrees` (`FangornTree`): a leaning trunk up to 40 blocks
@@ -230,12 +231,12 @@ and 0.8); the sky and fog are the original's.
   from one seed and written a chunk at a time. The `fangorn_trees` structure set
   puts about one in every sixteen chunks: the original rolled them far more
   often, but they failed wherever another tree's crown already stood.
-- **Trees** (`trees_fangorn`): eleven a chunk, by the original's weights. Mostly
-  its dark oak (vanilla's oak shape on a two-by-two dark oak trunk,
-  `dark_oak_tall`) and its tall and taller oaks (`oak_tall`, `oak_taller`, the
-  same on trunks of 8–13 and 12–19 blocks), then oak, large oak, aspen, birch
-  and beech. They are placed on `MOTION_BLOCKING_NO_LEAVES`, so they grow under
-  the giants' crowns.
+- **Trees** (`trees_fangorn`): eleven tries a chunk at vanilla's oak, dark oak,
+  large oak and birch, each a little taller than vanilla's own (`fangorn_oak`,
+  `fangorn_dark_oak`, `fangorn_fancy_oak`, `fangorn_birch`), by the original's
+  weights with its aspens and beeches folded into the nearest vanilla tree.
+  A tree only takes where its trunk and the blocks round it are clear of other
+  trees, so none grow up through another's leaves.
 - **Fallen logs** (`fangorn_logs`): a port of the original's `LOTRWorldGenLogs`
   (`FallenLogFeature`), five a chunk, in the original's rotten log
   (`lotrmod:rotten_log`): two in five lie on the ground, two to seven blocks

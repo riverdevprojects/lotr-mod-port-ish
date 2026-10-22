@@ -190,10 +190,10 @@ P_OCEAN="8103167 12638463 4159204 329011 9470285 7842607"
 # colour for the original's climate (0.8, 0.9)
 P_SHIRE="7907327 12638463 4159204 329011 8111137 4568097"
 P_SHIRE_WOOD="7907327 12638463 4159204 329011 6997070 4568097"
-# Fangorn's grass and leaves are vanilla's colours for the original's climate
-# (0.7, 0.8). Its sky is the original's, and its fog the original's tint
-# (which multiplied vanilla's daytime fog) worked out: a deep green haze
-P_FANGORN="7774322 2451787 4159204 329011 7979098 5877296"
+# Fangorn's colours start from the original's (vanilla's grass and leaves for
+# its climate, 0.7 and 0.8; its own sky; its fog tint over vanilla's daytime
+# fog) and are taken half way to grey, the grass and leaves a little darker
+P_FANGORN="8623745 4218962 4159204 329011 8100461 6259533"
 # Eriador's is vanilla's colour for the original's climate (0.9, 0.8)
 P_ERIADOR="7907327 12638463 4159204 329011 6932037 4502806"
 # So is Lindon's (0.9, 0.9). Its woodlands' grass is vanilla's for (0.9, 1.0)
