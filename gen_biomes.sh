@@ -39,19 +39,22 @@ mkdir -p "$OUT"
 # 35 lotrmod:trees_rohan_copse     36 lotrmod:rohan_scrub
 # 37 lotrmod:rohan_copse_scrub     38 lotrmod:patch_rohan_tall_grass
 # 39 lotrmod:patch_rohan_grass     40 lotrmod:patch_rohan_lush_grass
-# 41 patch_grass_savanna 42 patch_grass_jungle  43 patch_grass_taiga
-# 44 patch_grass_taiga_2 45 patch_grass_forest  46 patch_grass_plain
-# 47 patch_grass_normal  48 patch_tall_grass    49 patch_large_fern
-# 50 flower_meadow       51 flower_plains       52 flower_flower_forest
-# 53 forest_flowers      54 flower_default      55 flower_swamp
-# 56 lotrmod:fangorn_plants
-# 57 patch_berry_common  58 patch_pumpkin       59 patch_sugar_cane
-# 60 lotrmod:patch_cattail_marsh
-# 61 lotrmod:patch_cattail
-# 62 patch_melon         63 patch_waterlily     64 brown_mushroom_normal
-# 65 red_mushroom_normal
-# 66 lotrmod:ent_jars
-# 67 seagrass_normal     68 kelp_cold
+#  Mirkwood's (mirk oak and pine are ours, ported from the original):
+# 41 lotrmod:trees_mirkwood         42 lotrmod:trees_mirkwood_understory
+# 43 lotrmod:mirkwood_logs          44 lotrmod:mirkwood_webs
+# 45 patch_grass_savanna 46 patch_grass_jungle  47 patch_grass_taiga
+# 48 patch_grass_taiga_2 49 patch_grass_forest  50 patch_grass_plain
+# 51 patch_grass_normal  52 patch_tall_grass    53 patch_large_fern
+# 54 flower_meadow       55 flower_plains       56 flower_flower_forest
+# 57 forest_flowers      58 flower_default      59 flower_swamp
+# 60 lotrmod:fangorn_plants
+# 61 patch_berry_common  62 patch_pumpkin       63 patch_sugar_cane
+# 64 lotrmod:patch_cattail_marsh
+# 65 lotrmod:patch_cattail
+# 66 patch_melon         67 patch_waterlily     68 brown_mushroom_normal
+# 69 red_mushroom_normal
+# 70 lotrmod:ent_jars
+# 71 seagrass_normal     72 kelp_cold
 #
 # Only Eriador and Rohan have anything in local_modifications, each its own
 # boulders (lotrmod:eriador_boulders, lotrmod:rohan_boulders), so that step
@@ -95,6 +98,16 @@ EOF
 {"type":"minecraft:drowned","weight":100,"minCount":1,"maxCount":1}
 EOF
     ;;
+    # Spiders above all, for the original's Mirkwood spiders, and cave spiders among them
+    mirkwood) cat <<'EOF'
+{"type":"minecraft:spider","weight":300,"minCount":2,"maxCount":5},
+{"type":"minecraft:cave_spider","weight":60,"minCount":2,"maxCount":4},
+{"type":"minecraft:zombie","weight":60,"minCount":2,"maxCount":4},
+{"type":"minecraft:skeleton","weight":60,"minCount":2,"maxCount":4},
+{"type":"minecraft:creeper","weight":60,"minCount":1,"maxCount":3},
+{"type":"minecraft:witch","weight":5,"minCount":1,"maxCount":1}
+EOF
+    ;;
     *) cat <<'EOF'
 {"type":"minecraft:spider","weight":100,"minCount":1,"maxCount":4},
 {"type":"minecraft:zombie","weight":95,"minCount":4,"maxCount":4},
@@ -114,6 +127,8 @@ crt() {
     # Horse country: herds of horses, with the odd donkey, sheep and cattle
     rohan)  printf '%s' '{"type":"minecraft:horse","weight":14,"minCount":3,"maxCount":8},{"type":"minecraft:donkey","weight":2,"minCount":1,"maxCount":3},{"type":"minecraft:sheep","weight":8,"minCount":3,"maxCount":5},{"type":"minecraft:cow","weight":6,"minCount":2,"maxCount":4},{"type":"minecraft:rabbit","weight":6,"minCount":2,"maxCount":3},{"type":"minecraft:chicken","weight":3,"minCount":2,"maxCount":4}' ;;
     forest) printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4},{"type":"minecraft:wolf","weight":5,"minCount":4,"maxCount":4}' ;;
+    # Few beasts brave it: wolves, and the odd fox and rabbit
+    mirkwood) printf '%s' '{"type":"minecraft:wolf","weight":4,"minCount":2,"maxCount":4},{"type":"minecraft:fox","weight":2,"minCount":1,"maxCount":2},{"type":"minecraft:rabbit","weight":2,"minCount":1,"maxCount":2}' ;;
     *)      printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":6},{"type":"minecraft:donkey","weight":1,"minCount":1,"maxCount":3},{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
   esac
 }
@@ -218,6 +233,9 @@ P_LINDON="7907327 12638463 4159204 329011 6277186 3651602"
 # A pale, wide sky over a warm, hazy horizon, and dusty olive leaves
 P_ROHAN="8956382 13884130 4159204 329011 12888412 8163141"
 P_LINDON_WOOD="7907327 12638463 4159204 329011 8759095 2865935"
+# Mirkwood's grass, leaves and black water are the original's; its sky is a
+# dull grey-green and its fog near black, both far darker than the original's
+P_MIRKWOOD="4807766 1580828 1708838 657930 2841381 2503461"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
@@ -231,7 +249,7 @@ biome mountains_of_shadow      0.5 0.0 false $P_MORDOR barren "$(V patch_dead_bu
 biome gondor                   0.9 0.5 true $P_PLAIN  temp   "$(V trees_plains patch_grass_plain patch_tall_grass flower_default patch_melon)" ""
 biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" "" "$(V fossil_upper fossil_lower)" "$(V desert_well)"
 biome lothlorien               0.8 0.8 true $P_GOLD   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
-biome mirkwood                 0.6 0.8 true $P_DARK   forest "$(V patch_grass_forest patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
+biome mirkwood                 0.6 0.8 true $P_MIRKWOOD mirkwood "$(V lotrmod:trees_mirkwood lotrmod:trees_mirkwood_understory lotrmod:mirkwood_logs lotrmod:mirkwood_webs patch_grass_taiga patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
 biome dale                     0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_pumpkin)" ""
 biome erebor                   0.3 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome iron_hills               0.4 0.4 true $P_MOUNT  cold   "$(V patch_grass_normal)" ""

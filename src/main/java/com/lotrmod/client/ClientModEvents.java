@@ -3,10 +3,12 @@ package com.lotrmod.client;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.block.ModMenus;
 import com.lotrmod.entity.ModEntities;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 /** Client-only registration: the hobbit's model and renderer, and the hobbit oven's screen. */
@@ -27,5 +29,10 @@ public final class ClientModEvents {
     @SubscribeEvent
     public static void onRegisterScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.HOBBIT_OVEN.get(), HobbitOvenScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void onRegisterDimensionEffects(RegisterDimensionSpecialEffectsEvent event) {
+        event.register(ResourceLocation.fromNamespaceAndPath(LOTRMod.MODID, "middleearth"), new MiddleEarthEffects());
     }
 }

@@ -1194,7 +1194,8 @@
                       "if_true": {
                         "type": "minecraft:biome",
                         "biome_is": [
-                          "lotrmod:fangorn_forest"
+                          "lotrmod:fangorn_forest",
+                          "lotrmod:mirkwood"
                         ]
                       },
                       "then_run": {

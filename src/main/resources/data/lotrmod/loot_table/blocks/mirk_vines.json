@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [{ "type": "minecraft:item", "name": "lotrmod:mirk_vines" }],
+      "conditions": [{ "condition": "minecraft:match_tool", "predicate": { "items": "minecraft:shears" } }]
+    }
+  ],
+  "random_sequence": "lotrmod:blocks/mirk_vines"
+}

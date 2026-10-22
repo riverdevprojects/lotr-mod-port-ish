@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/vine",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "lotrmod:block/mirk_vines",
+    "vine": "lotrmod:block/mirk_vines"
+  }
+}

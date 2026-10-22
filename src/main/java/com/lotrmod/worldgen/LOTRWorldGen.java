@@ -4,7 +4,9 @@ import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
+import com.lotrmod.worldgen.feature.MirkOakFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
+import com.lotrmod.worldgen.feature.PineFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
 import com.lotrmod.worldgen.feature.RohanMoistureFilter;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
@@ -89,6 +91,12 @@ public class LOTRWorldGen {
     // Fangorn's fallen logs and stumps
     public static final DeferredHolder<Feature<?>, FallenLogFeature> FALLEN_LOG =
             FEATURES.register("fallen_log", () -> new FallenLogFeature(FallenLogFeature.Config.CODEC));
+
+    // Mirkwood's mirk oaks and pines, ported from the original mod's generators
+    public static final DeferredHolder<Feature<?>, MirkOakFeature> MIRK_OAK =
+            FEATURES.register("mirk_oak", () -> new MirkOakFeature(MirkOakFeature.Config.CODEC));
+    public static final DeferredHolder<Feature<?>, PineFeature> PINE =
+            FEATURES.register("pine", () -> new PineFeature(NoneFeatureConfiguration.CODEC));
 
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =

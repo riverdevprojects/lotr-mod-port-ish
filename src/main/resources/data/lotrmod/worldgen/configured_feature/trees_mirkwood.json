@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:mirkwood_pine",
+        "chance": 0.35
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.08
+      }
+    ],
+    "default": "lotrmod:mirk_oak_large"
+  }
+}

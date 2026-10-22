@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -95,6 +96,23 @@ public final class ModBlocks {
     public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_RED = registerFangornPlant("fangorn_plant_red");
     public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_SILVER = registerFangornPlant("fangorn_plant_silver");
 
+    // Mirkwood's, from the original mod: the mirk oak, near-black bark under
+    // leaves of a deep, dull green, with wood (bark on every side) for its
+    // boughs and roots; the dark vines that hang from its crown; and the tall
+    // pine that grows among the oaks. Untinted, like aspen.
+    public static final DeferredBlock<RotatedPillarBlock> MIRK_OAK_LOG = BLOCKS.register("mirk_oak_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG)));
+    public static final DeferredBlock<RotatedPillarBlock> MIRK_OAK_WOOD = BLOCKS.register("mirk_oak_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_WOOD)));
+    public static final DeferredBlock<LeavesBlock> MIRK_OAK_LEAVES = BLOCKS.register("mirk_oak_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LEAVES)));
+    public static final DeferredBlock<VineBlock> MIRK_VINES = BLOCKS.register("mirk_vines",
+            () -> new VineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)));
+    public static final DeferredBlock<RotatedPillarBlock> PINE_LOG = BLOCKS.register("pine_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG)));
+    public static final DeferredBlock<LeavesBlock> PINE_LEAVES = BLOCKS.register("pine_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LEAVES)));
+
     // Rohan's grasses, sun-dried to straw: a short tuft, a two-tall grass gone
     // to seed, and wild oats. Coloured in the texture, not by the biome, so
     // they stay gold among the greener grass of the swales.
@@ -125,6 +143,12 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> FANGORN_PLANT_YELLOW_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_YELLOW);
     public static final DeferredItem<BlockItem> FANGORN_PLANT_RED_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_RED);
     public static final DeferredItem<BlockItem> FANGORN_PLANT_SILVER_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_SILVER);
+    public static final DeferredItem<BlockItem> MIRK_OAK_LOG_ITEM = ITEMS.registerSimpleBlockItem(MIRK_OAK_LOG);
+    public static final DeferredItem<BlockItem> MIRK_OAK_WOOD_ITEM = ITEMS.registerSimpleBlockItem(MIRK_OAK_WOOD);
+    public static final DeferredItem<BlockItem> MIRK_OAK_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(MIRK_OAK_LEAVES);
+    public static final DeferredItem<BlockItem> MIRK_VINES_ITEM = ITEMS.registerSimpleBlockItem(MIRK_VINES);
+    public static final DeferredItem<BlockItem> PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(PINE_LOG);
+    public static final DeferredItem<BlockItem> PINE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(PINE_LEAVES);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -238,6 +262,12 @@ public final class ModBlocks {
             event.accept(FANGORN_PLANT_YELLOW_ITEM);
             event.accept(FANGORN_PLANT_RED_ITEM);
             event.accept(FANGORN_PLANT_SILVER_ITEM);
+            event.accept(MIRK_OAK_LOG_ITEM);
+            event.accept(MIRK_OAK_WOOD_ITEM);
+            event.accept(MIRK_OAK_LEAVES_ITEM);
+            event.accept(MIRK_VINES_ITEM);
+            event.accept(PINE_LOG_ITEM);
+            event.accept(PINE_LEAVES_ITEM);
             event.accept(DRY_GRASS_ITEM);
             event.accept(TALL_DRY_GRASS_ITEM);
             event.accept(WILD_OATS_ITEM);
