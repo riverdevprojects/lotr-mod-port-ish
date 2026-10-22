@@ -213,6 +213,10 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
             info.add(String.format("Plains: %.0f%%, height %.1f, moisture %.2f",
                     rohan * 100.0, RohanTerrain.height(x, z), RohanTerrain.moisture(x, z)));
         }
+        double deadLands = MiddleEarthClimate.deadLandsWeight(x, z);
+        if (deadLands > 0.0) {
+            info.add(String.format("Dead Lands: %.0f%%, height %.1f", deadLands * 100.0, DeadLandsTerrain.height(x, z)));
+        }
         double mountain = MiddleEarthClimate.mountainWeight(x, z);
         if (mountain > 0.0) {
             info.add(String.format("Mountain: %.0f%%, height %.1f", mountain * 100.0, MountainTerrain.height(x, z)));

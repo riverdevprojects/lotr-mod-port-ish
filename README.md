@@ -8,7 +8,7 @@ from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
-pine and vines, whose logs craft into dark oak and spruce planks, and Rohan's dry grasses — the one addition is the Shire's **hobbit holes**, with the blocks they
+pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses and the Dead Lands' short grass — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -69,7 +69,7 @@ plains instead of stepping up at the map's pixel edges.
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
 | `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
-| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Rohan's ground itself comes from `RohanTerrain`, below) |
+| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Rohan's and the Dead Lands' ground itself comes from `RohanTerrain` and `DeadLandsTerrain`, below) |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
@@ -115,9 +115,13 @@ roll on top, around y 74 and kept above the waterline.
 Rohan is the fifth: inside it the ground fades over to `RohanTerrain`, wide
 rolling grassland (see below).
 
-All five are done by the `lotrmod:terrain_blend` density function. It wraps
+The Dead Lands are the sixth: inside them the ground fades over to
+`DeadLandsTerrain`, low worn ground broken into shallow ledges (see below).
+
+All six are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
-Rohan and river valleys still get vanilla's caves, aquifers and ore veins.
+Rohan, the Dead Lands and river valleys still get vanilla's caves, aquifers
+and ore veins.
 
 ### Ground
 
@@ -359,6 +363,41 @@ sky, with dark scrub only along the low ground.
   are the `lotrmod:rohan` rules in the surface rule.
 - **Animals**: herds of horses, a few donkeys, sheep, cattle, rabbits and
   chickens. No pigs.
+
+### The Dead Lands
+
+The Dead Lands (`lotrmod:dead_lands`), the band of waste south and east of
+Mirkwood down to Mordor, are a port of the original's Brown Lands
+(`LOTRBiomeGenBrownLands`): flat, dead, brown country of withered grass and
+bare earth, with nothing growing taller than a dead tree.
+
+- **Ground** (`DeadLandsTerrain`): for the original's heights (0.2, 0.2), low
+  ground around y 70, undulating gently over a couple of hundred blocks and
+  broken into ledges a block or two high that run across the slopes like
+  contour lines, as the original's terrain noise left gentle ground.
+- **Surface**: grass, in the original's dead brown (`#AD8B69`), patched about
+  half and half with coarse dirt, which runs down through the dirt below, as
+  the original's two noises (a broad one and a speckle) laid it out. These are
+  the `lotrmod:dead_lands` rules in the surface rule, on the
+  `lotrmod:dead_lands_dirt` noise.
+- **Dead oaks** (`trees_dead_lands`): a port of the original's
+  `LOTRWorldGenDeadTrees` (`DeadTreeFeature`, `lotrmod:dead_tree`): a bare
+  oak trunk three to six tall with four leafless branches of oak wood
+  climbing out from its top. The original's only tree, in about one chunk
+  in ten.
+- **Boulders** (`dead_lands_boulders`): the original's stone boulders, one or
+  two wide, one to six of them in one chunk in eight (`lotrmod:boulder`).
+- **Grass** (`patch_dead_lands_grass`): two patches a chunk of the original's
+  short grass (`lotrmod:short_grass`, its texture, tinted by the biome like
+  vanilla's), with vanilla's short grass one time in three.
+- **Stone ruins** (`dead_lands_stone_ruin`): a port of the original's
+  `LOTRWorldGenStoneRuin` (`StoneRuinFeature`, `lotrmod:stone_ruin`) in stone
+  bricks: a broken column with fallen slabs and stubs of wall around it, in
+  one chunk in 2000, as the original's.
+- **Weather and sky**: no rain, the original's brown-grey sky; no animals.
+
+The original's small stone ruins (huts with rotten timber and loot chests)
+and its Mordor invasions are left out.
 
 ### Hobbit holes
 

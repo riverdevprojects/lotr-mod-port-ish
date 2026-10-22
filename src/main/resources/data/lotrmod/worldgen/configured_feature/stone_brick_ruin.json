@@ -1,0 +1,40 @@
+{
+  "type": "lotrmod:stone_ruin",
+  "config": {
+    "brick": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:stone_bricks"
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "minecraft:mossy_stone_bricks"
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "minecraft:cracked_stone_bricks"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "slab": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:stone_brick_slab",
+        "Properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "min_width": 1,
+    "max_width": 3
+  }
+}

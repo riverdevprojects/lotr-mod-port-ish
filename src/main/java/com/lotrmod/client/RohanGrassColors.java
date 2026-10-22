@@ -1,6 +1,7 @@
 package com.lotrmod.client;
 
 import com.lotrmod.LOTRMod;
+import com.lotrmod.block.ModBlocks;
 import com.lotrmod.worldgen.Region;
 import com.lotrmod.worldgen.RohanTerrain;
 import com.lotrmod.worldgen.biome.ModBiomes;
@@ -73,7 +74,13 @@ public final class RohanGrassColors {
             return level.getBlockTint(at, GRASS);
         };
         event.register(grass, Blocks.GRASS_BLOCK, Blocks.SHORT_GRASS, Blocks.TALL_GRASS,
-                Blocks.FERN, Blocks.LARGE_FERN, Blocks.POTTED_FERN);
+                Blocks.FERN, Blocks.LARGE_FERN, Blocks.POTTED_FERN, ModBlocks.SHORT_GRASS.get());
+    }
+
+    @SubscribeEvent
+    public static void onRegisterItemColors(RegisterColorHandlersEvent.Item event) {
+        // As vanilla's short grass item
+        event.register((stack, tintIndex) -> GrassColor.getDefaultColor(), ModBlocks.SHORT_GRASS.get());
     }
 
     /** Rohan's grass colour at a spot. */

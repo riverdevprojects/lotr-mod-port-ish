@@ -42,23 +42,26 @@ mkdir -p "$OUT"
 #  Mirkwood's (mirk oak and pine are ours, ported from the original):
 # 41 lotrmod:trees_mirkwood         42 lotrmod:trees_mirkwood_understory
 # 43 lotrmod:mirkwood_logs          44 lotrmod:mirkwood_webs
-# 45 patch_grass_savanna 46 patch_grass_jungle  47 patch_grass_taiga
-# 48 patch_grass_taiga_2 49 patch_grass_forest  50 patch_grass_plain
-# 51 patch_grass_normal  52 patch_tall_grass    53 patch_large_fern
-# 54 flower_meadow       55 flower_plains       56 flower_flower_forest
-# 57 forest_flowers      58 flower_default      59 flower_swamp
-# 60 lotrmod:fangorn_plants
-# 61 patch_berry_common  62 patch_pumpkin       63 patch_sugar_cane
-# 64 lotrmod:patch_cattail_marsh
-# 65 lotrmod:patch_cattail
-# 66 patch_melon         67 patch_waterlily     68 brown_mushroom_normal
-# 69 red_mushroom_normal
-# 70 lotrmod:ent_jars
-# 71 seagrass_normal     72 kelp_cold
+#  The Dead Lands' (the original's Brown Lands: dead oaks and withered grass):
+# 45 lotrmod:trees_dead_lands       46 lotrmod:patch_dead_lands_grass
+# 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
+# 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
+# 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
+# 56 flower_meadow       57 flower_plains       58 flower_flower_forest
+# 59 forest_flowers      60 flower_default      61 flower_swamp
+# 62 lotrmod:fangorn_plants
+# 63 patch_berry_common  64 patch_pumpkin       65 patch_sugar_cane
+# 66 lotrmod:patch_cattail_marsh
+# 67 lotrmod:patch_cattail
+# 68 patch_melon         69 patch_waterlily     70 brown_mushroom_normal
+# 71 red_mushroom_normal
+# 72 lotrmod:ent_jars
+# 73 seagrass_normal     74 kelp_cold
 #
-# Only Eriador and Rohan have anything in local_modifications, each its own
-# boulders (lotrmod:eriador_boulders, lotrmod:rohan_boulders), so that step
-# has no order to keep.
+# Only Eriador, Rohan and the Dead Lands have anything in local_modifications,
+# each its own boulders (lotrmod:eriador_boulders, lotrmod:rohan_boulders,
+# lotrmod:dead_lands_boulders), so that step has no order to keep. Likewise
+# surface_structures: only Harad's well and the Dead Lands' stone ruins.
 #
 # Names without a namespace are minecraft's.
 #
@@ -236,6 +239,9 @@ P_LINDON_WOOD="7907327 12638463 4159204 329011 8759095 2865935"
 # Mirkwood's grass, leaves and black water are the original's; its sky is a
 # dull grey-green and its fog near black, both far darker than the original's
 P_MIRKWOOD="4807766 1580828 1708838 657930 2841381 2503461"
+# The Dead Lands' sky and dead brown grass are the original Brown Lands';
+# its leaves are vanilla's for the original's climate (1.0, 0.2)
+P_DEAD_LANDS="8878434 12638463 4159204 329011 11373417 11445290"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
@@ -259,7 +265,7 @@ biome rhun                     0.9 0.3 true $P_STEPPE temp   "$(V patch_grass_sa
 biome fangorn_forest           0.7 0.8 true $P_FANGORN forest "$(V lotrmod:trees_fangorn lotrmod:fangorn_logs lotrmod:fangorn_bushes patch_grass_taiga patch_tall_grass patch_large_fern forest_flowers flower_default lotrmod:fangorn_plants brown_mushroom_normal red_mushroom_normal lotrmod:ent_jars)" ""
 biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_large_fern flower_swamp patch_sugar_cane lotrmod:patch_cattail_marsh patch_waterlily brown_mushroom_normal red_mushroom_normal)" ""
-biome dead_lands               0.6 0.1 false $P_BARREN barren "$(V patch_dead_bush)" ""
+biome dead_lands               1.0 0.2 false $P_DEAD_LANDS barren "$(V lotrmod:trees_dead_lands lotrmod:patch_dead_lands_grass)" "" "" "$(V lotrmod:dead_lands_stone_ruin)" "$(V lotrmod:dead_lands_boulders)"
 biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome eastern_rhovanian_plains 0.8 0.4 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""

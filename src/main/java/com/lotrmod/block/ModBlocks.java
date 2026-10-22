@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -124,6 +125,11 @@ public final class ModBlocks {
     public static final DeferredBlock<DryGrassBlock> WILD_OATS = BLOCKS.register("wild_oats",
             () -> new DryGrassBlock(dryGrassProperties()));
 
+    // The original's short grass, tinted by the biome like vanilla's: the
+    // Dead Lands' tufts of withered grass
+    public static final DeferredBlock<TallGrassBlock> SHORT_GRASS = BLOCKS.register("short_grass",
+            () -> new TallGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -188,6 +194,7 @@ public final class ModBlocks {
     public static final DeferredItem<DoubleHighBlockItem> TALL_DRY_GRASS_ITEM = ITEMS.register("tall_dry_grass",
             () -> new DoubleHighBlockItem(TALL_DRY_GRASS.get(), new Item.Properties()));
     public static final DeferredItem<BlockItem> WILD_OATS_ITEM = ITEMS.registerSimpleBlockItem(WILD_OATS);
+    public static final DeferredItem<BlockItem> SHORT_GRASS_ITEM = ITEMS.registerSimpleBlockItem(SHORT_GRASS);
 
     public static final DeferredItem<BlockItem> GATE_HOBBIT_GREEN_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_GREEN);
     public static final DeferredItem<BlockItem> GATE_HOBBIT_BLUE_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_BLUE);
@@ -271,6 +278,7 @@ public final class ModBlocks {
             event.accept(DRY_GRASS_ITEM);
             event.accept(TALL_DRY_GRASS_ITEM);
             event.accept(WILD_OATS_ITEM);
+            event.accept(SHORT_GRASS_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);

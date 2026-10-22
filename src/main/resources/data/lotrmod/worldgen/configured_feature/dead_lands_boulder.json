@@ -1,0 +1,14 @@
+{
+  "type": "lotrmod:boulder",
+  "config": {
+    "state": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:stone"
+      }
+    },
+    "min_width": 1,
+    "max_width": 2,
+    "height_check": 3
+  }
+}
