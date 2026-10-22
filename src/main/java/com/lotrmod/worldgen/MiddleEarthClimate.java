@@ -24,8 +24,8 @@ import java.util.List;
  *       centre and a spread, and vanilla's erosion noise wanders between them.</li>
  * </ul>
  *
- * <p>It also says where the mountain ranges and marshes are, for
- * {@link MountainTerrain} and {@link MarshTerrain}.
+ * <p>It also says where the mountain ranges, marshes and the Shire are, for
+ * {@link MountainTerrain}, {@link MarshTerrain} and {@link ShireTerrain}.
  *
  * <p>Region values are blurred over roughly a hundred blocks before use, so
  * mountains rise out of the plains and rivers sink into their valleys instead of
@@ -52,9 +52,9 @@ public final class MiddleEarthClimate {
     private static final double BEACH_WIDTH_VARIATION = 12.0;
 
     /**
-     * Blurred share of mountain range (or marsh) below which the ground is all
-     * vanilla's, and over how much more it becomes all {@link MountainTerrain}
-     * (or {@link MarshTerrain}).
+     * Blurred share of mountain range (or marsh, or Shire) below which the
+     * ground is all vanilla's, and over how much more it becomes all
+     * {@link MountainTerrain} (or {@link MarshTerrain}, or {@link ShireTerrain}).
      */
     private static final double MOUNTAIN_EDGE = 0.2;
     private static final double MOUNTAIN_FADE = 0.5;
@@ -166,6 +166,16 @@ public final class MiddleEarthClimate {
         return smoothstep(Mth.clamp((g.sample(g.marsh, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
     }
 
+    /**
+     * How much of the ground here is the Shire, from 0 outside to 1 inside: the
+     * share of {@link ShireTerrain} in the terrain. Zero at sea.
+     */
+    public static double shireWeight(int x, int z) {
+        Grid g = grid;
+        if (g == null || coastDistance(x, z) <= 0) return 0.0;
+        return smoothstep(Mth.clamp((g.sample(g.shire, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
+    }
+
     /** Ridgeline height of the mountain ranges nearby, for {@link MountainTerrain}. */
     public static double ridgeHeight(int x, int z) {
         Grid g = grid;
@@ -193,7 +203,7 @@ public final class MiddleEarthClimate {
      */
     private record Grid(int width, int height, double halfImageWidth, double halfImageHeight,
                         float[] continentalness, float[] erosion, float[] erosionSpread,
-                        float[] mountain, float[] ridgeHeight, float[] marsh) {
+                        float[] mountain, float[] ridgeHeight, float[] marsh, float[] shire) {
 
         static Grid build() {
             int imageWidth = RegionMapLoader.getImageWidth();
@@ -210,6 +220,7 @@ public final class MiddleEarthClimate {
             float[] mountain = new float[width * height];
             float[] ridgeHeight = new float[width * height];
             float[] marsh = new float[width * height];
+            float[] shire = new float[width * height];
             for (int pz = 0; pz < imageHeight; pz++) {
                 for (int px = 0; px < imageWidth; px++) {
                     Region region = RegionMapLoader.getRegionAtPixel(px, pz);
@@ -220,6 +231,7 @@ public final class MiddleEarthClimate {
                     erosion[cell] += (float) region.getErosion();
                     erosionSpread[cell] += (float) region.getErosionSpread();
                     if (region.isMarsh()) marsh[cell] += 1f;
+                    if (region == Region.THE_SHIRE) shire[cell] += 1f;
                     if (region.isMountain()) {
                         mountain[cell] += 1f;
                         ridgeHeight[cell] += (float) region.getRidgeHeight();
@@ -227,7 +239,7 @@ public final class MiddleEarthClimate {
                 }
             }
 
-            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh)) {
+            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire)) {
                 blur(field, width, height);
             }
 
@@ -246,6 +258,7 @@ public final class MiddleEarthClimate {
                     erosionSpread[cell] /= w;
                     mountain[cell] /= w;
                     marsh[cell] /= w;
+                    shire[cell] /= w;
                 } else {
                     continentalness[cell] = (float) Region.ERIADOR.getContinentalness();
                     erosion[cell] = (float) Region.ERIADOR.getErosion();
@@ -253,7 +266,7 @@ public final class MiddleEarthClimate {
                 }
             }
             return new Grid(width, height, imageWidth / 2.0, imageHeight / 2.0,
-                    continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh);
+                    continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire);
         }
 
         double sample(float[] field, int x, int z) {

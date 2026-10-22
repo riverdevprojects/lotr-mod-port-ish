@@ -7,6 +7,7 @@ import com.lotrmod.worldgen.LandmaskLoader;
 import com.lotrmod.worldgen.MiddleEarthClimate;
 import com.lotrmod.worldgen.RegionMapLoader;
 import com.lotrmod.worldgen.RiverMap;
+import com.lotrmod.worldgen.ShireZones;
 import com.mojang.logging.LogUtils;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.bus.api.IEventBus;
@@ -54,6 +55,7 @@ public class LOTRMod {
         RegionMapLoader.loadRegionMap(resourceManager);
         RiverMap.load(resourceManager);
         MiddleEarthClimate.rebuild();
+        ShireZones.rebuild();
     }
 
     @SubscribeEvent

@@ -3,9 +3,11 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region**. Apart from the cattail, a marsh plant vanilla lacks, there are no
-blocks, items, entities, structures or recipes: this is landscape generation and
-nothing else.
+per region** (the Shire is the one exception, split into rings; see below). Apart
+from the plants the landscape needs that vanilla lacks — the cattail, and the
+aspen and shire pine from the original mod, whose logs craft into birch and spruce
+planks — there are no blocks, items, entities or structures: this is landscape
+generation and nothing else.
 
 ## Getting there
 
@@ -63,7 +65,7 @@ plains instead of stepping up at the map's pixel edges.
 | Shape | Regions | Continentalness | Erosion |
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
-| `HILLY` | Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 |
+| `HILLY` | Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
 | `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lindon, Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
@@ -102,9 +104,14 @@ map as a band about 290 blocks wide either side of the upper Anduin, is built fr
 between low hummocks become shallow pools, which the chunk generator fills with
 water the same way it fills rivers.
 
-All three are done by the `lotrmod:terrain_blend` density function. It wraps
-vanilla's density before caves are carved, so mountains, marshes and river valleys
-still get vanilla's caves, aquifers and ore veins.
+The Shire is the fourth. Vanilla's terrain is lumpier at any erosion than the
+original mod's gentlest land biome, so inside the Shire the ground fades over to
+`ShireTerrain`: soft downs, swells a couple of hundred blocks across with a smaller
+roll on top, around y 74 and kept above the waterline.
+
+All four are done by the `lotrmod:terrain_blend` density function. It wraps
+vanilla's density before caves are carved, so mountains, marshes, the Shire and
+river valleys still get vanilla's caves, aquifers and ore veins.
 
 ### Ground
 
@@ -120,6 +127,25 @@ plant that grows on the bank or in one block of water) thick around its pools, l
 pads, blue orchids and a scattering of vanilla's swamp oaks. Cattails also line
 the rivers and the Sea of Rhûn, more thinly. The features are
 `worldgen/configured_feature/patch_cattail.json` and the placed features beside it.
+
+### The Shire
+
+The Shire is laid out in rings, as in the original mod, by distance from its
+border on the region map (`ShireZones`), with noise pushing each ring's edge in
+and out by up to 220 blocks:
+
+| Ring | Biome | Where | Trees |
+| --- | --- | --- | --- |
+| Heart | `lotrmod:the_shire` | more than ~300 blocks inside the border | Oaks and large oaks dotted over open grass, with woody patches of oak, aspen and birch filling the gaps |
+| Outskirts | `lotrmod:shire_outskirts` | the ~300 blocks inside the border | Woodland throughout: thick mixed woods on one side of a noise, aspen stands on the other |
+| Shire Woodlands | `lotrmod:shire_woodlands` | Eriador or Arnor within ~480 blocks of the border | Thick shire pine forest with aspens, birches and oaks, on Eriador's hills |
+
+The tree mixes follow the original biomes' weights. Aspen and shire pine are
+literal ports of the original generators (`AspenFeature`, `ShirePineFeature`,
+under `worldgen/feature`), with the original textures; large aspens have a 2×2
+trunk. The mixes are the `random_selector` configured features `trees_shire`,
+`trees_shire_woods`, `trees_aspen_stand` and `trees_shire_woodlands`. The Shire's
+bright grass colour is the original's.
 
 ## Editing the maps
 
@@ -146,5 +172,5 @@ biomes disagree about which of two shared features comes first, NeoForge's
 feature-order sort hits a cycle and the game **crashes on world load**. If you
 hand-edit a biome's `features`, keep the master order.
 
-`gen_biomes.sh` regenerates all 28 biome JSONs from that single ordering. Prefer
+`gen_biomes.sh` regenerates all 31 biome JSONs from that single ordering. Prefer
 editing the script over editing the JSONs.

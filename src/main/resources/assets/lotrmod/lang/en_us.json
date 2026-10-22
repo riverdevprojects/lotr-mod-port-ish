@@ -1,3 +1,7 @@
 {
-  "block.lotrmod.cattail": "Cattail"
+  "block.lotrmod.cattail": "Cattail",
+  "block.lotrmod.aspen_log": "Aspen Log",
+  "block.lotrmod.aspen_leaves": "Aspen Leaves",
+  "block.lotrmod.shire_pine_log": "Shire Pine Log",
+  "block.lotrmod.shire_pine_leaves": "Shire Pine Leaves"
 }

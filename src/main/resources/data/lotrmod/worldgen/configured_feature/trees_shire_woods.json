@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.35
+      },
+      {
+        "feature": "lotrmod:aspen_checked",
+        "chance": 0.2308
+      },
+      {
+        "feature": "lotrmod:aspen_large_checked",
+        "chance": 0.06
+      },
+      {
+        "feature": "minecraft:birch_checked",
+        "chance": 0.1064
+      },
+      {
+        "feature": "lotrmod:shire_pine_checked",
+        "chance": 0.0714
+      }
+    ],
+    "default": "minecraft:oak_checked"
+  }
+}

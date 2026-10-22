@@ -15,6 +15,8 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *       by {@link MiddleEarthClimate#mountainWeight}.</li>
  *   <li><b>Marshes</b> fade over to {@link MarshTerrain}'s shape, by
  *       {@link MiddleEarthClimate#marshWeight}.</li>
+ *   <li><b>The Shire</b> fades over to {@link ShireTerrain}'s rolling downs, by
+ *       {@link MiddleEarthClimate#shireWeight}.</li>
  *   <li><b>Rivers</b> from {@link RiverMap} cut their channel and valley
  *       ({@link RiverTerrain}). They only ever lower the ground.</li>
  * </ul>
@@ -54,6 +56,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         if (column.marshWeight > 0.0) {
             double marsh = (column.marshHeight - y) / BLOCKS_PER_UNIT;
             density += (marsh - density) * column.marshWeight;
+        }
+        if (column.shireWeight > 0.0) {
+            double shire = (column.shireHeight - y) / BLOCKS_PER_UNIT;
+            density += (shire - density) * column.shireWeight;
         }
         if (column.riverWeight > 0.0) {
             double river = (column.riverHeight - y) / BLOCKS_PER_UNIT;
@@ -95,6 +101,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double mountainHeight;
         private double marshWeight;
         private double marshHeight;
+        private double shireWeight;
+        private double shireHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -107,6 +115,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 mountainHeight = mountainWeight > 0.0 ? MountainTerrain.height(x, z) : 0.0;
                 marshWeight = MiddleEarthClimate.marshWeight(x, z);
                 marshHeight = marshWeight > 0.0 ? MarshTerrain.height(x, z) : 0.0;
+                shireWeight = MiddleEarthClimate.shireWeight(x, z);
+                shireHeight = shireWeight > 0.0 ? ShireTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;

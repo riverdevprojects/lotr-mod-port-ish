@@ -189,6 +189,10 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         if (getBiomeSource() instanceof MiddleEarthBiomeSource src && RegionMapLoader.isLoaded()) {
             Region region = src.getRegion(x, z);
             info.add("Region: " + region.getDisplayName() + " (" + region.getShape() + ")");
+            ShireZones.Zone zone = ShireZones.zone(x, z, region);
+            if (zone != ShireZones.Zone.NONE) {
+                info.add(String.format("Shire: %s, %.0f blocks from the border", zone, ShireZones.borderDistance(x, z)));
+            }
         }
         info.add(String.format("Shore distance: %.1f", MiddleEarthClimate.coastDistance(x, z)));
         info.add(String.format("Climate: continentalness %.3f, erosion %.3f ± %.3f",
@@ -203,6 +207,10 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         double marsh = MiddleEarthClimate.marshWeight(x, z);
         if (marsh > 0.0) {
             info.add(String.format("Marsh: %.0f%%, height %.1f", marsh * 100.0, MarshTerrain.height(x, z)));
+        }
+        double shire = MiddleEarthClimate.shireWeight(x, z);
+        if (shire > 0.0) {
+            info.add(String.format("Downs: %.0f%%, height %.1f", shire * 100.0, ShireTerrain.height(x, z)));
         }
         double mountain = MiddleEarthClimate.mountainWeight(x, z);
         if (mountain > 0.0) {

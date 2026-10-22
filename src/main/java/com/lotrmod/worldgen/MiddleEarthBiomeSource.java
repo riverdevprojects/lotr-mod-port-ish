@@ -27,9 +27,11 @@ import java.util.stream.Stream;
  * <p>Rivers come next, from the river map: a river's channel takes its
  * region's biome ({@code lotrmod:anduin_river}, {@code lotrmod:celduin}).
  *
- * <p>There is deliberately no noise-based sub-selection. A region's colour on
- * the map is the whole answer, which means a biome boundary is exactly a region
- * boundary and nothing else.
+ * <p>Otherwise a region's colour on the map is the whole answer, with one
+ * exception: the Shire and the land around it are split into rings by
+ * {@link ShireZones}. The Shire's outskirts are {@code lotrmod:shire_outskirts},
+ * and the band of Eriador and Arnor around it is
+ * {@code lotrmod:shire_woodlands}.
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -46,6 +48,10 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
     /** Region to biome holder, resolved once from the dimension JSON. */
     private final Map<Region, Holder<Biome>> byRegion;
+
+    /** The Shire's rings, or null if the dimension JSON doesn't list them. */
+    private final Holder<Biome> shireOutskirts;
+    private final Holder<Biome> shireWoodlands;
 
     /** Feature size of the region-boundary warp, as a noise input scale. */
     private static final double WARP_SCALE = 1.0 / 40.0;
@@ -77,8 +83,18 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             });
         }
 
+        this.shireOutskirts = findBiome(regionBiomes, "shire_outskirts");
+        this.shireWoodlands = findBiome(regionBiomes, "shire_woodlands");
+
         LOTRMod.LOGGER.info("MiddleEarthBiomeSource: resolved {} of {} region biomes",
                 byRegion.size(), Region.biomeRegions().length);
+    }
+
+    private static Holder<Biome> findBiome(List<Holder<Biome>> biomes, String path) {
+        for (Holder<Biome> holder : biomes) {
+            if (holder.is(ResourceLocation.fromNamespaceAndPath(LOTRMod.MODID, path))) return holder;
+        }
+        return null;
     }
 
     @Override
@@ -102,7 +118,15 @@ public class MiddleEarthBiomeSource extends BiomeSource {
         Holder<Biome> river = riverBiome(worldX, worldZ);
         if (river != null) return river;
 
-        Holder<Biome> biome = byRegion.get(getRegion(worldX, worldZ));
+        Region region = getRegion(worldX, worldZ);
+        Holder<Biome> ring = switch (ShireZones.zone(worldX, worldZ, region)) {
+            case OUTSKIRTS -> shireOutskirts;
+            case WOODLANDS -> shireWoodlands;
+            default -> null;
+        };
+        if (ring != null) return ring;
+
+        Holder<Biome> biome = byRegion.get(region);
         return biome != null ? biome : fallbackBiome;
     }
 
