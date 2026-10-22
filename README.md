@@ -5,8 +5,8 @@ A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
 per region** (the Shire is the one exception, split into rings; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
-aspen and shire pine from the original mod, whose logs craft into birch and spruce
-planks — the one addition is the Shire's **hobbit holes**, with the blocks they
+aspen, shire pine, beech and chestnut from the original mod, whose logs craft
+into birch, spruce, oak and dark oak planks — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -147,6 +147,30 @@ under `worldgen/feature`), with the original textures; large aspens have a 2×2
 trunk. The mixes are the `random_selector` configured features `trees_shire`,
 `trees_shire_woods`, `trees_aspen_stand` and `trees_shire_woodlands`. The Shire's
 bright grass colour is the original's.
+
+### Eriador
+
+Eriador (`lotrmod:eriador`) follows the original's `LOTRBiomeGenEriador`: open
+green grassland (vanilla's colour for the original's climate, 0.9 and 0.8) with
+few trees of its own.
+
+- **Trees** (`trees_eriador`): mostly oak, then spruce, chestnut, birch, large oak
+  and aspen, with the odd yellow beech, by the original's weights. One chunk in
+  ten gets a tree, and one chunk in twelve a clump of six to ten
+  (`trees_eriador_grove`), as the original's tree clusters did.
+- **Copses** (`trees_beech_copse`, `trees_aspen_copse`): where a noise peaks,
+  small woods of beech or aspen stand in for the original's forest variants.
+- **Boulders** (`eriador_boulders`): a port of the original's `LOTRWorldGenBoulder`
+  (`BoulderFeature`): balls of stone, andesite and mossy cobblestone, settled
+  onto level ground, in about one chunk in three.
+- **Rocky ground**: as with the original's `enableRocky`, high ground is
+  patched with bare stone and gravel, more of it the higher it gets, from
+  y 76 up. These are the `lotrmod:eriador` rules in the surface rule, driven
+  by the `lotrmod:eriador_rocks` noise.
+
+Beech and chestnut are vanilla tree features with the original's textures:
+straight trunks and blob leaves for the small trees, fancy trunks and leaves
+for the large ones.
 
 ### Hobbit holes
 

@@ -53,10 +53,25 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> SHIRE_PINE_LEAVES = BLOCKS.register("shire_pine_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LEAVES)));
 
+    // Eriador's trees, from the original mod: beech, grey-barked with golden
+    // leaves, and chestnut, dark-barked and deep green. Untinted, like aspen.
+    public static final DeferredBlock<RotatedPillarBlock> BEECH_LOG = BLOCKS.register("beech_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final DeferredBlock<LeavesBlock> BEECH_LEAVES = BLOCKS.register("beech_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
+    public static final DeferredBlock<RotatedPillarBlock> CHESTNUT_LOG = BLOCKS.register("chestnut_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG)));
+    public static final DeferredBlock<LeavesBlock> CHESTNUT_LEAVES = BLOCKS.register("chestnut_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LEAVES)));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LEAVES);
+    public static final DeferredItem<BlockItem> BEECH_LOG_ITEM = ITEMS.registerSimpleBlockItem(BEECH_LOG);
+    public static final DeferredItem<BlockItem> BEECH_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(BEECH_LEAVES);
+    public static final DeferredItem<BlockItem> CHESTNUT_LOG_ITEM = ITEMS.registerSimpleBlockItem(CHESTNUT_LOG);
+    public static final DeferredItem<BlockItem> CHESTNUT_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(CHESTNUT_LEAVES);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -142,6 +157,10 @@ public final class ModBlocks {
             event.accept(ASPEN_LEAVES_ITEM);
             event.accept(SHIRE_PINE_LOG_ITEM);
             event.accept(SHIRE_PINE_LEAVES_ITEM);
+            event.accept(BEECH_LOG_ITEM);
+            event.accept(BEECH_LEAVES_ITEM);
+            event.accept(CHESTNUT_LOG_ITEM);
+            event.accept(CHESTNUT_LEAVES_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);

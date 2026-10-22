@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [{ "item": "lotrmod:beech_log" }],
+  "result": { "count": 4, "id": "minecraft:oak_planks" }
+}

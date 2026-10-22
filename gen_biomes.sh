@@ -20,16 +20,22 @@ mkdir -p "$OUT"
 # 12 lotrmod:trees_shire_outskirts 13 lotrmod:trees_shire_thicket
 # 14 lotrmod:trees_aspen_stand     15 lotrmod:trees_shire_woodlands
 # 16 lotrmod:shire_bushes
-# 17 lotrmod:trees_marsh (vanilla's swamp oak, one tree per three chunks)
-# 18 patch_grass_savanna 19 patch_grass_jungle  20 patch_grass_taiga
-# 21 patch_grass_taiga_2 22 patch_grass_forest  23 patch_grass_plain
-# 24 patch_grass_normal  25 patch_tall_grass    26 patch_large_fern
-# 27 flower_meadow       28 flower_plains       29 flower_flower_forest
-# 30 forest_flowers      31 flower_default      32 flower_swamp
-# 33 patch_berry_common  34 patch_pumpkin       35 patch_sugar_cane
-# 36 lotrmod:patch_cattail_marsh                37 lotrmod:patch_cattail
-# 38 patch_melon         39 patch_waterlily     40 brown_mushroom_normal
-# 41 red_mushroom_normal 42 seagrass_normal     43 kelp_cold
+#  Eriador's (beech and chestnut are ours too, ported from the original):
+# 17 lotrmod:trees_eriador         18 lotrmod:trees_eriador_grove
+# 19 lotrmod:trees_beech_copse     20 lotrmod:trees_aspen_copse
+# 21 lotrmod:trees_marsh (vanilla's swamp oak, one tree per three chunks)
+# 22 patch_grass_savanna 23 patch_grass_jungle  24 patch_grass_taiga
+# 25 patch_grass_taiga_2 26 patch_grass_forest  27 patch_grass_plain
+# 28 patch_grass_normal  29 patch_tall_grass    30 patch_large_fern
+# 31 flower_meadow       32 flower_plains       33 flower_flower_forest
+# 34 forest_flowers      35 flower_default      36 flower_swamp
+# 37 patch_berry_common  38 patch_pumpkin       39 patch_sugar_cane
+# 40 lotrmod:patch_cattail_marsh                41 lotrmod:patch_cattail
+# 42 patch_melon         43 patch_waterlily     44 brown_mushroom_normal
+# 45 red_mushroom_normal 46 seagrass_normal     47 kelp_cold
+#
+# Only Eriador has anything in local_modifications (lotrmod:eriador_boulders),
+# so that step has no order to keep.
 #
 # Names without a namespace are minecraft's.
 #
@@ -88,9 +94,9 @@ crt() {
   esac
 }
 
-# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv> [<underground-structures-csv> <surface-structures-csv>]
+# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv> [<underground-structures-csv> <surface-structures-csv> <local-modifications-csv>]
 biome() {
-  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}" ustruct="${14}" sstruct="${15}"
+  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}" ustruct="${14}" sstruct="${15}" localmod="${16}"
   {
     printf '{\n'
     printf '  "has_precipitation": %s,\n' "$precip"
@@ -125,7 +131,7 @@ biome() {
     printf '  "features": [\n'
     printf '    [],\n'      # raw_generation
     printf '    [],\n'      # lakes
-    printf '    [],\n'      # local_modifications
+    printf '    [%s],\n' "$localmod"   # local_modifications
     printf '    [%s],\n' "$ustruct"   # underground_structures
     printf '    [%s],\n' "$sstruct"   # surface_structures
     printf '    [],\n'      # strongholds
@@ -172,11 +178,13 @@ P_OCEAN="8103167 12638463 4159204 329011 9470285 7842607"
 # colour for the original's climate (0.8, 0.9)
 P_SHIRE="7907327 12638463 4159204 329011 8111137 4568097"
 P_SHIRE_WOOD="7907327 12638463 4159204 329011 6997070 4568097"
+# Eriador's is vanilla's colour for the original's climate (0.9, 0.8)
+P_ERIADOR="7907327 12638463 4159204 329011 6932037 4502806"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.7 0.8 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers patch_berry_common brown_mushroom_normal red_mushroom_normal)" ""
 biome blue_mountains           0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
-biome eriador                  0.7 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_berry_common)" ""
+biome eriador                  0.9 0.8 true $P_ERIADOR temp  "$(V lotrmod:trees_eriador lotrmod:trees_eriador_grove lotrmod:trees_beech_copse lotrmod:trees_aspen_copse patch_grass_plain patch_tall_grass flower_plains flower_default patch_berry_common)" "" "" "" "$(V lotrmod:eriador_boulders)"
 biome arnor                    0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default)" ""
 biome misty_mountains          0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome grey_mountains           0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
