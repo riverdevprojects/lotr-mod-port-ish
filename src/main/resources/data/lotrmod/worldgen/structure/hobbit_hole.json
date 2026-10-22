@@ -1,0 +1,7 @@
+{
+  "type": "lotrmod:hobbit_hole",
+  "biomes": "#lotrmod:has_structure/hobbit_hole",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

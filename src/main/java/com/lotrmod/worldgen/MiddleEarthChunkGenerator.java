@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -16,13 +15,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.chunk.ChunkGeneratorStructureState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.RandomState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 import java.util.List;
 
@@ -47,6 +44,11 @@ import java.util.List;
  * <p>Vanilla makes beaches out of a beach biome; here every inch of land
  * belongs to a region, so low ground near the landmask's coast is turned to
  * sand after the surface rule has run.
+ *
+ * <p>Structures are vanilla's business. Vanilla only places a structure where
+ * the biome source can produce one of its biomes, and none of vanilla's own
+ * name a Middle-earth biome, so the only structure here is the mod's own hobbit
+ * hole.
  */
 public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
     public static final MapCodec<MiddleEarthChunkGenerator> CODEC = RecordCodecBuilder.mapCodec(
@@ -76,12 +78,6 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
     @Override
     protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
-    }
-
-    @Override
-    public void createStructures(RegistryAccess registryAccess, ChunkGeneratorStructureState state,
-            StructureManager structureManager, ChunkAccess chunk, StructureTemplateManager templateManager) {
-        // This dimension generates landscape only — no structures.
     }
 
     @Override

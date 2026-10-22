@@ -6,8 +6,9 @@ Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one bio
 per region** (the Shire is the one exception, split into rings; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen and shire pine from the original mod, whose logs craft into birch and spruce
-planks — there are no blocks, items, entities or structures: this is landscape
-generation and nothing else.
+planks — the one addition is the Shire's **hobbit holes**, with the blocks they
+are built from and the hobbits who live in them (see below). Otherwise this is
+landscape generation and nothing else.
 
 ## Getting there
 
@@ -146,6 +147,29 @@ under `worldgen/feature`), with the original textures; large aspens have a 2×2
 trunk. The mixes are the `random_selector` configured features `trees_shire`,
 `trees_shire_woods`, `trees_aspen_stand` and `trees_shire_woodlands`. The Shire's
 bright grass colour is the original's.
+
+### Hobbit holes
+
+`lotrmod:hobbit_hole` is a port of the original's `LOTRWorldGenHobbitHole`. It
+generates only in the heart of the Shire (`lotrmod:the_shire`, through the
+`#lotrmod:has_structure/hobbit_hole` biome tag), since the original built hobbit
+holes in the Shire biome itself and not its woodlands, moors or marshes. The
+`hobbit_holes` structure set tries about once per 81 chunks (the original tried
+once per 90). A hole needs dry ground within 16 blocks of its centre that varies
+in height by no more than 8 blocks.
+
+`HobbitHolePiece` follows the original line for line: a grassy mound with a
+chimney, a fenced front garden, a round two-by-two hobbit-gate door under a
+porch of green clay tiles, a hall, a study, a bedroom, a sitting room, a dining
+room, a kitchen and a larder. It is built a chunk at a time from one seed, so
+every chunk rolls the same materials. A married couple of hobbits, named from the
+original's name lists (`data/lotrmod/names/`), live in each hole and stay
+within 24 blocks of it.
+
+Blocks ported for it: the four hobbit gates, oak wood beam, green clay tiling
+slab, bronze, iron, silver and gold chandeliers, hobbit oven and hobbit crafting
+table. The original's own woods are swapped for the nearest vanilla planks.
+Plates and mugs of food, the wall banner and the hobbits' rings are left out.
 
 ## Editing the maps
 
