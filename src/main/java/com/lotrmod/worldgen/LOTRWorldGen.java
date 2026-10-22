@@ -3,9 +3,12 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.FallenLogFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
+import com.lotrmod.worldgen.structure.FangornTreePiece;
+import com.lotrmod.worldgen.structure.FangornTreeStructure;
 import com.lotrmod.worldgen.structure.HobbitHolePiece;
 import com.lotrmod.worldgen.structure.HobbitHoleStructure;
 import com.mojang.serialization.MapCodec;
@@ -73,6 +76,17 @@ public class LOTRWorldGen {
     // Vanilla 26.3's poplar, for Lindon's woods
     public static final DeferredHolder<Feature<?>, PoplarFeature> POPLAR =
             FEATURES.register("poplar", () -> new PoplarFeature(PoplarFeature.Config.CODEC));
+
+    // Fangorn's fallen logs and stumps
+    public static final DeferredHolder<Feature<?>, FallenLogFeature> FALLEN_LOG =
+            FEATURES.register("fallen_log", () -> new FallenLogFeature(FallenLogFeature.Config.CODEC));
+
+    // Fangorn's giant trees, grown as structures so their crowns come out whole
+    public static final DeferredHolder<StructureType<?>, StructureType<FangornTreeStructure>> FANGORN_TREE =
+            STRUCTURE_TYPES.register("fangorn_tree", () -> () -> FangornTreeStructure.CODEC);
+    public static final DeferredHolder<StructurePieceType, StructurePieceType> FANGORN_TREE_PIECE =
+            STRUCTURE_PIECES.register("fangorn_tree",
+                    () -> (StructurePieceType.ContextlessType) FangornTreePiece::new);
 
     // The Shire's hobbit holes, ported from the original mod's
     public static final DeferredHolder<StructureType<?>, StructureType<HobbitHoleStructure>> HOBBIT_HOLE =

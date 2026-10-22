@@ -2,12 +2,14 @@ package com.lotrmod.block;
 
 import com.lotrmod.LOTRMod;
 import com.lotrmod.entity.ModEntities;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -71,6 +73,27 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> RED_POPLAR_LEAVES = BLOCKS.register("red_poplar_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_LEAVES)));
 
+    // Fangorn's, from the original mod: beech wood, bark on every side, for the
+    // boughs of the giant beeches; the rotten logs lying on the forest floor;
+    // the Ents' earthen jars; and the six colours of Fangorn plant.
+    public static final DeferredBlock<RotatedPillarBlock> BEECH_WOOD = BLOCKS.register("beech_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD)));
+    public static final DeferredBlock<RotatedPillarBlock> ROTTEN_LOG = BLOCKS.register("rotten_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_LOG).strength(1.0f)));
+    public static final DeferredBlock<EntJarBlock> ENT_JAR = BLOCKS.register("ent_jar",
+            () -> new EntJarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.TERRACOTTA_BROWN)
+                    .strength(1.0f)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()
+                    .pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_GREEN = registerFangornPlant("fangorn_plant_green");
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_BROWN = registerFangornPlant("fangorn_plant_brown");
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_GOLD = registerFangornPlant("fangorn_plant_gold");
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_YELLOW = registerFangornPlant("fangorn_plant_yellow");
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_RED = registerFangornPlant("fangorn_plant_red");
+    public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_SILVER = registerFangornPlant("fangorn_plant_silver");
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -81,6 +104,15 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> CHESTNUT_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(CHESTNUT_LEAVES);
     public static final DeferredItem<BlockItem> POPLAR_LOG_ITEM = ITEMS.registerSimpleBlockItem(POPLAR_LOG);
     public static final DeferredItem<BlockItem> RED_POPLAR_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(RED_POPLAR_LEAVES);
+    public static final DeferredItem<BlockItem> BEECH_WOOD_ITEM = ITEMS.registerSimpleBlockItem(BEECH_WOOD);
+    public static final DeferredItem<BlockItem> ROTTEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ROTTEN_LOG);
+    public static final DeferredItem<BlockItem> ENT_JAR_ITEM = ITEMS.registerSimpleBlockItem(ENT_JAR);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_GREEN_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_GREEN);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_BROWN_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_BROWN);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_GOLD_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_GOLD);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_YELLOW_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_YELLOW);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_RED_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_RED);
+    public static final DeferredItem<BlockItem> FANGORN_PLANT_SILVER_ITEM = ITEMS.registerSimpleBlockItem(FANGORN_PLANT_SILVER);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -141,6 +173,11 @@ public final class ModBlocks {
                 .noOcclusion()));
     }
 
+    private static DeferredBlock<FlowerBlock> registerFangornPlant(String name) {
+        return BLOCKS.register(name, () -> new FlowerBlock(MobEffects.REGENERATION, 8.0f,
+                BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
+    }
+
     private static DeferredBlock<ChandelierBlock> registerChandelier(String name) {
         return BLOCKS.register(name, () -> new ChandelierBlock(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.METAL)
@@ -172,6 +209,14 @@ public final class ModBlocks {
             event.accept(CHESTNUT_LEAVES_ITEM);
             event.accept(POPLAR_LOG_ITEM);
             event.accept(RED_POPLAR_LEAVES_ITEM);
+            event.accept(BEECH_WOOD_ITEM);
+            event.accept(ROTTEN_LOG_ITEM);
+            event.accept(FANGORN_PLANT_GREEN_ITEM);
+            event.accept(FANGORN_PLANT_BROWN_ITEM);
+            event.accept(FANGORN_PLANT_GOLD_ITEM);
+            event.accept(FANGORN_PLANT_YELLOW_ITEM);
+            event.accept(FANGORN_PLANT_RED_ITEM);
+            event.accept(FANGORN_PLANT_SILVER_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);
@@ -186,6 +231,7 @@ public final class ModBlocks {
             event.accept(CHANDELIER_GOLD_ITEM);
             event.accept(HOBBIT_OVEN_ITEM);
             event.accept(HOBBIT_TABLE_ITEM);
+            event.accept(ENT_JAR_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(HOBBIT_SPAWN_EGG);
         }

@@ -1,14 +1,14 @@
 {
   "has_precipitation": true,
   "temperature": 0.7,
-  "downfall": 0.9,
+  "downfall": 0.8,
   "effects": {
-    "sky_color": 7972607,
-    "fog_color": 12638463,
+    "sky_color": 8623745,
+    "fog_color": 4218962,
     "water_color": 4159204,
     "water_fog_color": 329011,
-    "grass_color": 6975545,
-    "foliage_color": 4215066,
+    "grass_color": 8100461,
+    "foliage_color": 6259533,
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,
@@ -32,7 +32,7 @@
     ["minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"],
     ["minecraft:amethyst_geode"],
     [],
-    ["minecraft:trees_flower_forest","minecraft:patch_grass_forest","minecraft:patch_tall_grass","minecraft:patch_large_fern","minecraft:forest_flowers","minecraft:brown_mushroom_normal","minecraft:red_mushroom_normal"],
+    ["lotrmod:trees_fangorn","lotrmod:fangorn_logs","lotrmod:fangorn_bushes","minecraft:patch_grass_taiga","minecraft:patch_tall_grass","minecraft:patch_large_fern","minecraft:forest_flowers","minecraft:flower_default","lotrmod:fangorn_plants","minecraft:brown_mushroom_normal","minecraft:red_mushroom_normal","lotrmod:ent_jars"],
     []
   ]
 }

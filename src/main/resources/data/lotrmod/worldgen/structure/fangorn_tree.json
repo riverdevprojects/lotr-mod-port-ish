@@ -1,0 +1,7 @@
+{
+  "type": "lotrmod:fangorn_tree",
+  "biomes": "#lotrmod:has_structure/fangorn_tree",
+  "step": "surface_structures",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

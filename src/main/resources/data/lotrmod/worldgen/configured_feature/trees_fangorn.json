@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:fangorn_dark_oak_checked",
+        "chance": 0.3509
+      },
+      {
+        "feature": "lotrmod:fangorn_fancy_oak_checked",
+        "chance": 0.1622
+      },
+      {
+        "feature": "lotrmod:fangorn_birch_checked",
+        "chance": 0.0806
+      }
+    ],
+    "default": "lotrmod:fangorn_oak_checked"
+  }
+}

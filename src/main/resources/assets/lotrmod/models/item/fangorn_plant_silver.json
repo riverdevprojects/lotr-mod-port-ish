@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lotrmod:block/fangorn_plant_silver"
+  }
+}
