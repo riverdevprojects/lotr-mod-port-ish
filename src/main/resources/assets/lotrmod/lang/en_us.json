@@ -3,5 +3,21 @@
   "block.lotrmod.aspen_log": "Aspen Log",
   "block.lotrmod.aspen_leaves": "Aspen Leaves",
   "block.lotrmod.shire_pine_log": "Shire Pine Log",
-  "block.lotrmod.shire_pine_leaves": "Shire Pine Leaves"
+  "block.lotrmod.shire_pine_leaves": "Shire Pine Leaves",
+  "block.lotrmod.gate_hobbit_green": "Green Hobbit Gate",
+  "block.lotrmod.gate_hobbit_blue": "Blue Hobbit Gate",
+  "block.lotrmod.gate_hobbit_red": "Red Hobbit Gate",
+  "block.lotrmod.gate_hobbit_yellow": "Yellow Hobbit Gate",
+  "block.lotrmod.wood_beam_oak": "Oak Wood Beam",
+  "block.lotrmod.clay_tile_green_slab": "Green Clay Tiling Slab",
+  "block.lotrmod.chandelier_bronze": "Bronze Chandelier",
+  "block.lotrmod.chandelier_iron": "Iron Chandelier",
+  "block.lotrmod.chandelier_silver": "Silver Chandelier",
+  "block.lotrmod.chandelier_gold": "Gold Chandelier",
+  "block.lotrmod.hobbit_oven": "Hobbit Oven",
+  "block.lotrmod.hobbit_table": "Hobbit Crafting Table",
+  "container.lotrmod.hobbit_oven": "Hobbit Oven",
+  "container.lotrmod.hobbit_table": "Hobbit Crafting Table",
+  "entity.lotrmod.hobbit": "Hobbit",
+  "item.lotrmod.hobbit_spawn_egg": "Hobbit Spawn Egg"
 }

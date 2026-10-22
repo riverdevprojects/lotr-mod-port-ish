@@ -3,6 +3,8 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
+import com.lotrmod.worldgen.structure.HobbitHolePiece;
+import com.lotrmod.worldgen.structure.HobbitHoleStructure;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.BiomeSource;
@@ -10,6 +12,8 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -30,6 +34,12 @@ public class LOTRWorldGen {
 
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(Registries.FEATURE, LOTRMod.MODID);
+
+    public static final DeferredRegister<StructureType<?>> STRUCTURE_TYPES =
+            DeferredRegister.create(Registries.STRUCTURE_TYPE, LOTRMod.MODID);
+
+    public static final DeferredRegister<StructurePieceType> STRUCTURE_PIECES =
+            DeferredRegister.create(Registries.STRUCTURE_PIECE, LOTRMod.MODID);
 
     // Register our custom chunk generator
     public static final DeferredHolder<MapCodec<? extends ChunkGenerator>, MapCodec<MiddleEarthChunkGenerator>> MIDDLEEARTH_CHUNK_GENERATOR =
@@ -53,11 +63,20 @@ public class LOTRWorldGen {
     public static final DeferredHolder<Feature<?>, ShirePineFeature> SHIRE_PINE =
             FEATURES.register("shire_pine", () -> new ShirePineFeature(NoneFeatureConfiguration.CODEC));
 
+    // The Shire's hobbit holes, ported from the original mod's
+    public static final DeferredHolder<StructureType<?>, StructureType<HobbitHoleStructure>> HOBBIT_HOLE =
+            STRUCTURE_TYPES.register("hobbit_hole", () -> () -> HobbitHoleStructure.CODEC);
+    public static final DeferredHolder<StructurePieceType, StructurePieceType> HOBBIT_HOLE_PIECE =
+            STRUCTURE_PIECES.register("hobbit_hole",
+                    () -> (StructurePieceType.ContextlessType) HobbitHolePiece::new);
+
     public static void register(IEventBus modEventBus) {
         CHUNK_GENERATORS.register(modEventBus);
         BIOME_SOURCES.register(modEventBus);
         DENSITY_FUNCTION_TYPES.register(modEventBus);
         FEATURES.register(modEventBus);
+        STRUCTURE_TYPES.register(modEventBus);
+        STRUCTURE_PIECES.register(modEventBus);
 
         LOTRMod.LOGGER.info("Registered LOTR world generation components");
     }

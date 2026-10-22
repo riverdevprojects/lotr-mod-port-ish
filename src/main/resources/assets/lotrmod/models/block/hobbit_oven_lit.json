@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "lotrmod:block/hobbit_oven_top",
+    "bottom": "lotrmod:block/hobbit_oven_top",
+    "side": "lotrmod:block/hobbit_oven_side",
+    "front": "lotrmod:block/hobbit_oven_front_lit"
+  }
+}

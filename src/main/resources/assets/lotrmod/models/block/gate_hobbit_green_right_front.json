@@ -1,0 +1,33 @@
+{
+  "render_type": "minecraft:cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "lotrmod:block/gate_hobbit_green_base",
+    "tile": "lotrmod:block/gate_hobbit_green_right"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        5.9
+      ],
+      "to": [
+        16,
+        16,
+        5.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#tile"
+        }
+      }
+    }
+  ]
+}

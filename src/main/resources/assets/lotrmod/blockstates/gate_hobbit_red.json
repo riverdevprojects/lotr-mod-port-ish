@@ -1,0 +1,1153 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_edges"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_front"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_back"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_edges",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_front",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_back",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_edges",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_front",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_back",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_edges",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "open": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_base_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_left_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_right_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false",
+        "right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "false",
+        "left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_left_inv_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "true",
+        "right": "true",
+        "up_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "up": "true",
+        "left": "true",
+        "up_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_top_right_inv_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_left_inv_back",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "true",
+        "right": "true",
+        "down_right": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_front",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "down": "true",
+        "left": "true",
+        "down_left": "false"
+      },
+      "apply": {
+        "model": "lotrmod:block/gate_hobbit_red_bottom_right_inv_back",
+        "y": 270
+      }
+    }
+  ]
+}

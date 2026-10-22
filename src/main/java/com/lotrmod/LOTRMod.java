@@ -1,7 +1,10 @@
 package com.lotrmod;
 
+import com.lotrmod.block.ModBlockEntities;
 import com.lotrmod.block.ModBlocks;
+import com.lotrmod.block.ModMenus;
 import com.lotrmod.command.MiddleEarthCommand;
+import com.lotrmod.entity.ModEntities;
 import com.lotrmod.worldgen.LOTRWorldGen;
 import com.lotrmod.worldgen.LandmaskLoader;
 import com.lotrmod.worldgen.MiddleEarthClimate;
@@ -25,9 +28,11 @@ import org.slf4j.Logger;
  * landmask PNG, whose biomes come from a region map PNG, one biome per region, and
  * whose rivers come from a river map PNG.
  *
- * <p>Beyond worldgen, the only thing registered is the plants the landscape
- * needs that vanilla lacks (the cattail). No entities or structures. To visit
- * the dimension, use {@code /middleearth}.
+ * <p>Beyond the landscape, the one structure is the Shire's hobbit holes,
+ * ported from the original mod, with the blocks they are built from and the
+ * hobbits who live in them. Otherwise the only blocks are the plants the
+ * landscape needs that vanilla lacks. To visit the dimension, use
+ * {@code /middleearth}.
  */
 @Mod(LOTRMod.MODID)
 public class LOTRMod {
@@ -35,10 +40,14 @@ public class LOTRMod {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public LOTRMod(IEventBus modEventBus, ModContainer modContainer) {
-        // The chunk generator, biome source and density function codecs, and
-        // the marsh plants
+        // The chunk generator, biome source and density function codecs, the
+        // trees and the hobbit holes
         LOTRWorldGen.register(modEventBus);
+        // The plants, and what hobbit holes are built from and lived in by
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenus.register(modEventBus);
+        ModEntities.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 
