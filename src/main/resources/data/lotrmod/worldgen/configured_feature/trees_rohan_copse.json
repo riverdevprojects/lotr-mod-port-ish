@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:birch_checked",
+        "chance": 0.25
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.12
+      },
+      {
+        "feature": "lotrmod:rohan_bush_checked",
+        "chance": 0.1
+      }
+    ],
+    "default": "minecraft:oak_checked"
+  }
+}

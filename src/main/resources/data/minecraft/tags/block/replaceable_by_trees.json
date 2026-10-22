@@ -1,3 +1,8 @@
 {
-  "values": ["lotrmod:cattail"]
+  "values": [
+    "lotrmod:cattail",
+    "lotrmod:dry_grass",
+    "lotrmod:tall_dry_grass",
+    "lotrmod:wild_oats"
+  ]
 }

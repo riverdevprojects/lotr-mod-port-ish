@@ -9,6 +9,7 @@ import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
@@ -94,6 +95,17 @@ public final class ModBlocks {
     public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_RED = registerFangornPlant("fangorn_plant_red");
     public static final DeferredBlock<FlowerBlock> FANGORN_PLANT_SILVER = registerFangornPlant("fangorn_plant_silver");
 
+    // Rohan's grasses, sun-dried to straw: a short tuft, a two-tall grass gone
+    // to seed, and wild oats. Coloured in the texture, not by the biome, so
+    // they stay gold among the greener grass of the swales.
+    public static final DeferredBlock<DryGrassBlock> DRY_GRASS = BLOCKS.register("dry_grass",
+            () -> new DryGrassBlock(dryGrassProperties()));
+    public static final DeferredBlock<DoublePlantBlock> TALL_DRY_GRASS = BLOCKS.register("tall_dry_grass",
+            () -> new DoublePlantBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS)
+                    .mapColor(MapColor.TERRACOTTA_YELLOW)));
+    public static final DeferredBlock<DryGrassBlock> WILD_OATS = BLOCKS.register("wild_oats",
+            () -> new DryGrassBlock(dryGrassProperties()));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -148,6 +160,11 @@ public final class ModBlocks {
     public static final DeferredBlock<HobbitTableBlock> HOBBIT_TABLE = BLOCKS.register("hobbit_table",
             () -> new HobbitTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CRAFTING_TABLE)));
 
+    public static final DeferredItem<BlockItem> DRY_GRASS_ITEM = ITEMS.registerSimpleBlockItem(DRY_GRASS);
+    public static final DeferredItem<DoubleHighBlockItem> TALL_DRY_GRASS_ITEM = ITEMS.register("tall_dry_grass",
+            () -> new DoubleHighBlockItem(TALL_DRY_GRASS.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> WILD_OATS_ITEM = ITEMS.registerSimpleBlockItem(WILD_OATS);
+
     public static final DeferredItem<BlockItem> GATE_HOBBIT_GREEN_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_GREEN);
     public static final DeferredItem<BlockItem> GATE_HOBBIT_BLUE_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_BLUE);
     public static final DeferredItem<BlockItem> GATE_HOBBIT_RED_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_RED);
@@ -171,6 +188,10 @@ public final class ModBlocks {
                 .sound(SoundType.WOOD)
                 .ignitedByLava()
                 .noOcclusion()));
+    }
+
+    private static BlockBehaviour.Properties dryGrassProperties() {
+        return BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS).mapColor(MapColor.TERRACOTTA_YELLOW);
     }
 
     private static DeferredBlock<FlowerBlock> registerFangornPlant(String name) {
@@ -217,6 +238,9 @@ public final class ModBlocks {
             event.accept(FANGORN_PLANT_YELLOW_ITEM);
             event.accept(FANGORN_PLANT_RED_ITEM);
             event.accept(FANGORN_PLANT_SILVER_ITEM);
+            event.accept(DRY_GRASS_ITEM);
+            event.accept(TALL_DRY_GRASS_ITEM);
+            event.accept(WILD_OATS_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);

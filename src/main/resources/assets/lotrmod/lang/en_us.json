@@ -34,5 +34,8 @@
   "block.lotrmod.fangorn_plant_gold": "Gold Fangorn Plant",
   "block.lotrmod.fangorn_plant_yellow": "Yellow Fangorn Plant",
   "block.lotrmod.fangorn_plant_red": "Red Fangorn Plant",
-  "block.lotrmod.fangorn_plant_silver": "Silver Fangorn Plant"
+  "block.lotrmod.fangorn_plant_silver": "Silver Fangorn Plant",
+  "block.lotrmod.dry_grass": "Dry Grass",
+  "block.lotrmod.tall_dry_grass": "Tall Dry Grass",
+  "block.lotrmod.wild_oats": "Wild Oats"
 }

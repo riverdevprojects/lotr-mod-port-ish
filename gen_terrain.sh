@@ -20,6 +20,10 @@
 # sloped_cheese, the terrain before caves are carved, and
 # initial_density_without_jaggedness, which vanilla finds the surface from.
 #
+# Near the surface, vanilla's terrain is the lesser of the ground and five
+# times its cave entrance noise. That noise is wrapped in lotrmod:cave_entrances,
+# which raises it inside Rohan so few tunnels break out through its plains.
+#
 # The noise settings get the same treatment: vanilla's overworld settings and
 # noise router, renamed, followed by the surface rule already at the end of
 # noise_settings/middleearth.json, which is ours and is kept as it is.
@@ -62,7 +66,8 @@ NS="$DATA/noise_settings/middleearth.json"
     sed -E '/^    "initial_density_without_jaggedness": \{$/,/^    \},$/ {
       s/^(    "initial_density_without_jaggedness": )\{$/\1{"type": "lotrmod:terrain_blend", "argument": {/
       s/^    \},$/    }},/
-    }'
+    }' |
+    perl -0pe 's#("argument1": 5\.0,\n\s*"argument2": )"minecraft:overworld/caves/entrances"#$1\{"type": "lotrmod:cave_entrances", "argument": "minecraft:overworld/caves/entrances"\}#'
   sed -n '/"surface_rule"/,$p' "$NS"
 } > "$NS.tmp"
 mv "$NS.tmp" "$NS"
