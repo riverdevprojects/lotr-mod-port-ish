@@ -1,0 +1,17 @@
+{
+  "type": "lotrmod:dead_tree",
+  "config": {
+    "log": {
+      "Name": "minecraft:oak_log",
+      "Properties": {
+        "axis": "y"
+      }
+    },
+    "wood": {
+      "Name": "minecraft:oak_wood",
+      "Properties": {
+        "axis": "y"
+      }
+    }
+  }
+}

@@ -19,6 +19,8 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *       {@link MiddleEarthClimate#shireWeight}.</li>
  *   <li><b>Rohan</b> fades over to {@link RohanTerrain}'s rolling grassland,
  *       by {@link MiddleEarthClimate#rohanWeight}.</li>
+ *   <li><b>The Dead Lands</b> fade over to {@link DeadLandsTerrain}'s low,
+ *       ledged ground, by {@link MiddleEarthClimate#deadLandsWeight}.</li>
  *   <li><b>Rivers</b> from {@link RiverMap} cut their channel and valley
  *       ({@link RiverTerrain}). They only ever lower the ground.</li>
  * </ul>
@@ -67,6 +69,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
             double rohan = (column.rohanHeight - y) / BLOCKS_PER_UNIT;
             density += (rohan - density) * column.rohanWeight;
         }
+        if (column.deadLandsWeight > 0.0) {
+            double deadLands = (column.deadLandsHeight - y) / BLOCKS_PER_UNIT;
+            density += (deadLands - density) * column.deadLandsWeight;
+        }
         if (column.riverWeight > 0.0) {
             double river = (column.riverHeight - y) / BLOCKS_PER_UNIT;
             density = Math.min(density, density + (river - density) * column.riverWeight);
@@ -111,6 +117,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double shireHeight;
         private double rohanWeight;
         private double rohanHeight;
+        private double deadLandsWeight;
+        private double deadLandsHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -127,6 +135,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 shireHeight = shireWeight > 0.0 ? ShireTerrain.height(x, z) : 0.0;
                 rohanWeight = MiddleEarthClimate.rohanWeight(x, z);
                 rohanHeight = rohanWeight > 0.0 ? RohanTerrain.height(x, z) : 0.0;
+                deadLandsWeight = MiddleEarthClimate.deadLandsWeight(x, z);
+                deadLandsHeight = deadLandsWeight > 0.0 ? DeadLandsTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;

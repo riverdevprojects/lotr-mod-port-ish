@@ -3,6 +3,7 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
 import com.lotrmod.worldgen.feature.MirkOakFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
@@ -10,6 +11,7 @@ import com.lotrmod.worldgen.feature.PineFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
 import com.lotrmod.worldgen.feature.RohanMoistureFilter;
 import com.lotrmod.worldgen.feature.ShirePineFeature;
+import com.lotrmod.worldgen.feature.StoneRuinFeature;
 import com.lotrmod.worldgen.structure.FangornTreePiece;
 import com.lotrmod.worldgen.structure.FangornTreeStructure;
 import com.lotrmod.worldgen.structure.HobbitHolePiece;
@@ -97,6 +99,12 @@ public class LOTRWorldGen {
             FEATURES.register("mirk_oak", () -> new MirkOakFeature(MirkOakFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, PineFeature> PINE =
             FEATURES.register("pine", () -> new PineFeature(NoneFeatureConfiguration.CODEC));
+
+    // The Dead Lands' dead oaks and stone ruins, ported from the original mod's Brown Lands
+    public static final DeferredHolder<Feature<?>, DeadTreeFeature> DEAD_TREE =
+            FEATURES.register("dead_tree", () -> new DeadTreeFeature(DeadTreeFeature.Config.CODEC));
+    public static final DeferredHolder<Feature<?>, StoneRuinFeature> STONE_RUIN =
+            FEATURES.register("stone_ruin", () -> new StoneRuinFeature(StoneRuinFeature.Config.CODEC));
 
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =
