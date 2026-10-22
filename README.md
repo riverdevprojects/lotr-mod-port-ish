@@ -213,6 +213,53 @@ Birch leaves use the original mod's olive texture, untinted as the original drew
 them (`assets/minecraft/models/block/birch_leaves.json`). That changes birch
 leaves everywhere, as the original did.
 
+### Fangorn
+
+Fangorn (`lotrmod:fangorn_forest`) follows the original's `LOTRBiomeGenFangorn`:
+a dark, close forest of tall trees under the crowns of giant ones, in a green
+haze. Grass and leaves are vanilla's colours for the original's climate (0.7
+and 0.8); the sky and fog are the original's.
+
+- **Giant trees** (`lotrmod:fangorn_tree`): a port of the original's
+  `LOTRWorldGenFangornTrees` (`FangornTree`): a leaning trunk up to 40 blocks
+  tall and 17 across at the foot, with boughs spreading all round its top whose
+  side branches end in balls of leaves hung with vines. Oak five times in
+  seven, golden beech otherwise, as the original's weights. The crown reaches
+  some 45 blocks from the trunk, further than a feature may write, so the
+  giants are a structure (`FangornTreeStructure`, `FangornTreePiece`), laid out
+  from one seed and written a chunk at a time. The `fangorn_trees` structure set
+  puts about one in every sixteen chunks: the original rolled them far more
+  often, but they failed wherever another tree's crown already stood.
+- **Trees** (`trees_fangorn`): eleven a chunk, by the original's weights. Mostly
+  its dark oak (vanilla's oak shape on a two-by-two dark oak trunk,
+  `dark_oak_tall`) and its tall and taller oaks (`oak_tall`, `oak_taller`, the
+  same on trunks of 8–13 and 12–19 blocks), then oak, large oak, aspen, birch
+  and beech. They are placed on `MOTION_BLOCKING_NO_LEAVES`, so they grow under
+  the giants' crowns.
+- **Fallen logs** (`fangorn_logs`): a port of the original's `LOTRWorldGenLogs`
+  (`FallenLogFeature`), five a chunk, in the original's rotten log
+  (`lotrmod:rotten_log`): two in five lie on the ground, two to seven blocks
+  long; the rest stand as stumps.
+- **Bushes** (`fangorn_bushes`): a leaf or a ragged three-by-three of them,
+  as the original's `LOTRWorldGenBushes`.
+- **Fangorn plants** (`fangorn_plants`): the original's six colours, green,
+  brown, gold, yellow, red and silver, a patch of one colour in every other
+  chunk, among vanilla's forest flowers.
+- **Ent jars** (`ent_jars`): the original's `LOTRWorldGenEntJars`, a few
+  earthen jars (`lotrmod:ent_jar`) on the grass, one chunk in ten. Only the jar
+  is ported, not the draughts kept in it.
+- **Forest floor**: about half the ground is patched with podzol, coarse dirt
+  and the odd bit of gravel, in the original's proportions for its
+  `enablePodzol`. These are the `lotrmod:fangorn_forest` rules in the surface
+  rule, on the `lotrmod:lindon_podzol` noises.
+- **Fog** (`client/FangornFog`): the original marked Fangorn foggy and drew it
+  with vanilla's Nether fog, from a twentieth of the view distance out to half
+  of it. Biome JSON can't, so the fog distance is set from the client, fading
+  over two seconds on the way in and out.
+
+The original's willows (which grow only near water), fallen leaves, Ents and
+Huorns are left out.
+
 ### Hobbit holes
 
 `lotrmod:hobbit_hole` is a port of the original's `LOTRWorldGenHobbitHole`. It

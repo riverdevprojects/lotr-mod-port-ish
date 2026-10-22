@@ -25,5 +25,14 @@
   "container.lotrmod.hobbit_oven": "Hobbit Oven",
   "container.lotrmod.hobbit_table": "Hobbit Crafting Table",
   "entity.lotrmod.hobbit": "Hobbit",
-  "item.lotrmod.hobbit_spawn_egg": "Hobbit Spawn Egg"
+  "item.lotrmod.hobbit_spawn_egg": "Hobbit Spawn Egg",
+  "block.lotrmod.beech_wood": "Beech Wood",
+  "block.lotrmod.rotten_log": "Rotten Log",
+  "block.lotrmod.ent_jar": "Ent Jar",
+  "block.lotrmod.fangorn_plant_green": "Green Fangorn Plant",
+  "block.lotrmod.fangorn_plant_brown": "Brown Fangorn Plant",
+  "block.lotrmod.fangorn_plant_gold": "Gold Fangorn Plant",
+  "block.lotrmod.fangorn_plant_yellow": "Yellow Fangorn Plant",
+  "block.lotrmod.fangorn_plant_red": "Red Fangorn Plant",
+  "block.lotrmod.fangorn_plant_silver": "Silver Fangorn Plant"
 }

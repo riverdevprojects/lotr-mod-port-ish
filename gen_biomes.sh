@@ -31,15 +31,20 @@ mkdir -p "$OUT"
 # 26 lotrmod:trees_lindon_aspen_copse           27 lotrmod:trees_lindon_beech_copse
 #  and its woods' red poplars (vanilla 26.3's, which 1.21.1 lacks):
 # 28 lotrmod:trees_lindon_poplar   29 lotrmod:trees_lindon_poplar_stand
-# 30 patch_grass_savanna 31 patch_grass_jungle  32 patch_grass_taiga
-# 33 patch_grass_taiga_2 34 patch_grass_forest  35 patch_grass_plain
-# 36 patch_grass_normal  37 patch_tall_grass    38 patch_large_fern
-# 39 flower_meadow       40 flower_plains       41 flower_flower_forest
-# 42 forest_flowers      43 flower_default      44 flower_swamp
-# 45 patch_berry_common  46 patch_pumpkin       47 patch_sugar_cane
-# 48 lotrmod:patch_cattail_marsh                49 lotrmod:patch_cattail
-# 50 patch_melon         51 patch_waterlily     52 brown_mushroom_normal
-# 53 red_mushroom_normal 54 seagrass_normal     55 kelp_cold
+#  Fangorn's (its giant oaks and beeches are a structure, lotrmod:fangorn_tree):
+# 30 lotrmod:trees_fangorn         31 lotrmod:fangorn_logs
+# 32 lotrmod:fangorn_bushes
+# 33 patch_grass_savanna 34 patch_grass_jungle  35 patch_grass_taiga
+# 36 patch_grass_taiga_2 37 patch_grass_forest  38 patch_grass_plain
+# 39 patch_grass_normal  40 patch_tall_grass    41 patch_large_fern
+# 42 flower_meadow       43 flower_plains       44 flower_flower_forest
+# 45 forest_flowers      46 flower_default      47 flower_swamp
+# 48 lotrmod:fangorn_plants
+# 49 patch_berry_common  50 patch_pumpkin       51 patch_sugar_cane
+# 52 lotrmod:patch_cattail_marsh                53 lotrmod:patch_cattail
+# 54 patch_melon         55 patch_waterlily     56 brown_mushroom_normal
+# 57 red_mushroom_normal 58 lotrmod:ent_jars    59 seagrass_normal
+# 60 kelp_cold
 #
 # Only Eriador has anything in local_modifications (lotrmod:eriador_boulders),
 # so that step has no order to keep.
@@ -185,6 +190,10 @@ P_OCEAN="8103167 12638463 4159204 329011 9470285 7842607"
 # colour for the original's climate (0.8, 0.9)
 P_SHIRE="7907327 12638463 4159204 329011 8111137 4568097"
 P_SHIRE_WOOD="7907327 12638463 4159204 329011 6997070 4568097"
+# Fangorn's grass and leaves are vanilla's colours for the original's climate
+# (0.7, 0.8). Its sky is the original's, and its fog the original's tint
+# (which multiplied vanilla's daytime fog) worked out: a deep green haze
+P_FANGORN="7774322 2451787 4159204 329011 7979098 5877296"
 # Eriador's is vanilla's colour for the original's climate (0.9, 0.8)
 P_ERIADOR="7907327 12638463 4159204 329011 6932037 4502806"
 # So is Lindon's (0.9, 0.9). Its woodlands' grass is vanilla's for (0.9, 1.0)
@@ -211,7 +220,7 @@ biome iron_hills               0.4 0.4 true $P_MOUNT  cold   "$(V patch_grass_no
 biome rohan                    0.8 0.4 true $P_STEPPE temp   "$(V trees_savanna patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome mordor                   1.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome rhun                     0.9 0.3 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
-biome fangorn_forest           0.7 0.9 true $P_DARK   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern forest_flowers brown_mushroom_normal red_mushroom_normal)" ""
+biome fangorn_forest           0.7 0.8 true $P_FANGORN forest "$(V lotrmod:trees_fangorn lotrmod:fangorn_logs lotrmod:fangorn_bushes patch_grass_taiga patch_tall_grass patch_large_fern forest_flowers flower_default lotrmod:fangorn_plants brown_mushroom_normal red_mushroom_normal lotrmod:ent_jars)" ""
 biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_large_fern flower_swamp patch_sugar_cane lotrmod:patch_cattail_marsh patch_waterlily brown_mushroom_normal red_mushroom_normal)" ""
 biome dead_lands               0.6 0.1 false $P_BARREN barren "$(V patch_dead_bush)" ""
