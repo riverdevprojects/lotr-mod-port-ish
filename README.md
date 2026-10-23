@@ -10,7 +10,7 @@ into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
 pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock, Rivendell's red and orange
 maple, whose logs craft into oak planks, and Lothlórien's mallorn, ivy, fallen leaves, elanor
-and niphredil, drawn new for this mod — the one addition is the Shire's **hobbit holes**, with the blocks they
+and niphredil, drawn new for this mod but for the mallorn's bark, the original's — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -540,7 +540,8 @@ Misty Mountains in the east and out into Eriador in the west:
 ### Lothlórien
 
 Lothlórien, the Golden Wood, is not a port of the original's: it is made
-from scratch, every block, texture and tree, as three landscapes, each its
+from scratch, every block, texture and tree but the bark, which is the
+original's mallorn, as three landscapes, each its
 own biome. `LothlorienTerrain.zone` lays them out from one broad noise
 saying how deep in the wood a place is, leaning deeper towards the middle
 of Lothlórien on the region map and shallower towards its edges, so the
@@ -573,9 +574,11 @@ oldest trees gather round its heart and the fields lie towards its borders:
   vanilla's azalea, olive green with gold through it, as its `leaves` and
   `sunlit_leaves` say.
 - **Blocks**, drawn in the manner of vanilla 1.21's: `lotrmod:mallorn_log`,
-  pale silver bark in vertical plates; `lotrmod:mallorn_wood`, bark on every
-  side, for boughs and roots (four logs make three); `lotrmod:mallorn_leaves`,
-  clusters of gold leaves lit from the top left, and
+  the original mod's mallorn (its textures: fine silver-white grain, rings
+  of pale gold on the ends); `lotrmod:mallorn_wood`, bark on every side, for
+  boughs and roots (four logs make three); `lotrmod:mallorn_leaves`,
+  clusters of gold leaves lit from the top left, about a quarter of the
+  texture left open between them as vanilla's leaves are, and
   `lotrmod:golden_mallorn_leaves`, brighter, over the tops of the crowns
   where the sun catches them; `lotrmod:mallorn_ivy`, a vine of olive and
   gold leaves; `lotrmod:fallen_mallorn_leaves`, a carpet of gold, amber and
