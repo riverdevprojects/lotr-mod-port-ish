@@ -541,10 +541,30 @@
                             ]
                           },
                           {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "lotrmod:gondor_rock"
-                            }
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "lotrmod:gondor_calcite",
+                                  "min_threshold": 0.35,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:calcite"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "lotrmod:gondor_rock"
+                                }
+                              }
+                            ]
                           }
                         ]
                       }
@@ -656,10 +676,30 @@
                             ]
                           },
                           {
-                            "type": "minecraft:block",
-                            "result_state": {
-                              "Name": "lotrmod:gondor_rock"
-                            }
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "lotrmod:gondor_calcite",
+                                  "min_threshold": 0.35,
+                                  "max_threshold": 1.7976931348623157e+308
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:calcite"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "lotrmod:gondor_rock"
+                                }
+                              }
+                            ]
                           }
                         ]
                       }
@@ -758,10 +798,30 @@
                       ]
                     },
                     {
-                      "type": "minecraft:block",
-                      "result_state": {
-                        "Name": "lotrmod:gondor_rock"
-                      }
+                      "type": "minecraft:sequence",
+                      "sequence": [
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:noise_threshold",
+                            "noise": "lotrmod:gondor_calcite",
+                            "min_threshold": 0.35,
+                            "max_threshold": 1.7976931348623157e+308
+                          },
+                          "then_run": {
+                            "type": "minecraft:block",
+                            "result_state": {
+                              "Name": "minecraft:calcite"
+                            }
+                          }
+                        },
+                        {
+                          "type": "minecraft:block",
+                          "result_state": {
+                            "Name": "lotrmod:gondor_rock"
+                          }
+                        }
+                      ]
                     }
                   ]
                 }

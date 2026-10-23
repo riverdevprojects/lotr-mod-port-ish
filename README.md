@@ -466,7 +466,7 @@ one saying how wooded the land is, in patches several hundred blocks across:
 | Landscape | Biome | Where | |
 | --- | --- | --- | --- |
 | Plains | `lotrmod:gondor` | open ground, few trees | Wide, low, gently rolling grassland in bright yellow-green, thick with grass, golden tufts and dandelions, a lone oak in about one chunk in eight and the odd bush |
-| Shrubland | `lotrmod:gondor_shrubland` | lightly wooded | Olive grass crowded with low bushes (`gondor_scrub`, eight a chunk, mostly the three-wide `gondor_shrub`), patches of round oaks where vanilla's biome noise peaks (`trees_gondor_patch`), bare earth and gravel showing through |
+| Shrubland | `lotrmod:gondor_shrubland` | lightly wooded | Olive grass crowded with low bushes (`gondor_scrub`, eight a chunk, mostly the three-wide `gondor_shrub`, with some of spruce and some of birch, `gondor_shrub_spruce` and `gondor_shrub_birch`), patches of round oaks where vanilla's biome noise peaks (`trees_gondor_patch`), bare earth and gravel showing through |
 | Forest | `lotrmod:gondor_forest` | well wooded | A mixed wood (`trees_gondor_forest`, nine a chunk) of oak (vanilla's, its large oak, and a long-trunked oak under a round crown, `gondor_tall_oak`), spruce and pine, aspen, birch and beech, small and large, each kept a little apart from the others as Fangorn's are (`gondor_forest_*`); moss and podzol on the floor, ferns and bushes |
 | Marble hills | `lotrmod:gondor_marble_hills` | the rockiest ground | Knolls and crags up to some 35 blocks high, broken into ledges, with grassy hollows between them (see below) |
 | Wetlands | `lotrmod:gondor_wetlands` | the wettest ground | Ground held about the waterline, so it breaks into shallow pools and grassy islands, filled with water as the Vale of Anduin's are; rather more water than land, cattails (thinner than the Vale's), sugar cane and the odd oak, muddy banks, pools floored with clay and sand |
@@ -476,7 +476,9 @@ one saying how wooded the land is, in patches several hundred blocks across:
   edge of their zone so the land doesn't step.
 - **Marble**: `lotrmod:gondor_rock`, the original's Gondor rock (its
   texture), white flecked with grey. In the marble hills everything near the
-  surface above y 70 is Gondor rock, so the crags stand bare and white, with
+  surface above y 70 is Gondor rock, with patches of calcite through it
+  (about a fifth, where the `lotrmod:gondor_calcite` noise is high), so the
+  crags stand bare and white, with
   grass only on level ledges where the `lotrmod:gondor_marble_grass` noise
   allows, scarcer above y 80 and y 92: the `lotrmod:gondor_marble_hills`
   rule at the head of the surface rule. Bushes and oaks grow on the grass.
