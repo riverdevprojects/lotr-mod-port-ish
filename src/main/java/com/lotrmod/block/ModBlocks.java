@@ -115,6 +115,15 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> PINE_LEAVES = BLOCKS.register("pine_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LEAVES)));
 
+    // Rivendell's autumn maple, from the original mod: grey bark under red
+    // leaves, and an orange-leaved one shifted from them. Untinted, like aspen.
+    public static final DeferredBlock<RotatedPillarBlock> MAPLE_LOG = BLOCKS.register("maple_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final DeferredBlock<LeavesBlock> MAPLE_LEAVES = BLOCKS.register("maple_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.COLOR_RED)));
+    public static final DeferredBlock<LeavesBlock> ORANGE_MAPLE_LEAVES = BLOCKS.register("orange_maple_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.COLOR_ORANGE)));
+
     // Rohan's grasses, sun-dried to straw: a short tuft, a two-tall grass gone
     // to seed, and wild oats. Coloured in the texture, not by the biome, so
     // they stay gold among the greener grass of the swales.
@@ -161,6 +170,9 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> MIRK_VINES_ITEM = ITEMS.registerSimpleBlockItem(MIRK_VINES);
     public static final DeferredItem<BlockItem> PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(PINE_LOG);
     public static final DeferredItem<BlockItem> PINE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(PINE_LEAVES);
+    public static final DeferredItem<BlockItem> MAPLE_LOG_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LOG);
+    public static final DeferredItem<BlockItem> MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LEAVES);
+    public static final DeferredItem<BlockItem> ORANGE_MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ORANGE_MAPLE_LEAVES);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -282,6 +294,9 @@ public final class ModBlocks {
             event.accept(MIRK_VINES_ITEM);
             event.accept(PINE_LOG_ITEM);
             event.accept(PINE_LEAVES_ITEM);
+            event.accept(MAPLE_LOG_ITEM);
+            event.accept(MAPLE_LEAVES_ITEM);
+            event.accept(ORANGE_MAPLE_LEAVES_ITEM);
             event.accept(DRY_GRASS_ITEM);
             event.accept(TALL_DRY_GRASS_ITEM);
             event.accept(WILD_OATS_ITEM);

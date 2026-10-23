@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:rivendell_maple_red",
+        "chance": 0.24
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_red_large",
+        "chance": 0.158
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_orange",
+        "chance": 0.281
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_orange_large",
+        "chance": 0.217
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_beech_large",
+        "chance": 0.278
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_spruce",
+        "chance": 0.231
+      }
+    ],
+    "default": "lotrmod:rivendell_maple_beech"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.2
+      }
+    ],
+    "default": "minecraft:cherry_checked"
+  }
+}

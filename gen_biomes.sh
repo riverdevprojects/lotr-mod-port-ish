@@ -3,7 +3,9 @@
 # (shire_outskirts, shire_woodlands; see ShireZones), Lindon's woods
 # (lindon_woodlands; see MiddleEarthBiomeSource), Gondor's four other landscapes
 # (gondor_forest, gondor_shrubland, gondor_marble_hills, gondor_wetlands; see
-# GondorTerrain), plus the ocean biome.
+# GondorTerrain), Rivendell's four (rivendell_birch_forest, rivendell_maple_forest,
+# rivendell_peaks, rivendell_cherry_grove; see RivendellTerrain), plus the ocean
+# biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -53,11 +55,18 @@ mkdir -p "$OUT"
 # 46g lotrmod:gondor_bushes         46h lotrmod:patch_gondor_grass
 # 46i lotrmod:patch_gondor_grass_light 46j lotrmod:patch_gondor_flowers
 # 46k lotrmod:patch_cattail_gondor
+#  Rivendell's (its five landscapes' trees, bushes and flowers):
+# 46l lotrmod:trees_rivendell_birch 46m lotrmod:trees_rivendell_maple
+# 46n lotrmod:trees_rivendell_plains 46o lotrmod:trees_rivendell_peaks
+# 46p lotrmod:trees_rivendell_cherry 46q lotrmod:rivendell_bushes
+# 46r lotrmod:rivendell_maple_bushes 46s lotrmod:patch_rivendell_flowers
+# 46t lotrmod:patch_rivendell_forest_flowers
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
 # 56 flower_meadow       57 flower_plains       58 flower_flower_forest
-# 59 forest_flowers      60 flower_default      61 flower_swamp
+# 59 forest_flowers      59a flower_cherry      60 flower_default
+# 61 flower_swamp
 # 62 lotrmod:fangorn_plants
 # 63 patch_berry_common  64 patch_pumpkin       65 patch_sugar_cane
 # 66 lotrmod:patch_cattail_marsh
@@ -67,12 +76,14 @@ mkdir -p "$OUT"
 # 72 lotrmod:ent_jars
 # 73 seagrass_normal     74 kelp_cold
 #
-# Only Eriador, Rohan, the Dead Lands and Gondor have anything in
+# Only Eriador, Rohan, the Dead Lands, Gondor and Rivendell have anything in
 # local_modifications, each its own boulders (lotrmod:eriador_boulders,
-# lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, and Gondor's marble ones,
+# lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, Gondor's marble ones,
 # always in the order gondor_boulders, gondor_boulders_dense,
-# gondor_boulders_large), so that step has no other order to keep. Likewise
-# surface_structures: only Harad's well and the Dead Lands' stone ruins.
+# gondor_boulders_large, and lotrmod:rivendell_boulders), so that step has no
+# other order to keep. Likewise surface_structures: only Harad's well and the
+# Dead Lands' stone ruins; and fluid_springs: only Rivendell's waterfalls,
+# lotrmod:rivendell_waterfalls or lotrmod:rivendell_waterfalls_peaks.
 #
 # Names without a namespace are minecraft's.
 #
@@ -85,7 +96,7 @@ mkdir -p "$OUT"
 ORES='"minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"'
 
 CARVERS='"minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"'
-# Rohan's and Gondor's ravines are a seventh as common as vanilla's, to leave their plains whole
+# Rohan's, Gondor's and Rivendell's ravines are a seventh as common as vanilla's, to leave their plains whole
 CARVERS_ROHAN='"minecraft:cave","minecraft:cave_extra_underground","lotrmod:canyon_rare"'
 
 mon() {
@@ -147,9 +158,9 @@ crt() {
   esac
 }
 
-# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv> [<underground-structures-csv> <surface-structures-csv> <local-modifications-csv>]
+# biome <name> <temp> <downfall> <precip> <sky> <fog> <water> <waterfog> <grass> <foliage> <spawnprofile> <veg-csv> <toplayer-csv> [<underground-structures-csv> <surface-structures-csv> <local-modifications-csv> <fluid-springs-csv>]
 biome() {
-  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}" ustruct="${14}" sstruct="${15}" localmod="${16}"
+  local name="$1" temp="$2" down="$3" precip="$4" sky="$5" fog="$6" water="$7" wfog="$8" grass="$9" foliage="${10}" prof="${11}" veg="${12}" top="${13}" ustruct="${14}" sstruct="${15}" localmod="${16}" springs="${17}"
   {
     printf '{\n'
     printf '  "has_precipitation": %s,\n' "$precip"
@@ -181,7 +192,7 @@ biome() {
     printf '  },\n'
     printf '  "spawn_costs": {},\n'
     local carvers="$CARVERS"
-    case "$name" in rohan|gondor*) carvers="$CARVERS_ROHAN" ;; esac
+    case "$name" in rohan|gondor*|rivendell*) carvers="$CARVERS_ROHAN" ;; esac
     printf '  "carvers": { "air": [%s] },\n' "$carvers"
     printf '  "features": [\n'
     printf '    [],\n'      # raw_generation
@@ -192,7 +203,7 @@ biome() {
     printf '    [],\n'      # strongholds
     printf '    [%s],\n' "$ORES"
     printf '    ["minecraft:amethyst_geode"],\n'
-    printf '    [],\n'      # fluid_springs
+    printf '    [%s],\n' "$springs"   # fluid_springs
     printf '    [%s],\n' "$veg"
     printf '    [%s]\n' "$top"
     printf '  ]\n'
@@ -260,6 +271,15 @@ P_GONDOR_FOREST="7907327 12638463 4159204 329011 7314236 4880940"
 P_GONDOR_SHRUB="7907327 12638463 4159204 329011 10860622 7245366"
 P_GONDOR_HILLS="7907327 12638463 4159204 329011 9418824 6196787"
 P_GONDOR_WET="7907327 12638463 4159204 329011 8826956 6263872"
+# Rivendell's: a deep clear sky and bright water over lush grass on the valley
+# floor; a cooler green in the birch wood; an autumn floor under the maples,
+# whose vanilla leaves (the bushes' oak) turn orange too; a cold grey-green on
+# the peaks; and vanilla's cherry grove colours among the cherries
+P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
+P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
+P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
+P_RIVENDELL_PEAKS="8364543 12638463 4020182 329011 8626540 6713893"
+P_RIVENDELL_CHERRY="8364543 12638463 6141935 329011 11983713 11983713"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
@@ -289,7 +309,7 @@ biome eastern_rhovanian_plains 0.8 0.4 true $P_STEPPE temp   "$(V patch_grass_sa
 biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome forodwaith               0.0 0.5 true $P_SNOW   cold   "$(V patch_grass_taiga_2)" "$FREEZE"
 biome the_shire                0.8 0.9 true $P_SHIRE  temp   "$(V lotrmod:trees_shire lotrmod:trees_shire_woody lotrmod:shire_bushes patch_grass_plain patch_tall_grass flower_plains flower_default patch_pumpkin)" ""
-biome rivendell                0.6 0.7 true $P_FOREST forest "$(V trees_birch trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
+biome rivendell                0.8 0.7 true $P_RIVENDELL temp "$(V lotrmod:trees_rivendell_plains lotrmod:patch_rivendell_flowers patch_grass_plain patch_tall_grass flower_plains)" ""
 
 # ── the Shire's rings (not regions on the map: see ShireZones) ─────────────
 biome shire_outskirts          0.8 0.9 true $P_SHIRE  temp   "$(V lotrmod:trees_shire_outskirts lotrmod:trees_shire_thicket lotrmod:trees_aspen_stand lotrmod:shire_bushes patch_grass_forest patch_tall_grass forest_flowers flower_default brown_mushroom_normal)" ""
@@ -303,6 +323,12 @@ biome gondor_forest            0.8 0.8 true $P_GONDOR_FOREST forest "$(V lotrmod
 biome gondor_shrubland         0.8 0.5 true $P_GONDOR_SHRUB temp "$(V lotrmod:trees_gondor_patch lotrmod:trees_gondor_scattered lotrmod:gondor_scrub lotrmod:patch_gondor_grass lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders_dense)"
 biome gondor_marble_hills      0.8 0.5 true $P_GONDOR_HILLS temp "$(V lotrmod:trees_gondor_hills lotrmod:gondor_scrub lotrmod:patch_gondor_grass_light lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders_dense lotrmod:gondor_boulders_large)"
 biome gondor_wetlands          0.8 0.9 true $P_GONDOR_WET temp "$(V lotrmod:trees_gondor_scattered lotrmod:gondor_bushes lotrmod:patch_gondor_grass_light lotrmod:patch_cattail_gondor patch_sugar_cane)" "" "" "" "$(V lotrmod:gondor_boulders)"
+
+# ── Rivendell's other landscapes (not regions on the map: see RivendellTerrain)
+biome rivendell_birch_forest   0.7 0.8 true $P_RIVENDELL_BIRCH forest "$(V lotrmod:trees_rivendell_birch lotrmod:rivendell_bushes lotrmod:patch_rivendell_forest_flowers patch_grass_taiga patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:rivendell_boulders)"
+biome rivendell_maple_forest   0.7 0.8 true $P_RIVENDELL_MAPLE forest "$(V lotrmod:trees_rivendell_maple lotrmod:rivendell_maple_bushes patch_grass_forest patch_large_fern forest_flowers)" "" "" "" "$(V lotrmod:rivendell_boulders)" "$(V lotrmod:rivendell_waterfalls)"
+biome rivendell_peaks          0.28 0.5 true $P_RIVENDELL_PEAKS cold "$(V lotrmod:trees_rivendell_peaks patch_grass_taiga_2)" "$FREEZE" "" "" "" "$(V lotrmod:rivendell_waterfalls_peaks)"
+biome rivendell_cherry_grove   0.1 0.8 true $P_RIVENDELL_CHERRY temp "$(V lotrmod:trees_rivendell_cherry patch_grass_plain flower_cherry)" "$FREEZE" "" "" "" "$(V lotrmod:rivendell_waterfalls_peaks)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

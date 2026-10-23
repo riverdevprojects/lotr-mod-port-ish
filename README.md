@@ -3,12 +3,13 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region** (the Shire and Lindon are the exceptions, split up; see below). Apart
+per region** (the Shire, Lindon, Gondor and Rivendell are the exceptions, split up; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
-pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass and Gondor's white rock — the one addition is the Shire's **hobbit holes**, with the blocks they
+pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock and Rivendell's red and orange
+maple, whose logs craft into oak planks — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -123,9 +124,12 @@ low plains with hills of white marble and reedy wetlands (see below). Its
 ground fades in over the first 160 blocks from the coast, so its shore keeps
 vanilla's beaches.
 
-All seven are done by the `lotrmod:terrain_blend` density function. It wraps
+Rivendell is the eighth: inside it the ground fades over to
+`RivendellTerrain`, a hidden valley ringed by jagged peaks (see below).
+
+All eight are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
-Rohan, the Dead Lands, Gondor and river valleys still get vanilla's caves,
+Rohan, the Dead Lands, Gondor, Rivendell and river valleys still get vanilla's caves,
 aquifers and ore veins.
 
 ### Ground
@@ -452,7 +456,7 @@ biomes disagree about which of two shared features comes first, NeoForge's
 feature-order sort hits a cycle and the game **crashes on world load**. If you
 hand-edit a biome's `features`, keep the master order.
 
-`gen_biomes.sh` regenerates all 31 biome JSONs from that single ordering. Prefer
+`gen_biomes.sh` regenerates all 40 biome JSONs from that single ordering. Prefer
 editing the script over editing the JSONs.
 
 ### Gondor
@@ -495,3 +499,36 @@ one saying how wooded the land is, in patches several hundred blocks across:
 - **Colours**: vanilla's clear sky; grass bright yellow-green on the plains,
   olive in the shrubland, deep green under the trees and fresh green in the
   wetlands.
+
+### Rivendell
+
+Rivendell is a hidden valley in five landscapes, each its own biome.
+`RivendellTerrain` lays the valley out around the middle of Rivendell on the
+region map, scaled to its size. The Bruinen runs down the middle from the
+Misty Mountains in the east and out into Eriador in the west:
+
+| Landscape | Biome | Where | |
+| --- | --- | --- | --- |
+| Plains | `lotrmod:rivendell` | the valley floor, along the river | Lush rolling meadow about y 66, thick with wildflowers (`patch_rivendell_flowers`: daisies, alliums, poppies, dandelions, cornflowers, bluets, tulips, lily of the valley), and a tree in about one chunk in two: round oaks (`rivendell_round_oak`), large oaks, spruce and birch |
+| Old birch forest | `lotrmod:rivendell_birch_forest` | the floor's edges, in patches | Tall old birches (`trees_rivendell_birch`, eight a chunk): great birches on two-block-square trunks with crowns along their boughs (`rivendell_great_birch`), the original's party birch, long-trunked birches, vanilla's tall birch, with some spruce and large oak; birch and azalea bushes, ferns, lilacs, alliums and lily of the valley, mossy rocks, moss on the floor and mossy stone along the water |
+| Maple and beech forest | `lotrmod:rivendell_maple_forest` | the valley sides | Stone terraces eight blocks high climbing some 55 blocks, under autumn woods (`trees_rivendell_maple`, nine a chunk) of red and orange maple, small and large, and golden beech, with maple bushes, podzol for fallen leaves, and waterfalls (`rivendell_waterfalls`: springs let into the ground under a ledge's lip, so they run down the risers) |
+| Jagged peaks | `lotrmod:rivendell_peaks` | the ring round the valley, open to the west | Steep spires up to about y 250 off shoulders above the top terrace: bare stone on every crag, snow from y 155, and above y 168 packed ice with streaks of blue ice (the `lotrmod:rivendell_ice` noise); spruce and pine below the snow, icy waterfalls |
+| Cherry groves | `lotrmod:rivendell_cherry_grove` | patches of the peaks' lower slopes, below y 170 | Vanilla's cherry trees and pink petals among spruce, on snowy grass |
+
+- **Ground** (`RivendellTerrain`): the valley is an ellipse along the
+  river, its floor 0.3 of Rivendell's radius either side of the middle line.
+  The terraces run out to 1.8 times that, and the peaks rise beyond them.
+  Its east end stops short of the Misty Mountains. Its west end runs past
+  Rivendell's edge, so the valley opens onto Eriador there. The river is cut
+  a few blocks below the waterline and filled with water like the other
+  rivers. It rises at the valley's east end and ends in a pool short of
+  Rivendell's west edge. Its bed is gravel, sand and clay.
+- **Maple**: `lotrmod:maple_log` and `lotrmod:maple_leaves` are the
+  original's maple (its textures). `lotrmod:orange_maple_leaves` is its leaf
+  texture shifted to orange. Both are untinted.
+- **Colours**: a deep clear sky over lush grass on the floor, a cooler green
+  under the birches, and an autumn floor under the maples, where vanilla
+  leaves turn orange too. The peaks are a cold grey-green. The cherry groves
+  use vanilla's cherry grove colours. The peaks and groves are cold enough
+  for snow, the groves all over and the peaks high up.
+- Rivendell's ravines are as rare as Rohan's and Gondor's.
