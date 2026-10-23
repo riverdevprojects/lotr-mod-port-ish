@@ -6,9 +6,9 @@ import com.lotrmod.worldgen.feature.BoulderFeature;
 import com.lotrmod.worldgen.feature.CopseFeature;
 import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
+import com.lotrmod.worldgen.feature.FirFeature;
 import com.lotrmod.worldgen.feature.MallornFeature;
 import com.lotrmod.worldgen.feature.MirkOakFeature;
-import com.lotrmod.worldgen.feature.OldPineFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
 import com.lotrmod.worldgen.feature.PineFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
@@ -113,9 +113,9 @@ public class LOTRWorldGen {
     public static final DeferredHolder<Feature<?>, MallornFeature> MALLORN =
             FEATURES.register("mallorn", () -> new MallornFeature(MallornFeature.Config.CODEC));
 
-    // Arnor's old pines, and the copses they stand in
-    public static final DeferredHolder<Feature<?>, OldPineFeature> OLD_PINE =
-            FEATURES.register("old_pine", () -> new OldPineFeature(OldPineFeature.Config.CODEC));
+    // Arnor's firs, ported from the original mod's Iron Hills, and the copses its trees stand in
+    public static final DeferredHolder<Feature<?>, FirFeature> FIR =
+            FEATURES.register("fir", () -> new FirFeature(FirFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, CopseFeature> COPSE =
             FEATURES.register("copse", () -> new CopseFeature(CopseFeature.Config.CODEC));
 

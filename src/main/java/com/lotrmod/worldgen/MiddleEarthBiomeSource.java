@@ -54,6 +54,10 @@ import java.util.stream.Stream;
  * {@link LothlorienTerrain#zone}: golden fields ({@code lotrmod:lothlorien}),
  * the golden wood ({@code lotrmod:lothlorien_forest}) and its old growth of
  * towering mallorns ({@code lotrmod:lothlorien_old_growth}).
+ *
+ * <p>And Arnor, into three landscapes laid out by {@link ArnorTerrain#zone}:
+ * open fields ({@code lotrmod:arnor}), rolling hills ({@code lotrmod:arnor_hills})
+ * and ground split by rifts ({@code lotrmod:arnor_split_ground}).
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -80,6 +84,8 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     private final Map<GondorTerrain.Zone, Holder<Biome>> gondorZones = new EnumMap<>(GondorTerrain.Zone.class);
     /** Lothlórien's landscapes other than its fields, each null if the dimension JSON doesn't list it. */
     private final Map<LothlorienTerrain.Zone, Holder<Biome>> lothlorienZones = new EnumMap<>(LothlorienTerrain.Zone.class);
+    /** Arnor's landscapes other than its fields, each null if the dimension JSON doesn't list it. */
+    private final Map<ArnorTerrain.Zone, Holder<Biome>> arnorZones = new EnumMap<>(ArnorTerrain.Zone.class);
     /** Rivendell's landscapes other than its meadow, each null if the dimension JSON doesn't list it. */
     private final Map<RivendellTerrain.Zone, Holder<Biome>> rivendellZones = new EnumMap<>(RivendellTerrain.Zone.class);
 
@@ -131,6 +137,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             if (zone == LothlorienTerrain.Zone.PLAINS) continue;
             Holder<Biome> biome = findBiome(regionBiomes, "lothlorien_" + zone.name().toLowerCase(Locale.ROOT));
             if (biome != null) lothlorienZones.put(zone, biome);
+        }
+        for (ArnorTerrain.Zone zone : ArnorTerrain.Zone.values()) {
+            if (zone == ArnorTerrain.Zone.FIELDS) continue;
+            Holder<Biome> biome = findBiome(regionBiomes, "arnor_" + zone.name().toLowerCase(Locale.ROOT));
+            if (biome != null) arnorZones.put(zone, biome);
         }
         for (RivendellTerrain.Zone zone : RivendellTerrain.Zone.values()) {
             if (zone == RivendellTerrain.Zone.PLAINS) continue;
@@ -189,6 +200,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
         if (region == Region.LOTHLORIEN) {
             Holder<Biome> landscape = lothlorienZones.get(LothlorienTerrain.zone(worldX, worldZ));
+            if (landscape != null) return landscape;
+        }
+
+        if (region == Region.ARNOR) {
+            Holder<Biome> landscape = arnorZones.get(ArnorTerrain.zone(worldX, worldZ));
             if (landscape != null) return landscape;
         }
 

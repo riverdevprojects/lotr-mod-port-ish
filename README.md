@@ -3,15 +3,15 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region** (the Shire, Lindon, Gondor, Rivendell and Lothlórien are the exceptions, split up; see below). Apart
+per region** (the Shire, Lindon, Gondor, Rivendell, Lothlórien and Arnor are the exceptions, split up; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
 pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock, Rivendell's red and orange
 maple, whose logs craft into oak planks, and Lothlórien's mallorn, ivy, fallen leaves, elanor
-and niphredil, drawn new for this mod but for the mallorn's bark, the original's, and the original's Arnor bricks, of which
-Arnor's ruins are built — the one addition is the Shire's **hobbit holes**, with the blocks they
+and niphredil, drawn new for this mod but for the mallorn's bark, the original's, and the original's fir, whose logs craft
+into spruce planks, and Arnor bricks, of which Arnor's ruins are built — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -133,7 +133,7 @@ Lothlórien is the ninth: inside it the ground fades over to
 `LothlorienTerrain`, rolling ground threaded with streams (see below).
 
 Arnor is the tenth: inside it the ground fades over to `ArnorTerrain`, old
-grassland worn into broad, round hills (see below).
+grassland, rolling hills, and ground split open by deep rifts (see below).
 
 All ten are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
@@ -597,42 +597,50 @@ oldest trees gather round its heart and the fields lie towards its borders:
 
 ### Arnor
 
-Arnor, the lost northern kingdom of the Dúnedain, is one biome
-(`lotrmod:arnor`) across the north of Eriador: old, empty grassland, the
-grass dark and faded, worn down into long swells and round hills, with
-copses of ancient pines standing about it and the ruins of the kingdom
-crumbling in the grass. The original mod had no Arnor biome as such (this
-was its Lone-lands and the downs about them), so the land is new, but its
-ruins are built from the original's Arnor bricks.
+Arnor, the lost northern kingdom of the Dúnedain, lies across the north of
+Eriador as three landscapes, each its own biome. `ArnorTerrain.zone` lays
+them out from one broad noise. The original mod had no Arnor biome as such
+(this was its Lone-lands and the downs about them), so the land is new, but
+its trees are the original's Iron Hills' and its ruins are built from the
+original's Arnor bricks.
 
-- **Ground** (`ArnorTerrain`): grassland about y 71 in long swells and
-  gentler rolls, broken by broad hills up to 28 blocks high that swell
-  gently out of the grass and level off at the top, and here and there a
-  chain of higher downs, a long rounded crest wandering across the land
-  where a noise crosses zero, in the stretches where another lets one run.
-  Rock shows through only on the highest ground, more of it the higher it
-  rises, and on steep slopes; elsewhere the grass is broken only by worn,
-  bald patches of coarse dirt and specks of it.
-- **Old pines** (`lotrmod:old_pine`, `OldPineFeature`): drawn for this mod
-  after the old Scots pines of the north rather than Mirkwood's spires. A
-  crooked trunk that jogs a block aside once or twice on the way up, bare
-  but for the stubs of dead branches for its lower half or more, under a
-  flat, ragged crown of needles held out on three to six long limbs that
-  reach out and up from the top of the trunk; now and then the top has died
-  back to a bare snag above the crown. Three ages: young (`arnor_pine`, 10
-  to 15 tall), old (`arnor_pine_old`, 15 to 22) and ancient
-  (`arnor_pine_ancient`, 20 to 28, on a two-block trunk for the lower half
-  of their height with roots sprawling over the ground at its foot). The
-  wood and needles are the original's pine.
-- **Copses** (`lotrmod:copse`, `CopseFeature`): four to eight pines
-  crowded within three to five blocks, mostly young and old with the odd
-  ancient one (`arnor_copse_tree`), on a floor of their own: the grass under
-  them turned to podzol, with some coarse dirt, moss and rooted dirt,
-  ferns, grass and brown mushrooms in their shade, and a fallen pine log or
-  two. About one chunk in sixteen has one (`trees_arnor_copses`), and more
-  gather where a broad noise allows (`trees_arnor_copse_clusters`); between
-  them stands a lone pine in about one chunk in fourteen
-  (`trees_arnor_lone`).
+| Landscape | Biome | |
+| --- | --- | --- |
+| Fields | `lotrmod:arnor` | Old, empty grassland in long, low swells, the grass dark and faded |
+| Hills | `lotrmod:arnor_hills` | Rolling country of broad, rounded hills up to 30 blocks high with knolls on them, and here and there a chain of higher downs, a long rounded crest wandering across the land |
+| Split ground | `lotrmod:arnor_split_ground` | A raised, rocky tableland split open everywhere by rifts: great ones ten to thirty blocks across with sheer walls, running down to about y 4 to 22, near the bottom of the world; lesser ones 30 to 40 blocks deep; and narrow cracks 15 to 25 deep between and across them, every few dozen blocks, so the ground is hard going in any direction |
+
+- **Ground** (`ArnorTerrain`): about y 70, rolling gently everywhere. The
+  rifts follow the lines where several noises at different scales cross
+  zero (two for the great rifts, one for the lesser, three for the cracks,
+  the cracks given out here and there), their walls jagged, their floors
+  strewn with rubble. They narrow and grow shallow towards the edge of the
+  split ground and give out before it ends. They are cut into the land
+  rather than taken for its surface: the terrain blend vanilla finds the
+  surface from leaves them out (`"ravines": false` in
+  `initial_density_without_jaggedness`), so like vanilla's ravines they are
+  left bare rock, aren't flooded to sea level, and have only the pockets of
+  water vanilla's aquifers leave in caves. Rock shows through the turf on
+  the highest hills and on steep slopes, and all over the split ground in
+  broad patches of stone and gravel; elsewhere the grass is broken only by
+  worn, bald patches of coarse dirt and specks of it.
+- **Trees**: the original's Iron Hills trees, in its weights
+  (`arnor_tree`): vanilla's spruce (500), giant spruce (200) and thin giant
+  spruce (50), the original's fir (400) and Mirkwood's pine (400). They
+  stand in copses in all three landscapes (`lotrmod:copse`, `CopseFeature`):
+  four to eight trees crowded within three to five blocks, on a floor of
+  their own, the grass under them turned to podzol with some coarse dirt,
+  moss and rooted dirt, ferns, grass and brown mushrooms in their shade, and
+  a fallen fir log or two. About one chunk in sixteen has one
+  (`trees_arnor_copses`), and more gather where a broad noise allows
+  (`trees_arnor_copse_clusters`); between them stands a lone tree in about
+  one chunk in fourteen (`trees_arnor_lone`).
+- **Fir** (`lotrmod:fir`, `FirFeature`): a port of the original's
+  `LOTRWorldGenFir`, a straight bare trunk 6 to 13 blocks tall topped by a
+  small cone of needles seven layers deep that rises two blocks above it.
+  Its blocks are the original's: `lotrmod:fir_log`, grey-brown bark, and
+  `lotrmod:fir_leaves`, dark needles, untinted. Logs craft into spruce
+  planks.
 - **Ruins** (`arnor_ruins`, about one chunk in forty): the original's
   stone ruin (`lotrmod:stone_ruin`) built of Arnor bricks, a broken column
   standing alone among fallen slabs and stubs of wall.
@@ -643,7 +651,8 @@ ruins are built from the original's Arnor bricks.
   from them as vanilla's stone bricks are (slabs, chiseled from two slabs,
   mossy with a vine or moss, cracked by smelting).
 - Also: grass and ferns, tall grass, large ferns and the odd berry bush;
-  Eriador's boulders, a quarter as often (`arnor_boulders`); sheep, horses,
-  rabbits, foxes and wolves.
+  Eriador's boulders, a quarter as often in the fields and hills
+  (`arnor_boulders`) and three times as often in the split ground
+  (`arnor_boulders_dense`); sheep, horses, rabbits, foxes and wolves.
 - **Colours**: a cool, grey northern sky and fog over dark, faded grass,
-  the leaves of its scrub a dull olive.
+  greyer still on the split ground, the leaves of its scrub a dull olive.

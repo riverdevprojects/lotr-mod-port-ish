@@ -116,6 +116,13 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> PINE_LEAVES = BLOCKS.register("pine_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LEAVES)));
 
+    // Arnor's fir, from the original mod's Iron Hills: grey-brown bark under a
+    // small dark cone of needles. Untinted, like aspen.
+    public static final DeferredBlock<RotatedPillarBlock> FIR_LOG = BLOCKS.register("fir_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LOG)));
+    public static final DeferredBlock<LeavesBlock> FIR_LEAVES = BLOCKS.register("fir_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_LEAVES)));
+
     // Rivendell's autumn maple, from the original mod: grey bark under red
     // leaves, and an orange-leaved one shifted from them. Untinted, like aspen.
     public static final DeferredBlock<RotatedPillarBlock> MAPLE_LOG = BLOCKS.register("maple_log",
@@ -214,6 +221,8 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> MIRK_VINES_ITEM = ITEMS.registerSimpleBlockItem(MIRK_VINES);
     public static final DeferredItem<BlockItem> PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(PINE_LOG);
     public static final DeferredItem<BlockItem> PINE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(PINE_LEAVES);
+    public static final DeferredItem<BlockItem> FIR_LOG_ITEM = ITEMS.registerSimpleBlockItem(FIR_LOG);
+    public static final DeferredItem<BlockItem> FIR_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(FIR_LEAVES);
     public static final DeferredItem<BlockItem> MAPLE_LOG_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LOG);
     public static final DeferredItem<BlockItem> MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LEAVES);
     public static final DeferredItem<BlockItem> ORANGE_MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ORANGE_MAPLE_LEAVES);
@@ -351,6 +360,8 @@ public final class ModBlocks {
             event.accept(MIRK_VINES_ITEM);
             event.accept(PINE_LOG_ITEM);
             event.accept(PINE_LEAVES_ITEM);
+            event.accept(FIR_LOG_ITEM);
+            event.accept(FIR_LEAVES_ITEM);
             event.accept(MAPLE_LOG_ITEM);
             event.accept(MAPLE_LEAVES_ITEM);
             event.accept(ORANGE_MAPLE_LEAVES_ITEM);

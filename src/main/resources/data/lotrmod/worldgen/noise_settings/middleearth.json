@@ -178,7 +178,7 @@
       "xz_scale": 1.0,
       "y_scale": 0.7142857142857143
     },
-    "initial_density_without_jaggedness": {"type": "lotrmod:terrain_blend", "argument": {
+    "initial_density_without_jaggedness": {"type": "lotrmod:terrain_blend", "ravines": false, "argument": {
       "type": "minecraft:add",
       "argument1": 0.1171875,
       "argument2": {
@@ -2964,7 +2964,8 @@
                       "if_true": {
                         "type": "minecraft:biome",
                         "biome_is": [
-                          "lotrmod:arnor"
+                          "lotrmod:arnor",
+                          "lotrmod:arnor_hills"
                         ]
                       },
                       "then_run": {
@@ -3150,6 +3151,106 @@
                               "type": "minecraft:noise_threshold",
                               "noise": "lotrmod:lindon_podzol_speckle",
                               "min_threshold": 0.9,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:block",
+                              "result_state": {
+                                "Name": "minecraft:coarse_dirt"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "minecraft:condition",
+                      "if_true": {
+                        "type": "minecraft:biome",
+                        "biome_is": [
+                          "lotrmod:arnor_split_ground"
+                        ]
+                      },
+                      "then_run": {
+                        "type": "minecraft:sequence",
+                        "sequence": [
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:steep"
+                            },
+                            "then_run": {
+                              "type": "minecraft:block",
+                              "result_state": {
+                                "Name": "minecraft:stone"
+                              }
+                            }
+                          },
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "lotrmod:eriador_rocks",
+                              "min_threshold": 0.3,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:sequence",
+                              "sequence": [
+                                {
+                                  "type": "minecraft:condition",
+                                  "if_true": {
+                                    "type": "minecraft:noise_threshold",
+                                    "noise": "lotrmod:eriador_rocks_gravel",
+                                    "min_threshold": 0.35,
+                                    "max_threshold": 1.7976931348623157e+308
+                                  },
+                                  "then_run": {
+                                    "type": "minecraft:block",
+                                    "result_state": {
+                                      "Name": "minecraft:gravel"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:stone"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "lotrmod:rohan_bare",
+                              "min_threshold": 0.45,
+                              "max_threshold": 1.7976931348623157e+308
+                            },
+                            "then_run": {
+                              "type": "minecraft:condition",
+                              "if_true": {
+                                "type": "minecraft:noise_threshold",
+                                "noise": "lotrmod:lindon_podzol_speckle",
+                                "min_threshold": -0.4,
+                                "max_threshold": 1.7976931348623157e+308
+                              },
+                              "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                  "Name": "minecraft:coarse_dirt"
+                                }
+                              }
+                            }
+                          },
+                          {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                              "type": "minecraft:noise_threshold",
+                              "noise": "lotrmod:lindon_podzol_speckle",
+                              "min_threshold": 0.75,
                               "max_threshold": 1.7976931348623157e+308
                             },
                             "then_run": {
@@ -4058,7 +4159,8 @@
                           "if_true": {
                             "type": "minecraft:biome",
                             "biome_is": [
-                              "lotrmod:arnor"
+                              "lotrmod:arnor",
+                              "lotrmod:arnor_hills"
                             ]
                           },
                           "then_run": {
@@ -4146,6 +4248,47 @@
                                 "type": "minecraft:condition",
                                 "if_true": {
                                   "type": "minecraft:steep"
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:stone"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "minecraft:condition",
+                          "if_true": {
+                            "type": "minecraft:biome",
+                            "biome_is": [
+                              "lotrmod:arnor_split_ground"
+                            ]
+                          },
+                          "then_run": {
+                            "type": "minecraft:sequence",
+                            "sequence": [
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:steep"
+                                },
+                                "then_run": {
+                                  "type": "minecraft:block",
+                                  "result_state": {
+                                    "Name": "minecraft:stone"
+                                  }
+                                }
+                              },
+                              {
+                                "type": "minecraft:condition",
+                                "if_true": {
+                                  "type": "minecraft:noise_threshold",
+                                  "noise": "lotrmod:eriador_rocks",
+                                  "min_threshold": 0.3,
+                                  "max_threshold": 1.7976931348623157e+308
                                 },
                                 "then_run": {
                                   "type": "minecraft:block",

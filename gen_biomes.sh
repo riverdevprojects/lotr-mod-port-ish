@@ -5,8 +5,8 @@
 # (gondor_forest, gondor_shrubland, gondor_marble_hills, gondor_wetlands; see
 # GondorTerrain), Rivendell's four (rivendell_birch_forest, rivendell_maple_forest,
 # rivendell_peaks, rivendell_cherry_grove; see RivendellTerrain), Lothlorien's two
-# (lothlorien_forest, lothlorien_old_growth; see LothlorienTerrain), plus the
-# ocean biome.
+# (lothlorien_forest, lothlorien_old_growth; see LothlorienTerrain), Arnor's two
+# (arnor_hills, arnor_split_ground; see ArnorTerrain), plus the ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -68,7 +68,7 @@ mkdir -p "$OUT"
 # 46y lotrmod:trees_lothlorien_understory 46z lotrmod:lothlorien_logs
 # 46za lotrmod:lothlorien_bushes          46zb lotrmod:patch_lothlorien_flowers
 # 46zc lotrmod:patch_lothlorien_forest_flowers 46zd lotrmod:patch_fallen_mallorn_leaves
-#  Arnor's (copses of old pines, ours, and a lone pine here and there):
+#  Arnor's (copses of the original's Iron Hills trees, and a lone one here and there):
 # 46ze lotrmod:trees_arnor_copses   46zf lotrmod:trees_arnor_copse_clusters
 # 46zg lotrmod:trees_arnor_lone
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
@@ -87,7 +87,8 @@ mkdir -p "$OUT"
 # 73 seagrass_normal     74 kelp_cold
 #
 # Only Eriador, Arnor, Rohan, the Dead Lands, Gondor, Rivendell and Lothlorien have anything in
-# local_modifications, each its own boulders (lotrmod:eriador_boulders, lotrmod:arnor_boulders,
+# local_modifications, each its own boulders (lotrmod:eriador_boulders, lotrmod:arnor_boulders
+# or lotrmod:arnor_boulders_dense,
 # lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, Gondor's marble ones,
 # always in the order gondor_boulders, gondor_boulders_dense,
 # gondor_boulders_large, lotrmod:rivendell_boulders and lotrmod:lothlorien_boulders), so that step has no
@@ -294,6 +295,8 @@ P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 8031288 14264368"
 # Arnor: a cool, grey northern sky over dark, faded grass, as of a land long
 # empty, and the leaves of its scrub a dull olive
 P_ARNOR="8297140 12174540 4025990 329011 7046480 5664831"
+# and the split ground's grass greyer still, among the rock
+P_ARNOR_SPLIT="8297140 12174540 4025990 329011 6848082 5664831"
 P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
 P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
 P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
@@ -352,6 +355,10 @@ biome rivendell_cherry_grove   0.1 0.8 true $P_RIVENDELL_CHERRY temp "$(V lotrmo
 # ── Lothlorien's other landscapes (not regions on the map: see LothlorienTerrain)
 biome lothlorien_forest        0.8 0.8 true $P_LOTHLORIEN_FOREST forest "$(V lotrmod:trees_lothlorien_forest lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_forest patch_tall_grass patch_large_fern forest_flowers)" ""
 biome lothlorien_old_growth    0.8 0.9 true $P_LOTHLORIEN_OLD forest "$(V lotrmod:trees_lothlorien_old_growth lotrmod:trees_lothlorien_understory lotrmod:lothlorien_logs lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_taiga patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:lothlorien_boulders)"
+
+# ── Arnor's other landscapes (not regions on the map: see ArnorTerrain) ───
+biome arnor_hills              0.5 0.6 true $P_ARNOR  arnor  "$(V lotrmod:trees_arnor_copses lotrmod:trees_arnor_copse_clusters lotrmod:trees_arnor_lone patch_grass_taiga_2 patch_grass_plain patch_tall_grass patch_large_fern patch_berry_common)" "" "" "$(V lotrmod:arnor_ruins)" "$(V lotrmod:arnor_boulders)"
+biome arnor_split_ground       0.5 0.5 true $P_ARNOR_SPLIT arnor "$(V lotrmod:trees_arnor_copses lotrmod:trees_arnor_copse_clusters lotrmod:trees_arnor_lone patch_grass_taiga_2 patch_grass_plain patch_large_fern)" "" "" "$(V lotrmod:arnor_ruins)" "$(V lotrmod:arnor_boulders_dense)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

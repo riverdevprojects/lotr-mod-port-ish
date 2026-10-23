@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.3226
+      },
+      {
+        "feature": "minecraft:mega_spruce_checked",
+        "chance": 0.1905
+      },
+      {
+        "feature": "minecraft:mega_pine_checked",
+        "chance": 0.0588
+      },
+      {
+        "feature": "lotrmod:arnor_fir",
+        "chance": 0.5
+      }
+    ],
+    "default": "lotrmod:mirkwood_pine"
+  }
+}

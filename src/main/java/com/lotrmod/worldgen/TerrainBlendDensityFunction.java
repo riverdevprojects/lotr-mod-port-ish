@@ -1,6 +1,8 @@
 package com.lotrmod.worldgen;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 
@@ -8,7 +10,7 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  * {@code lotrmod:terrain_blend} — vanilla's terrain density, reshaped where
  * the maps call for something vanilla doesn't make:
  *
- * <pre>{"type": "lotrmod:terrain_blend", "argument": <vanilla density>}</pre>
+ * <pre>{"type": "lotrmod:terrain_blend", "argument": <vanilla density>, "ravines": true}</pre>
  *
  * <ul>
  *   <li><b>Gondor</b> fades over to {@link GondorTerrain}'s plains, marble
@@ -17,9 +19,10 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *   <li><b>Lothlórien</b> fades over to {@link LothlorienTerrain}'s golden
  *       fields, wood and old growth, by {@link MiddleEarthClimate#lothlorienWeight}.
  *       Before the mountains, so the Misty Mountains still rise above it.</li>
- *   <li><b>Arnor</b> fades over to {@link ArnorTerrain}'s worn grassland and
- *       hills, by {@link MiddleEarthClimate#arnorWeight}. Before the
- *       mountains too, so the Blue Mountains still rise above it.</li>
+ *   <li><b>Arnor</b> fades over to {@link ArnorTerrain}'s fields, hills and
+ *       split ground, by {@link MiddleEarthClimate#arnorWeight}. Before the
+ *       mountains too, so the Blue Mountains still rise above it. With
+ *       {@code "ravines": false} the split ground's rifts are left out.</li>
  *   <li><b>Mountain ranges</b> fade over to {@link MountainTerrain}'s shape,
  *       by {@link MiddleEarthClimate#mountainWeight}.</li>
  *   <li><b>Marshes</b> fade over to {@link MarshTerrain}'s shape, by
@@ -41,12 +44,15 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  * <p>It wraps the terrain density before vanilla carves caves out of it, so the
  * reshaped ground still gets vanilla's caves, aquifers and ore veins. It also
  * wraps the density vanilla finds the surface from, so surface rules and
- * aquifers see the ground where it really is.
+ * aquifers see the ground where it really is: all but Arnor's rifts, which
+ * that one leaves out ({@code "ravines": false}) so they are carved into the
+ * ground like vanilla's ravines rather than taken for its surface.
  */
-public record TerrainBlendDensityFunction(DensityFunction argument) implements DensityFunction {
-    public static final MapCodec<TerrainBlendDensityFunction> DATA_CODEC =
-            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument")
-                    .xmap(TerrainBlendDensityFunction::new, TerrainBlendDensityFunction::argument);
+public record TerrainBlendDensityFunction(DensityFunction argument, boolean ravines) implements DensityFunction {
+    public static final MapCodec<TerrainBlendDensityFunction> DATA_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            DensityFunction.HOLDER_HELPER_CODEC.fieldOf("argument").forGetter(TerrainBlendDensityFunction::argument),
+            Codec.BOOL.optionalFieldOf("ravines", true).forGetter(TerrainBlendDensityFunction::ravines)
+    ).apply(instance, TerrainBlendDensityFunction::new));
     public static final KeyDispatchDataCodec<TerrainBlendDensityFunction> CODEC = KeyDispatchDataCodec.of(DATA_CODEC);
 
     /**
@@ -54,8 +60,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
      * above, and roughly as steep a change as vanilla's own terrain.
      */
     private static final double BLOCKS_PER_UNIT = 12.0;
-    /** Lowest and highest a reshaped density can be, from y -64 to 320. */
-    private static final double MIN = (40 - 320) / BLOCKS_PER_UNIT;
+    /** Lowest and highest a reshaped density can be, from y -64 to 320, over surfaces from y 0 (Arnor's deepest rifts) up. */
+    private static final double MIN = (0 - 320) / BLOCKS_PER_UNIT;
     private static final double MAX = (320 + 64) / BLOCKS_PER_UNIT;
 
     /** The column last looked up on this thread; density is asked for a column at a time. */
@@ -75,7 +81,7 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
             density += (lothlorien - density) * column.lothlorienWeight;
         }
         if (column.arnorWeight > 0.0) {
-            double arnor = (column.arnorHeight - y) / BLOCKS_PER_UNIT;
+            double arnor = ((ravines ? column.arnorHeight : column.arnorGround) - y) / BLOCKS_PER_UNIT;
             density += (arnor - density) * column.arnorWeight;
         }
         if (column.mountainWeight > 0.0) {
@@ -116,7 +122,7 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
 
     @Override
     public DensityFunction mapAll(Visitor visitor) {
-        return visitor.apply(new TerrainBlendDensityFunction(argument.mapAll(visitor)));
+        return visitor.apply(new TerrainBlendDensityFunction(argument.mapAll(visitor), ravines));
     }
 
     @Override
@@ -156,6 +162,7 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double lothlorienHeight;
         private double arnorWeight;
         private double arnorHeight;
+        private double arnorGround;
         private double riverWeight;
         private double riverHeight;
 
@@ -181,6 +188,7 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 lothlorienWeight = MiddleEarthClimate.lothlorienWeight(x, z);
                 lothlorienHeight = lothlorienWeight > 0.0 ? LothlorienTerrain.height(x, z) : 0.0;
                 arnorWeight = MiddleEarthClimate.arnorWeight(x, z);
+                arnorGround = arnorWeight > 0.0 ? ArnorTerrain.groundHeight(x, z) : 0.0;
                 arnorHeight = arnorWeight > 0.0 ? ArnorTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;

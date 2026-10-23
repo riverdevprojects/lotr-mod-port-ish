@@ -2,7 +2,7 @@
   "type": "lotrmod:fallen_log",
   "config": {
     "log": {
-      "Name": "lotrmod:pine_log",
+      "Name": "lotrmod:fir_log",
       "Properties": {
         "axis": "y"
       }

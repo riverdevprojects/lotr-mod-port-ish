@@ -1,7 +1,7 @@
 {
   "type": "lotrmod:copse",
   "config": {
-    "tree": "lotrmod:arnor_copse_tree",
+    "tree": "lotrmod:arnor_tree",
     "count": {
       "type": "minecraft:uniform",
       "min_inclusive": 4,
@@ -64,7 +64,7 @@
         }
       ]
     },
-    "fallen_log": "lotrmod:arnor_fallen_pine",
+    "fallen_log": "lotrmod:arnor_fallen_log",
     "fallen_logs": {
       "type": "minecraft:uniform",
       "min_inclusive": 0,

@@ -1,0 +1,38 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.5,
+  "downfall": 0.6,
+  "effects": {
+    "sky_color": 8297140,
+    "fog_color": 12174540,
+    "water_color": 4025990,
+    "water_fog_color": 329011,
+    "grass_color": 7046480,
+    "foliage_color": 5664831,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    }
+  },
+  "spawners": {
+    "monster": [{"type":"minecraft:spider","weight":100,"minCount":1,"maxCount":4},{"type":"minecraft:zombie","weight":95,"minCount":4,"maxCount":4},{"type":"minecraft:skeleton","weight":100,"minCount":4,"maxCount":4},{"type":"minecraft:creeper","weight":100,"minCount":4,"maxCount":4},{"type":"minecraft:slime","weight":100,"minCount":4,"maxCount":4}],
+    "creature": [{"type":"minecraft:sheep","weight":10,"minCount":2,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":5},{"type":"minecraft:rabbit","weight":6,"minCount":2,"maxCount":3},{"type":"minecraft:fox","weight":4,"minCount":1,"maxCount":3},{"type":"minecraft:wolf","weight":3,"minCount":2,"maxCount":4}]
+  },
+  "spawn_costs": {},
+  "carvers": { "air": ["minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"] },
+  "features": [
+    [],
+    [],
+    ["lotrmod:arnor_boulders"],
+    [],
+    ["lotrmod:arnor_ruins"],
+    [],
+    ["minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"],
+    ["minecraft:amethyst_geode"],
+    [],
+    ["lotrmod:trees_arnor_copses","lotrmod:trees_arnor_copse_clusters","lotrmod:trees_arnor_lone","minecraft:patch_grass_taiga_2","minecraft:patch_grass_plain","minecraft:patch_tall_grass","minecraft:patch_large_fern","minecraft:patch_berry_common"],
+    []
+  ]
+}
