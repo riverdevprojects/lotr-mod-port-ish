@@ -8,7 +8,7 @@ from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
-pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses and the Dead Lands' short grass — the one addition is the Shire's **hobbit holes**, with the blocks they
+pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass and Gondor's white rock — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -69,7 +69,7 @@ plains instead of stepping up at the map's pixel edges.
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
 | `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
-| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Rohan's and the Dead Lands' ground itself comes from `RohanTerrain` and `DeadLandsTerrain`, below) |
+| `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Gondor's, Rohan's and the Dead Lands' ground itself comes from `GondorTerrain`, `RohanTerrain` and `DeadLandsTerrain`, below) |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
@@ -118,10 +118,15 @@ rolling grassland (see below).
 The Dead Lands are the sixth: inside them the ground fades over to
 `DeadLandsTerrain`, low worn ground broken into shallow ledges (see below).
 
-All six are done by the `lotrmod:terrain_blend` density function. It wraps
+Gondor is the seventh: inside it the ground fades over to `GondorTerrain`,
+low plains with hills of white marble and reedy wetlands (see below). Its
+ground fades in over the first 160 blocks from the coast, so its shore keeps
+vanilla's beaches.
+
+All seven are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
-Rohan, the Dead Lands and river valleys still get vanilla's caves, aquifers
-and ore veins.
+Rohan, the Dead Lands, Gondor and river valleys still get vanilla's caves,
+aquifers and ore veins.
 
 ### Ground
 
@@ -449,3 +454,44 @@ hand-edit a biome's `features`, keep the master order.
 
 `gen_biomes.sh` regenerates all 31 biome JSONs from that single ordering. Prefer
 editing the script over editing the JSONs.
+
+### Gondor
+
+Gondor is not a port of the original's many Gondor biomes: it is built from
+scratch as five landscapes, each its own biome, all scattered with boulders of
+white marble. `GondorTerrain.zone` lays them out from two broad noises, one
+running from rocky ground to wet ground (leaning wet towards the coast) and
+one saying how wooded the land is, in patches several hundred blocks across:
+
+| Landscape | Biome | Where | |
+| --- | --- | --- | --- |
+| Plains | `lotrmod:gondor` | open ground, few trees | Wide, low, gently rolling grassland in bright yellow-green, thick with grass, golden tufts and dandelions, a lone oak in about one chunk in eight and the odd bush |
+| Shrubland | `lotrmod:gondor_shrubland` | lightly wooded | Olive grass crowded with low bushes (`gondor_scrub`, eight a chunk, mostly the three-wide `gondor_shrub`, with some of spruce and some of birch, `gondor_shrub_spruce` and `gondor_shrub_birch`), patches of round oaks where vanilla's biome noise peaks (`trees_gondor_patch`), bare earth and gravel showing through |
+| Forest | `lotrmod:gondor_forest` | well wooded | A mixed wood (`trees_gondor_forest`, nine a chunk) of oak (vanilla's, its large oak, and a long-trunked oak under a round crown, `gondor_tall_oak`), spruce and pine, aspen, birch and beech, small and large, each kept a little apart from the others as Fangorn's are (`gondor_forest_*`); moss and podzol on the floor, ferns and bushes |
+| Marble hills | `lotrmod:gondor_marble_hills` | the rockiest ground | Knolls and crags up to some 35 blocks high, broken into ledges, with grassy hollows between them (see below) |
+| Wetlands | `lotrmod:gondor_wetlands` | the wettest ground | Ground held about the waterline, so it breaks into shallow pools and grassy islands, filled with water as the Vale of Anduin's are; rather more water than land, cattails (thinner than the Vale's), sugar cane and the odd oak, muddy banks, pools floored with clay and sand |
+
+- **Ground** (`GondorTerrain`): the plains roll a few blocks about y 67. The
+  marble hills and wetlands have ground of their own, faded in across the
+  edge of their zone so the land doesn't step.
+- **Marble**: `lotrmod:gondor_rock`, the original's Gondor rock (its
+  texture), white flecked with grey. In the marble hills everything near the
+  surface above y 70 is Gondor rock, with patches of calcite through it
+  (about a fifth, where the `lotrmod:gondor_calcite` noise is high), so the
+  crags stand bare and white, with
+  grass only on level ledges where the `lotrmod:gondor_marble_grass` noise
+  allows, scarcer above y 80 and y 92: the `lotrmod:gondor_marble_hills`
+  rule at the head of the surface rule. Bushes and oaks grow on the grass.
+- **Boulders** (`gondor_boulders`, `_dense`, `_large`): rough lumps of
+  Gondor rock with a little calcite (`lotrmod:boulder`) in three sizes
+  (`gondor_boulder_small`, `_medium`, `_large`; the hills' big ones are `gondor_boulder_hills`): a stone or two about half the
+  time, a lump most of the rest, and now and then a heap seven blocks across.
+  One in five chunks on the plains, forest and wetlands, one in three in the
+  shrubland and hills, and in the hills a big one in about one chunk in eight
+  as well.
+- **Grass** (`patch_gondor_grass`): mostly vanilla grass and tall grass with
+  a sprinkling of Rohan's dry grass and wild oats for golden heads, and
+  `patch_gondor_flowers`: dandelions, oxeye daisies, cornflowers and bluets.
+- **Colours**: vanilla's clear sky; grass bright yellow-green on the plains,
+  olive in the shrubland, deep green under the trees and fresh green in the
+  wetlands.

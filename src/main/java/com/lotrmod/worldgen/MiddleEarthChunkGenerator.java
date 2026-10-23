@@ -37,7 +37,7 @@ import java.util.List;
  * The surface rule in the same JSON finishes each region's biome with its own
  * ground.
  *
- * <p>This class adds water and beaches. River channels and marsh pools are
+ * <p>This class adds water and beaches. River channels, marsh pools and Gondor's wetland pools are
  * filled with water up to the waterline, since vanilla's aquifer only
  * sometimes floods ground cut below sea level.
  *
@@ -132,9 +132,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         }
     }
 
-    /** Whether ground below the waterline here is under water: a river or a marsh. */
+    /** Whether ground below the waterline here is under water: a river, a marsh or Gondor's wetlands. */
     private static boolean isWet(int x, int z) {
         if (MiddleEarthClimate.marshWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
+        double gondor = MiddleEarthClimate.gondorWeight(x, z);
+        if (gondor > MARSH_FLOOD_WEIGHT && gondor * GondorTerrain.wetWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
         RiverMap.Sample river = RiverMap.sample(x, z);
         return river != null && RiverTerrain.isWater(river);
     }
@@ -216,6 +218,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         double deadLands = MiddleEarthClimate.deadLandsWeight(x, z);
         if (deadLands > 0.0) {
             info.add(String.format("Dead Lands: %.0f%%, height %.1f", deadLands * 100.0, DeadLandsTerrain.height(x, z)));
+        }
+        double gondor = MiddleEarthClimate.gondorWeight(x, z);
+        if (gondor > 0.0) {
+            info.add(String.format("Gondor: %.0f%% %s, height %.1f",
+                    gondor * 100.0, GondorTerrain.zone(x, z), GondorTerrain.height(x, z)));
         }
         double mountain = MiddleEarthClimate.mountainWeight(x, z);
         if (mountain > 0.0) {

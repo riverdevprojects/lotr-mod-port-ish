@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:gondor_boulder_small",
+        "chance": 0.45
+      },
+      {
+        "feature": "lotrmod:gondor_boulder_large",
+        "chance": 0.2
+      }
+    ],
+    "default": "lotrmod:gondor_boulder_medium"
+  }
+}

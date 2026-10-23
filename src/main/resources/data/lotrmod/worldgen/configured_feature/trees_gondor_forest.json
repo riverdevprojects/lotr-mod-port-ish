@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:gondor_forest_tall_oak",
+        "chance": 0.12
+      },
+      {
+        "feature": "lotrmod:gondor_forest_fancy_oak",
+        "chance": 0.091
+      },
+      {
+        "feature": "lotrmod:gondor_forest_spruce",
+        "chance": 0.175
+      },
+      {
+        "feature": "lotrmod:gondor_forest_pine",
+        "chance": 0.061
+      },
+      {
+        "feature": "lotrmod:gondor_forest_aspen",
+        "chance": 0.194
+      },
+      {
+        "feature": "lotrmod:gondor_forest_aspen_large",
+        "chance": 0.1
+      },
+      {
+        "feature": "lotrmod:gondor_forest_birch",
+        "chance": 0.267
+      },
+      {
+        "feature": "lotrmod:gondor_forest_birch_large",
+        "chance": 0.152
+      },
+      {
+        "feature": "lotrmod:gondor_forest_beech",
+        "chance": 0.5
+      },
+      {
+        "feature": "lotrmod:gondor_forest_beech_large",
+        "chance": 0.571
+      }
+    ],
+    "default": "lotrmod:gondor_forest_oak"
+  }
+}
