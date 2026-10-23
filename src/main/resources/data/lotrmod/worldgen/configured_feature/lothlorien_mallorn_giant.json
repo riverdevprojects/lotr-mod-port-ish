@@ -1,0 +1,13 @@
+{
+  "type": "lotrmod:mallorn",
+  "config": {
+    "min_height": 32,
+    "max_height": 48,
+    "trunk_size": 4,
+    "bough_length": 6,
+    "bough_start": 0.42,
+    "crown_radius": 4,
+    "lean": 0,
+    "ivy": 0.65
+  }
+}

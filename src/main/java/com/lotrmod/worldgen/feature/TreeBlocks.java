@@ -31,11 +31,14 @@ import java.util.stream.Stream;
 final class TreeBlocks {
     private final Map<BlockPos, BlockState> logs = new LinkedHashMap<>();
     private final Set<BlockPos> leaves = new LinkedHashSet<>();
+    /** Leaves that aren't the tree's usual kind, by where they are. */
+    private final Map<BlockPos, BlockState> leafStates = new HashMap<>();
 
     void log(BlockPos pos, BlockState state) {
         BlockPos at = pos.immutable();
         logs.put(at, state);
         leaves.remove(at);
+        leafStates.remove(at);
     }
 
     void leaf(BlockPos pos) {
@@ -43,14 +46,30 @@ final class TreeBlocks {
         if (!logs.containsKey(at)) leaves.add(at);
     }
 
+    /** A leaf of another kind than the one {@link #place} is given. */
+    void leaf(BlockPos pos, BlockState state) {
+        BlockPos at = pos.immutable();
+        if (logs.containsKey(at)) return;
+        leaves.add(at);
+        leafStates.put(at, state);
+    }
+
     boolean hasLeaf(BlockPos pos) {
         return leaves.contains(pos);
     }
 
     void place(WorldGenLevel level, BlockState leafState) {
+        place(level, leafState, false);
+    }
+
+    /** As {@link #place(WorldGenLevel, BlockState)}, leaving out any leaf too far from the tree's wood to last if {@code dropLoose}. */
+    void place(WorldGenLevel level, BlockState leafState, boolean dropLoose) {
         logs.forEach((pos, state) -> level.setBlock(pos, state, Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE));
-        leafDistances().forEach((pos, d) ->
-                level.setBlock(pos, leafState.setValue(LeavesBlock.DISTANCE, d), Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE));
+        leafDistances().forEach((pos, d) -> {
+            if (dropLoose && d >= LeavesBlock.DECAY_DISTANCE) return;
+            level.setBlock(pos, leafStates.getOrDefault(pos, leafState).setValue(LeavesBlock.DISTANCE, d),
+                    Block.UPDATE_ALL | Block.UPDATE_KNOWN_SHAPE);
+        });
     }
 
     /**
@@ -67,7 +86,8 @@ final class TreeBlocks {
         });
         leafDistances().forEach((pos, d) -> {
             if (box.isInside(pos) && roomForLeaf(level.getBlockState(pos))) {
-                level.setBlock(pos, leafState.setValue(LeavesBlock.DISTANCE, d), Block.UPDATE_CLIENTS);
+                level.setBlock(pos, leafStates.getOrDefault(pos, leafState).setValue(LeavesBlock.DISTANCE, d),
+                        Block.UPDATE_CLIENTS);
             }
         });
     }

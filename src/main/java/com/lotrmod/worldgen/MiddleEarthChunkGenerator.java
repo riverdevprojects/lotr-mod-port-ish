@@ -132,12 +132,16 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         }
     }
 
-    /** Whether ground below the waterline here is under water: a river, a marsh, Gondor's wetlands or the Bruinen. */
+    /**
+     * Whether ground below the waterline here is under water: a river, a marsh, Gondor's wetlands, the Bruinen,
+     * or Lothlórien's streams and pools.
+     */
     private static boolean isWet(int x, int z) {
         if (MiddleEarthClimate.marshWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
         double gondor = MiddleEarthClimate.gondorWeight(x, z);
         if (gondor > MARSH_FLOOD_WEIGHT && gondor * GondorTerrain.wetWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
         if (MiddleEarthClimate.rivendellWeight(x, z) > MARSH_FLOOD_WEIGHT && RivendellTerrain.isRiver(x, z)) return true;
+        if (MiddleEarthClimate.lothlorienWeight(x, z) > MARSH_FLOOD_WEIGHT && LothlorienTerrain.isWater(x, z)) return true;
         RiverMap.Sample river = RiverMap.sample(x, z);
         return river != null && RiverTerrain.isWater(river);
     }
@@ -224,6 +228,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         if (gondor > 0.0) {
             info.add(String.format("Gondor: %.0f%% %s, height %.1f",
                     gondor * 100.0, GondorTerrain.zone(x, z), GondorTerrain.height(x, z)));
+        }
+        double lothlorien = MiddleEarthClimate.lothlorienWeight(x, z);
+        if (lothlorien > 0.0) {
+            info.add(String.format("Lothlórien: %.0f%% %s, height %.1f",
+                    lothlorien * 100.0, LothlorienTerrain.zone(x, z), LothlorienTerrain.height(x, z)));
         }
         double rivendell = MiddleEarthClimate.rivendellWeight(x, z);
         if (rivendell > 0.0) {

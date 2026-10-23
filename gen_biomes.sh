@@ -4,8 +4,9 @@
 # (lindon_woodlands; see MiddleEarthBiomeSource), Gondor's four other landscapes
 # (gondor_forest, gondor_shrubland, gondor_marble_hills, gondor_wetlands; see
 # GondorTerrain), Rivendell's four (rivendell_birch_forest, rivendell_maple_forest,
-# rivendell_peaks, rivendell_cherry_grove; see RivendellTerrain), plus the ocean
-# biome.
+# rivendell_peaks, rivendell_cherry_grove; see RivendellTerrain), Lothlorien's two
+# (lothlorien_forest, lothlorien_old_growth; see LothlorienTerrain), plus the
+# ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -61,6 +62,12 @@ mkdir -p "$OUT"
 # 46p lotrmod:trees_rivendell_cherry 46q lotrmod:rivendell_bushes
 # 46r lotrmod:rivendell_maple_bushes 46s lotrmod:patch_rivendell_flowers
 # 46t lotrmod:patch_rivendell_forest_flowers
+#  Lothlorien's (its three landscapes' mallorns, bushes, logs and flowers):
+# 46u lotrmod:trees_lothlorien_old_growth 46v lotrmod:trees_lothlorien_forest
+# 46w lotrmod:trees_lothlorien_plains     46x lotrmod:trees_lothlorien_grove
+# 46y lotrmod:trees_lothlorien_understory 46z lotrmod:lothlorien_logs
+# 46za lotrmod:lothlorien_bushes          46zb lotrmod:patch_lothlorien_flowers
+# 46zc lotrmod:patch_lothlorien_forest_flowers 46zd lotrmod:patch_fallen_mallorn_leaves
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
@@ -76,11 +83,11 @@ mkdir -p "$OUT"
 # 72 lotrmod:ent_jars
 # 73 seagrass_normal     74 kelp_cold
 #
-# Only Eriador, Rohan, the Dead Lands, Gondor and Rivendell have anything in
+# Only Eriador, Rohan, the Dead Lands, Gondor, Rivendell and Lothlorien have anything in
 # local_modifications, each its own boulders (lotrmod:eriador_boulders,
 # lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, Gondor's marble ones,
 # always in the order gondor_boulders, gondor_boulders_dense,
-# gondor_boulders_large, and lotrmod:rivendell_boulders), so that step has no
+# gondor_boulders_large, lotrmod:rivendell_boulders and lotrmod:lothlorien_boulders), so that step has no
 # other order to keep. Likewise surface_structures: only Harad's well and the
 # Dead Lands' stone ruins; and fluid_springs: only Rivendell's waterfalls,
 # lotrmod:rivendell_waterfalls or lotrmod:rivendell_waterfalls_peaks.
@@ -96,7 +103,7 @@ mkdir -p "$OUT"
 ORES='"minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"'
 
 CARVERS='"minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"'
-# Rohan's, Gondor's and Rivendell's ravines are a seventh as common as vanilla's, to leave their plains whole
+# Rohan's, Gondor's, Rivendell's and Lothlorien's ravines are a seventh as common as vanilla's, to leave their plains whole
 CARVERS_ROHAN='"minecraft:cave","minecraft:cave_extra_underground","lotrmod:canyon_rare"'
 
 mon() {
@@ -192,7 +199,7 @@ biome() {
     printf '  },\n'
     printf '  "spawn_costs": {},\n'
     local carvers="$CARVERS"
-    case "$name" in rohan|gondor*|rivendell*) carvers="$CARVERS_ROHAN" ;; esac
+    case "$name" in rohan|gondor*|rivendell*|lothlorien*) carvers="$CARVERS_ROHAN" ;; esac
     printf '  "carvers": { "air": [%s] },\n' "$carvers"
     printf '  "features": [\n'
     printf '    [],\n'      # raw_generation
@@ -230,7 +237,6 @@ FREEZE='"minecraft:freeze_top_layer"'
 P_PLAIN="7907327 12638463 4159204 329011 9470285 7842607"
 P_FOREST="7972607 12638463 4159204 329011 7975533 5159473"
 P_DARK="7972607 12638463 4159204 329011 6975545 4215066"
-P_GOLD="8233727 12638463 4159204 329011 12502092 11983724"
 P_MOUNT="8232447 12638463 4159204 329011 8626540 6713893"
 P_SNOW="8364543 12638463 4020182 329011 8434839 7842607"
 P_DESERT="7254527 12638463 4159204 329011 11048095 10387789"
@@ -275,6 +281,11 @@ P_GONDOR_WET="7907327 12638463 4159204 329011 8826956 6263872"
 # floor; a cooler green in the birch wood; an autumn floor under the maples,
 # whose vanilla leaves (the bushes' oak) turn orange too; a cold grey-green on
 # the peaks; and vanilla's cherry grove colours among the cherries
+# Lothlorien: a clear sky over a golden haze and leaves of gold (vanilla's
+# leaves and vines too); gold grass in the fields, olive green under the trees
+P_LOTHLORIEN="8830187 15784096 4165568 997962 13217866 14264368"
+P_LOTHLORIEN_FOREST="8830187 15784096 4165568 997962 9214016 14264368"
+P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 8031288 14264368"
 P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
 P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
 P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
@@ -292,7 +303,7 @@ biome white_mountains          0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_ta
 biome mountains_of_shadow      0.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
 biome gondor                   0.8 0.6 true $P_GONDOR temp   "$(V lotrmod:trees_gondor_lone lotrmod:gondor_bushes lotrmod:patch_gondor_grass lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders)"
 biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" "" "$(V fossil_upper fossil_lower)" "$(V desert_well)"
-biome lothlorien               0.8 0.8 true $P_GOLD   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
+biome lothlorien               0.8 0.8 true $P_LOTHLORIEN temp "$(V lotrmod:trees_lothlorien_plains lotrmod:trees_lothlorien_grove lotrmod:patch_lothlorien_flowers patch_grass_plain patch_tall_grass)" ""
 biome mirkwood                 0.6 0.8 true $P_MIRKWOOD mirkwood "$(V lotrmod:trees_mirkwood lotrmod:trees_mirkwood_understory lotrmod:mirkwood_logs lotrmod:mirkwood_webs patch_grass_taiga patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
 biome dale                     0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_pumpkin)" ""
 biome erebor                   0.3 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
@@ -329,6 +340,10 @@ biome rivendell_birch_forest   0.7 0.8 true $P_RIVENDELL_BIRCH forest "$(V lotrm
 biome rivendell_maple_forest   0.7 0.8 true $P_RIVENDELL_MAPLE forest "$(V lotrmod:trees_rivendell_maple lotrmod:rivendell_maple_bushes patch_grass_forest patch_large_fern forest_flowers)" "" "" "" "$(V lotrmod:rivendell_boulders)" "$(V lotrmod:rivendell_waterfalls)"
 biome rivendell_peaks          0.28 0.5 true $P_RIVENDELL_PEAKS cold "$(V lotrmod:trees_rivendell_peaks patch_grass_taiga_2)" "$FREEZE" "" "" "" "$(V lotrmod:rivendell_waterfalls_peaks)"
 biome rivendell_cherry_grove   0.1 0.8 true $P_RIVENDELL_CHERRY temp "$(V lotrmod:trees_rivendell_cherry patch_grass_plain flower_cherry)" "$FREEZE" "" "" "" "$(V lotrmod:rivendell_waterfalls_peaks)"
+
+# ── Lothlorien's other landscapes (not regions on the map: see LothlorienTerrain)
+biome lothlorien_forest        0.8 0.8 true $P_LOTHLORIEN_FOREST forest "$(V lotrmod:trees_lothlorien_forest lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_forest patch_tall_grass patch_large_fern forest_flowers)" ""
+biome lothlorien_old_growth    0.8 0.9 true $P_LOTHLORIEN_OLD forest "$(V lotrmod:trees_lothlorien_old_growth lotrmod:trees_lothlorien_understory lotrmod:lothlorien_logs lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_taiga patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:lothlorien_boulders)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

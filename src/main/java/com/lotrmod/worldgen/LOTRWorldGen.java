@@ -5,6 +5,7 @@ import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
 import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
+import com.lotrmod.worldgen.feature.MallornFeature;
 import com.lotrmod.worldgen.feature.MirkOakFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
 import com.lotrmod.worldgen.feature.PineFeature;
@@ -105,6 +106,10 @@ public class LOTRWorldGen {
             FEATURES.register("dead_tree", () -> new DeadTreeFeature(DeadTreeFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, StoneRuinFeature> STONE_RUIN =
             FEATURES.register("stone_ruin", () -> new StoneRuinFeature(StoneRuinFeature.Config.CODEC));
+
+    // Lothlórien's golden mallorns, from the towering old growth to saplings
+    public static final DeferredHolder<Feature<?>, MallornFeature> MALLORN =
+            FEATURES.register("mallorn", () -> new MallornFeature(MallornFeature.Config.CODEC));
 
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:lothlorien_mallorn_small",
+        "chance": 0.5
+      }
+    ],
+    "default": "lotrmod:lothlorien_bush"
+  }
+}

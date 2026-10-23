@@ -1,0 +1,31 @@
+{
+  "type": "lotrmod:boulder",
+  "config": {
+    "state": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:mossy_cobblestone"
+          },
+          "weight": 5
+        },
+        {
+          "data": {
+            "Name": "minecraft:moss_block"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "minecraft:stone"
+          },
+          "weight": 2
+        }
+      ]
+    },
+    "min_width": 0,
+    "max_width": 2,
+    "height_check": 3
+  }
+}

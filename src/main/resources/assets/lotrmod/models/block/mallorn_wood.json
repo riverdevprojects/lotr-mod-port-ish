@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "lotrmod:block/mallorn_wood",
+    "side": "lotrmod:block/mallorn_wood"
+  }
+}

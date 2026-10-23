@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -124,6 +125,36 @@ public final class ModBlocks {
     public static final DeferredBlock<LeavesBlock> ORANGE_MAPLE_LEAVES = BLOCKS.register("orange_maple_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.COLOR_ORANGE)));
 
+    // Lothlórien's mallorn, drawn for this mod: pale silver bark, wood (bark on
+    // every side) for the boughs of the great trees, golden leaves in two
+    // shades, the brighter for the sunlit tops, ivy of olive and gold that
+    // climbs the trunks, and a carpet of fallen leaves. Untinted, like aspen.
+    // Under them grow elanor, a small golden star, and niphredil, pale spikes
+    // of white bells.
+    public static final DeferredBlock<RotatedPillarBlock> MALLORN_LOG = BLOCKS.register("mallorn_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG).mapColor(MapColor.COLOR_BROWN)));
+    public static final DeferredBlock<RotatedPillarBlock> MALLORN_WOOD = BLOCKS.register("mallorn_wood",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).mapColor(MapColor.COLOR_BROWN)));
+    public static final DeferredBlock<LeavesBlock> MALLORN_LEAVES = BLOCKS.register("mallorn_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.GOLD)));
+    public static final DeferredBlock<LeavesBlock> GOLDEN_MALLORN_LEAVES = BLOCKS.register("golden_mallorn_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.GOLD)));
+    public static final DeferredBlock<VineBlock> MALLORN_IVY = BLOCKS.register("mallorn_ivy",
+            () -> new VineBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)));
+    public static final DeferredBlock<CarpetBlock> FALLEN_MALLORN_LEAVES = BLOCKS.register("fallen_mallorn_leaves",
+            () -> new CarpetBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.GOLD)
+                    .strength(0.1f)
+                    .sound(SoundType.AZALEA_LEAVES)
+                    .noOcclusion()
+                    .replaceable()
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<FlowerBlock> ELANOR = BLOCKS.register("elanor",
+            () -> new FlowerBlock(MobEffects.SATURATION, 0.35f, BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
+    public static final DeferredBlock<FlowerBlock> NIPHREDIL = BLOCKS.register("niphredil",
+            () -> new FlowerBlock(MobEffects.NIGHT_VISION, 5.0f, BlockBehaviour.Properties.ofFullCopy(Blocks.LILY_OF_THE_VALLEY)));
+
     // Rohan's grasses, sun-dried to straw: a short tuft, a two-tall grass gone
     // to seed, and wild oats. Coloured in the texture, not by the biome, so
     // they stay gold among the greener grass of the swales.
@@ -173,6 +204,14 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> MAPLE_LOG_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LOG);
     public static final DeferredItem<BlockItem> MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(MAPLE_LEAVES);
     public static final DeferredItem<BlockItem> ORANGE_MAPLE_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ORANGE_MAPLE_LEAVES);
+    public static final DeferredItem<BlockItem> MALLORN_LOG_ITEM = ITEMS.registerSimpleBlockItem(MALLORN_LOG);
+    public static final DeferredItem<BlockItem> MALLORN_WOOD_ITEM = ITEMS.registerSimpleBlockItem(MALLORN_WOOD);
+    public static final DeferredItem<BlockItem> MALLORN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(MALLORN_LEAVES);
+    public static final DeferredItem<BlockItem> GOLDEN_MALLORN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(GOLDEN_MALLORN_LEAVES);
+    public static final DeferredItem<BlockItem> MALLORN_IVY_ITEM = ITEMS.registerSimpleBlockItem(MALLORN_IVY);
+    public static final DeferredItem<BlockItem> FALLEN_MALLORN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(FALLEN_MALLORN_LEAVES);
+    public static final DeferredItem<BlockItem> ELANOR_ITEM = ITEMS.registerSimpleBlockItem(ELANOR);
+    public static final DeferredItem<BlockItem> NIPHREDIL_ITEM = ITEMS.registerSimpleBlockItem(NIPHREDIL);
 
     // What the hobbit holes are built from that vanilla has no match for: the
     // round front door (one of four colours of the original's hobbit gate), the
@@ -297,6 +336,14 @@ public final class ModBlocks {
             event.accept(MAPLE_LOG_ITEM);
             event.accept(MAPLE_LEAVES_ITEM);
             event.accept(ORANGE_MAPLE_LEAVES_ITEM);
+            event.accept(MALLORN_LOG_ITEM);
+            event.accept(MALLORN_WOOD_ITEM);
+            event.accept(MALLORN_LEAVES_ITEM);
+            event.accept(GOLDEN_MALLORN_LEAVES_ITEM);
+            event.accept(MALLORN_IVY_ITEM);
+            event.accept(FALLEN_MALLORN_LEAVES_ITEM);
+            event.accept(ELANOR_ITEM);
+            event.accept(NIPHREDIL_ITEM);
             event.accept(DRY_GRASS_ITEM);
             event.accept(TALL_DRY_GRASS_ITEM);
             event.accept(WILD_OATS_ITEM);
