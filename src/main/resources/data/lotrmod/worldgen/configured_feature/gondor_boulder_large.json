@@ -18,8 +18,8 @@
         }
       ]
     },
-    "min_width": 1,
-    "max_width": 2,
-    "height_check": 3
+    "min_width": 2,
+    "max_width": 3,
+    "height_check": 4
   }
 }

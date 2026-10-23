@@ -1,9 +1,9 @@
 {
-  "feature": "lotrmod:gondor_boulder_large",
+  "feature": "lotrmod:gondor_boulder_hills",
   "placement": [
     {
       "type": "minecraft:rarity_filter",
-      "chance": 4
+      "chance": 8
     },
     {
       "type": "minecraft:in_square"

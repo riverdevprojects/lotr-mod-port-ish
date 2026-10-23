@@ -467,7 +467,7 @@ one saying how wooded the land is, in patches several hundred blocks across:
 | --- | --- | --- | --- |
 | Plains | `lotrmod:gondor` | open ground, few trees | Wide, low, gently rolling grassland in bright yellow-green, thick with grass, golden tufts and dandelions, a lone oak in about one chunk in eight and the odd bush |
 | Shrubland | `lotrmod:gondor_shrubland` | lightly wooded | Olive grass crowded with low bushes (`gondor_scrub`, eight a chunk, mostly the three-wide `gondor_shrub`), patches of round oaks where vanilla's biome noise peaks (`trees_gondor_patch`), bare earth and gravel showing through |
-| Forest | `lotrmod:gondor_forest` | well wooded | Tall woods (`trees_gondor_forest`, ten a chunk): long-trunked oaks under round crowns (`gondor_tall_oak`) and great dark oaks with trunks two blocks square (`gondor_great_oak`), kept apart as Fangorn's are; moss and podzol on the floor, ferns and bushes |
+| Forest | `lotrmod:gondor_forest` | well wooded | A mixed wood (`trees_gondor_forest`, nine a chunk) of oak (vanilla's, its large oak, and a long-trunked oak under a round crown, `gondor_tall_oak`), spruce and pine, aspen, birch and beech, small and large, each kept a little apart from the others as Fangorn's are (`gondor_forest_*`); moss and podzol on the floor, ferns and bushes |
 | Marble hills | `lotrmod:gondor_marble_hills` | the rockiest ground | Knolls and crags up to some 35 blocks high, broken into ledges, with grassy hollows between them (see below) |
 | Wetlands | `lotrmod:gondor_wetlands` | the wettest ground | Ground held about the waterline, so it breaks into shallow pools and grassy islands, filled with water as the Vale of Anduin's are; rather more water than land, cattails (thinner than the Vale's), sugar cane and the odd oak, muddy banks, pools floored with clay and sand |
 
@@ -481,9 +481,12 @@ one saying how wooded the land is, in patches several hundred blocks across:
   allows, scarcer above y 80 and y 92: the `lotrmod:gondor_marble_hills`
   rule at the head of the surface rule. Bushes and oaks grow on the grass.
 - **Boulders** (`gondor_boulders`, `_dense`, `_large`): rough lumps of
-  Gondor rock with a little calcite (`lotrmod:boulder`), one in two chunks on
-  the plains, forest and wetlands, two a chunk in the shrubland and hills, and
-  bigger ones in the hills too.
+  Gondor rock with a little calcite (`lotrmod:boulder`) in three sizes
+  (`gondor_boulder_small`, `_medium`, `_large`; the hills' big ones are `gondor_boulder_hills`): a stone or two about half the
+  time, a lump most of the rest, and now and then a heap seven blocks across.
+  One in five chunks on the plains, forest and wetlands, one in three in the
+  shrubland and hills, and in the hills a big one in about one chunk in eight
+  as well.
 - **Grass** (`patch_gondor_grass`): mostly vanilla grass and tall grass with
   a sprinkling of Rohan's dry grass and wild oats for golden heads, and
   `patch_gondor_flowers`: dandelions, oxeye daisies, cornflowers and bluets.
