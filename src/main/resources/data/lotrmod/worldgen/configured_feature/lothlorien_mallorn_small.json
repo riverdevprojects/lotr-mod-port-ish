@@ -6,6 +6,8 @@
     "trunk_size": 1,
     "bough_length": 2,
     "bough_start": 0.5,
-    "crown_radius": 2
+    "crown_radius": 2,
+    "lean": 1,
+    "ivy": 0.1
   }
 }

@@ -67,7 +67,7 @@ mkdir -p "$OUT"
 # 46w lotrmod:trees_lothlorien_plains     46x lotrmod:trees_lothlorien_grove
 # 46y lotrmod:trees_lothlorien_understory 46z lotrmod:lothlorien_logs
 # 46za lotrmod:lothlorien_bushes          46zb lotrmod:patch_lothlorien_flowers
-# 46zc lotrmod:patch_lothlorien_forest_flowers
+# 46zc lotrmod:patch_lothlorien_forest_flowers 46zd lotrmod:patch_fallen_mallorn_leaves
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
@@ -281,11 +281,11 @@ P_GONDOR_WET="7907327 12638463 4159204 329011 8826956 6263872"
 # floor; a cooler green in the birch wood; an autumn floor under the maples,
 # whose vanilla leaves (the bushes' oak) turn orange too; a cold grey-green on
 # the peaks; and vanilla's cherry grove colours among the cherries
-# Lothlorien: a clear sky over a golden haze, gold grass, and leaves of gold
-# (vanilla's leaves and vines too) in fields, wood and old growth alike
+# Lothlorien: a clear sky over a golden haze and leaves of gold (vanilla's
+# leaves and vines too); gold grass in the fields, olive green under the trees
 P_LOTHLORIEN="8830187 15784096 4165568 997962 13217866 14264368"
-P_LOTHLORIEN_FOREST="8830187 15784096 4165568 997962 12101189 14264368"
-P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 11050568 14264368"
+P_LOTHLORIEN_FOREST="8830187 15784096 4165568 997962 9214016 14264368"
+P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 8031288 14264368"
 P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
 P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
 P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
@@ -342,8 +342,8 @@ biome rivendell_peaks          0.28 0.5 true $P_RIVENDELL_PEAKS cold "$(V lotrmo
 biome rivendell_cherry_grove   0.1 0.8 true $P_RIVENDELL_CHERRY temp "$(V lotrmod:trees_rivendell_cherry patch_grass_plain flower_cherry)" "$FREEZE" "" "" "" "$(V lotrmod:rivendell_waterfalls_peaks)"
 
 # ── Lothlorien's other landscapes (not regions on the map: see LothlorienTerrain)
-biome lothlorien_forest        0.8 0.8 true $P_LOTHLORIEN_FOREST forest "$(V lotrmod:trees_lothlorien_forest lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers patch_grass_forest patch_tall_grass patch_large_fern forest_flowers)" ""
-biome lothlorien_old_growth    0.8 0.9 true $P_LOTHLORIEN_OLD forest "$(V lotrmod:trees_lothlorien_old_growth lotrmod:trees_lothlorien_understory lotrmod:lothlorien_logs lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers patch_grass_taiga patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:lothlorien_boulders)"
+biome lothlorien_forest        0.8 0.8 true $P_LOTHLORIEN_FOREST forest "$(V lotrmod:trees_lothlorien_forest lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_forest patch_tall_grass patch_large_fern forest_flowers)" ""
+biome lothlorien_old_growth    0.8 0.9 true $P_LOTHLORIEN_OLD forest "$(V lotrmod:trees_lothlorien_old_growth lotrmod:trees_lothlorien_understory lotrmod:lothlorien_logs lotrmod:lothlorien_bushes lotrmod:patch_lothlorien_forest_flowers lotrmod:patch_fallen_mallorn_leaves patch_grass_taiga patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:lothlorien_boulders)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

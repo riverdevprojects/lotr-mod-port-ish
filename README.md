@@ -9,8 +9,8 @@ aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
 pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock, Rivendell's red and orange
-maple, whose logs craft into oak planks, and Lothlórien's golden mallorn, elanor and niphredil,
-drawn new for this mod — the one addition is the Shire's **hobbit holes**, with the blocks they
+maple, whose logs craft into oak planks, and Lothlórien's mallorn, ivy, fallen leaves, elanor
+and niphredil, drawn new for this mod — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -548,8 +548,8 @@ oldest trees gather round its heart and the fields lie towards its borders:
 
 | Landscape | Biome | Where | |
 | --- | --- | --- | --- |
-| Old growth | `lotrmod:lothlorien_old_growth` | the deepest wood, mostly round the heart | Towering mallorns (`trees_lothlorien_old_growth`, four tries a chunk): giants on three-block trunks 30 to 46 tall, swelling at the foot, with buttress roots, and great mallorns on two-block trunks; small mallorns and golden bushes beneath them (`trees_lothlorien_understory`), fallen mallorn logs, mossy boulders, ferns, elanor and niphredil; ground broken into low ledges of mossy stone, moss and the odd patch of podzol on the floor |
-| Forest | `lotrmod:lothlorien_forest` | the wood itself | Close golden forest (`trees_lothlorien_forest`, eight tries a chunk) of mallorns on two-block trunks, small ones and the odd great one, golden bushes, ferns, elanor and niphredil |
+| Old growth | `lotrmod:lothlorien_old_growth` | the deepest wood, mostly round the heart | Towering mallorns (`trees_lothlorien_old_growth`, four tries a chunk): giants on four-block trunks 32 to 48 tall, swelling at the foot, with buttress roots and boughs two blocks thick, and great mallorns on two-block trunks, all hung with ivy; small mallorns and bushes beneath them (`trees_lothlorien_understory`), thick undergrowth, drifts of fallen leaves, fallen mallorn logs, mossy boulders, ferns, elanor and niphredil; ground broken into low ledges of mossy stone, moss and the odd patch of podzol on the floor |
+| Forest | `lotrmod:lothlorien_forest` | the wood itself | Open golden forest (`trees_lothlorien_forest`, four tries a chunk) of mallorns on two-block trunks, some leaning, small ones and the odd great one, each its own round crown with the ground showing between; thick undergrowth of bushes (`lothlorien_bushes`, six a chunk), drifts of fallen leaves, ferns, elanor and niphredil |
 | Plains | `lotrmod:lothlorien` | open ground, mostly towards the edges | Rolling fields of golden grass, a lone mallorn in about one chunk in three, clumps of five to nine in about one chunk in nine (`trees_lothlorien_grove`), and a scattering of elanor, niphredil and daisies |
 
 - **Ground** (`LothlorienTerrain`): rolling ground about y 70, the fields
@@ -559,24 +559,31 @@ oldest trees gather round its heart and the fields lie towards its borders:
   allows them, and here and there a pool lies in a hollow. Both are cut
   below the waterline and filled with water like the rivers; their beds are
   sand and gravel with some clay.
-- **Mallorn** (`lotrmod:mallorn`, `MallornFeature`): a square trunk, bare
-  for its lower part, then boughs of wood spiralling up round it by the
-  golden angle, climbing as they go and shorter towards the top, each ending
-  in a broad, flat pad of leaves with a smaller one part way along; another
-  pad crowns the trunk. So the crown stands in layers of gold. Spokes of
-  wood run out through every pad so no leaf is too far from wood to last,
-  and any leaf they can't reach is left out. The same feature at different
-  sizes makes the giants (`lothlorien_mallorn_giant`), great
-  (`_great`), ordinary (`lothlorien_mallorn`) and small (`_small`) mallorns
-  and the bushes (`lothlorien_bush`).
-- **Blocks**: `lotrmod:mallorn_log`, deep brown bark streaked with silver;
-  `lotrmod:mallorn_wood`, bark on every side, for boughs and roots (four
-  logs make three); `lotrmod:mallorn_leaves`, gold, and
-  `lotrmod:golden_mallorn_leaves`, brighter, over the tops of the pads where
-  the sun catches them. Untinted. Logs and wood craft into oak planks.
-  `lotrmod:elanor`, a small golden star, and `lotrmod:niphredil`, white and
-  nodding, are flowers that make yellow and white dye.
-- **Colours**: a clear sky over a golden haze of fog, golden grass, a
-  little greener under the old growth, and vanilla's leaves and vines
+- **Mallorn** (`lotrmod:mallorn`, `MallornFeature`): a square trunk of
+  pale bark, bare for its lower part and leaning a block or two on the
+  smaller trees, then boughs of wood spiralling up round it by the golden
+  angle, climbing as they go and shorter towards the top, each ending in a
+  round, clumpy crown of leaves with a smaller one part way along; another
+  crowns the trunk. Spokes of wood run out through every crown so no leaf
+  is too far from wood to last, and any leaf they can't reach is left out.
+  Strips of ivy climb the trunk, more of it the bigger the tree. The same
+  feature at different sizes makes the giants (`lothlorien_mallorn_giant`),
+  great (`_great`), ordinary (`lothlorien_mallorn`) and small (`_small`)
+  mallorns and the bushes (`lothlorien_bush`), whose leaves are mostly
+  vanilla's azalea, olive green with gold through it, as its `leaves` and
+  `sunlit_leaves` say.
+- **Blocks**, drawn in the manner of vanilla 1.21's: `lotrmod:mallorn_log`,
+  pale silver bark in vertical plates; `lotrmod:mallorn_wood`, bark on every
+  side, for boughs and roots (four logs make three); `lotrmod:mallorn_leaves`,
+  clusters of gold leaves lit from the top left, and
+  `lotrmod:golden_mallorn_leaves`, brighter, over the tops of the crowns
+  where the sun catches them; `lotrmod:mallorn_ivy`, a vine of olive and
+  gold leaves; `lotrmod:fallen_mallorn_leaves`, a carpet of gold, amber and
+  brown leaves, laid in drifts on the forest floor
+  (`patch_fallen_mallorn_leaves`). Untinted. Logs and wood craft into oak
+  planks. `lotrmod:elanor`, small golden stars, and `lotrmod:niphredil`,
+  pale spikes of white bells, are flowers that make yellow and white dye.
+- **Colours**: a clear sky over a golden haze of fog, golden grass in the
+  fields and olive green under the trees, and vanilla's leaves and vines
   golden too.
 - Lothlórien's ravines are as rare as Rohan's and Gondor's.
