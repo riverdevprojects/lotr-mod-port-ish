@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:gondor_great_oak_checked",
+        "chance": 0.3
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.1
+      },
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.06
+      }
+    ],
+    "default": "lotrmod:gondor_tall_oak_checked"
+  }
+}

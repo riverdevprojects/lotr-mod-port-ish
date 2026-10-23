@@ -1,0 +1,25 @@
+{
+  "type": "lotrmod:boulder",
+  "config": {
+    "state": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "lotrmod:gondor_rock"
+          },
+          "weight": 12
+        },
+        {
+          "data": {
+            "Name": "minecraft:calcite"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "min_width": 1,
+    "max_width": 2,
+    "height_check": 3
+  }
+}

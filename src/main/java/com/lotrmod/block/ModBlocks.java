@@ -8,6 +8,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.FlowerBlock;
@@ -130,6 +131,11 @@ public final class ModBlocks {
     public static final DeferredBlock<TallGrassBlock> SHORT_GRASS = BLOCKS.register("short_grass",
             () -> new TallGrassBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SHORT_GRASS)));
 
+    // The original's Gondor rock, white marble flecked with grey: the stone of
+    // Gondor's boulders and of its marble hills
+    public static final DeferredBlock<Block> GONDOR_ROCK = BLOCKS.register("gondor_rock",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.QUARTZ)));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -195,6 +201,7 @@ public final class ModBlocks {
             () -> new DoubleHighBlockItem(TALL_DRY_GRASS.get(), new Item.Properties()));
     public static final DeferredItem<BlockItem> WILD_OATS_ITEM = ITEMS.registerSimpleBlockItem(WILD_OATS);
     public static final DeferredItem<BlockItem> SHORT_GRASS_ITEM = ITEMS.registerSimpleBlockItem(SHORT_GRASS);
+    public static final DeferredItem<BlockItem> GONDOR_ROCK_ITEM = ITEMS.registerSimpleBlockItem(GONDOR_ROCK);
 
     public static final DeferredItem<BlockItem> GATE_HOBBIT_GREEN_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_GREEN);
     public static final DeferredItem<BlockItem> GATE_HOBBIT_BLUE_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_BLUE);
@@ -279,6 +286,7 @@ public final class ModBlocks {
             event.accept(TALL_DRY_GRASS_ITEM);
             event.accept(WILD_OATS_ITEM);
             event.accept(SHORT_GRASS_ITEM);
+            event.accept(GONDOR_ROCK_ITEM);
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);

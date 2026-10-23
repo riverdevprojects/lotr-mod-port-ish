@@ -1,7 +1,9 @@
 #!/bin/bash
 # One-shot generator for the 28 region biome JSONs, the Shire's two rings
 # (shire_outskirts, shire_woodlands; see ShireZones), Lindon's woods
-# (lindon_woodlands; see MiddleEarthBiomeSource), plus the ocean biome.
+# (lindon_woodlands; see MiddleEarthBiomeSource), Gondor's four other landscapes
+# (gondor_forest, gondor_shrubland, gondor_marble_hills, gondor_wetlands; see
+# GondorTerrain), plus the ocean biome.
 #
 # Every biome's vegetation list is written as an ascending subsequence of ONE
 # canonical master order (see MASTER below). That is what keeps NeoForge's
@@ -44,6 +46,13 @@ mkdir -p "$OUT"
 # 43 lotrmod:mirkwood_logs          44 lotrmod:mirkwood_webs
 #  The Dead Lands' (the original's Brown Lands: dead oaks and withered grass):
 # 45 lotrmod:trees_dead_lands       46 lotrmod:patch_dead_lands_grass
+#  Gondor's (its five landscapes' trees, bushes, grass and flowers):
+# 46a lotrmod:trees_gondor_forest   46b lotrmod:trees_gondor_hills
+# 46c lotrmod:trees_gondor_patch    46d lotrmod:trees_gondor_lone
+# 46e lotrmod:trees_gondor_scattered 46f lotrmod:gondor_scrub
+# 46g lotrmod:gondor_bushes         46h lotrmod:patch_gondor_grass
+# 46i lotrmod:patch_gondor_grass_light 46j lotrmod:patch_gondor_flowers
+# 46k lotrmod:patch_cattail_gondor
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
@@ -58,9 +67,11 @@ mkdir -p "$OUT"
 # 72 lotrmod:ent_jars
 # 73 seagrass_normal     74 kelp_cold
 #
-# Only Eriador, Rohan and the Dead Lands have anything in local_modifications,
-# each its own boulders (lotrmod:eriador_boulders, lotrmod:rohan_boulders,
-# lotrmod:dead_lands_boulders), so that step has no order to keep. Likewise
+# Only Eriador, Rohan, the Dead Lands and Gondor have anything in
+# local_modifications, each its own boulders (lotrmod:eriador_boulders,
+# lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, and Gondor's marble ones,
+# always in the order gondor_boulders, gondor_boulders_dense,
+# gondor_boulders_large), so that step has no other order to keep. Likewise
 # surface_structures: only Harad's well and the Dead Lands' stone ruins.
 #
 # Names without a namespace are minecraft's.
@@ -74,7 +85,7 @@ mkdir -p "$OUT"
 ORES='"minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"'
 
 CARVERS='"minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"'
-# Rohan's ravines are a seventh as common as vanilla's, to leave its plains whole
+# Rohan's and Gondor's ravines are a seventh as common as vanilla's, to leave their plains whole
 CARVERS_ROHAN='"minecraft:cave","minecraft:cave_extra_underground","lotrmod:canyon_rare"'
 
 mon() {
@@ -170,7 +181,7 @@ biome() {
     printf '  },\n'
     printf '  "spawn_costs": {},\n'
     local carvers="$CARVERS"
-    [ "$name" = rohan ] && carvers="$CARVERS_ROHAN"
+    case "$name" in rohan|gondor*) carvers="$CARVERS_ROHAN" ;; esac
     printf '  "carvers": { "air": [%s] },\n' "$carvers"
     printf '  "features": [\n'
     printf '    [],\n'      # raw_generation
@@ -242,6 +253,13 @@ P_MIRKWOOD="4807766 1580828 1708838 657930 2841381 2503461"
 # The Dead Lands' sky and dead brown grass are the original Brown Lands';
 # its leaves are vanilla's for the original's climate (1.0, 0.2)
 P_DEAD_LANDS="8878434 12638463 4159204 329011 11373417 11445290"
+# Gondor's: a clear blue sky over bright yellow-green grass on the plains,
+# olive in the shrubland, deep green under the forest, fresh green by the water
+P_GONDOR="7907327 12638463 4159204 329011 10337868 6986293"
+P_GONDOR_FOREST="7907327 12638463 4159204 329011 7314236 4880940"
+P_GONDOR_SHRUB="7907327 12638463 4159204 329011 10860622 7245366"
+P_GONDOR_HILLS="7907327 12638463 4159204 329011 9418824 6196787"
+P_GONDOR_WET="7907327 12638463 4159204 329011 8826956 6263872"
 
 # ── the 28 regions ──────────────────────────────────────────────────────────
 biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
@@ -252,7 +270,7 @@ biome misty_mountains          0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_ta
 biome grey_mountains           0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome white_mountains          0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome mountains_of_shadow      0.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
-biome gondor                   0.9 0.5 true $P_PLAIN  temp   "$(V trees_plains patch_grass_plain patch_tall_grass flower_default patch_melon)" ""
+biome gondor                   0.8 0.6 true $P_GONDOR temp   "$(V lotrmod:trees_gondor_lone lotrmod:gondor_bushes lotrmod:patch_gondor_grass lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders)"
 biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" "" "$(V fossil_upper fossil_lower)" "$(V desert_well)"
 biome lothlorien               0.8 0.8 true $P_GOLD   forest "$(V trees_flower_forest patch_grass_forest patch_tall_grass patch_large_fern flower_flower_forest forest_flowers)" ""
 biome mirkwood                 0.6 0.8 true $P_MIRKWOOD mirkwood "$(V lotrmod:trees_mirkwood lotrmod:trees_mirkwood_understory lotrmod:mirkwood_logs lotrmod:mirkwood_webs patch_grass_taiga patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
@@ -279,6 +297,12 @@ biome shire_woodlands          0.8 0.9 true $P_SHIRE_WOOD forest "$(V lotrmod:tr
 
 # ── Lindon's woods (not a region on the map: see MiddleEarthBiomeSource) ───
 biome lindon_woodlands         0.9 1.0 true $P_LINDON_WOOD forest "$(V lotrmod:trees_lindon_woodlands lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse lotrmod:trees_lindon_poplar lotrmod:trees_lindon_poplar_stand patch_grass_forest patch_tall_grass forest_flowers flower_default brown_mushroom_normal)" ""
+
+# ── Gondor's other landscapes (not regions on the map: see GondorTerrain) ──
+biome gondor_forest            0.8 0.8 true $P_GONDOR_FOREST forest "$(V lotrmod:fangorn_bushes lotrmod:trees_gondor_forest lotrmod:gondor_bushes lotrmod:patch_gondor_grass_light patch_large_fern forest_flowers brown_mushroom_normal)" "" "" "" "$(V lotrmod:gondor_boulders)"
+biome gondor_shrubland         0.8 0.5 true $P_GONDOR_SHRUB temp "$(V lotrmod:trees_gondor_patch lotrmod:trees_gondor_scattered lotrmod:gondor_scrub lotrmod:patch_gondor_grass lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders_dense)"
+biome gondor_marble_hills      0.8 0.5 true $P_GONDOR_HILLS temp "$(V lotrmod:trees_gondor_hills lotrmod:gondor_scrub lotrmod:patch_gondor_grass_light lotrmod:patch_gondor_flowers)" "" "" "" "$(V lotrmod:gondor_boulders_dense lotrmod:gondor_boulders_large)"
+biome gondor_wetlands          0.8 0.9 true $P_GONDOR_WET temp "$(V lotrmod:trees_gondor_scattered lotrmod:gondor_bushes lotrmod:patch_gondor_grass_light lotrmod:patch_cattail_gondor patch_sugar_cane)" "" "" "" "$(V lotrmod:gondor_boulders)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

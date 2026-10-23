@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:rohan_bush_checked",
+        "chance": 0.15
+      },
+      {
+        "feature": "lotrmod:rohan_oak_bush_checked",
+        "chance": 0.15
+      }
+    ],
+    "default": "lotrmod:gondor_shrub_checked"
+  }
+}

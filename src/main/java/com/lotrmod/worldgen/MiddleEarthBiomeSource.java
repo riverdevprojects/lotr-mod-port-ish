@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.synth.PerlinSimplexNoise;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -36,6 +37,11 @@ import java.util.stream.Stream;
  * <p>Lindon is split too, as the original mod had it: open fields
  * ({@code lotrmod:lindon}) broken by broad woods ({@code lotrmod:lindon_woodlands})
  * wherever {@link #LINDON_WOODS} rises high enough.
+ *
+ * <p>So is Gondor, into five landscapes laid out by {@link GondorTerrain#zone}:
+ * open plains ({@code lotrmod:gondor}), tall forest ({@code lotrmod:gondor_forest}),
+ * shrubland ({@code lotrmod:gondor_shrubland}), hills of white marble
+ * ({@code lotrmod:gondor_marble_hills}) and wetlands ({@code lotrmod:gondor_wetlands}).
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -58,6 +64,8 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     private final Holder<Biome> shireWoodlands;
     /** Lindon's woods, or null if the dimension JSON doesn't list them. */
     private final Holder<Biome> lindonWoodlands;
+    /** Gondor's landscapes other than its plains, each null if the dimension JSON doesn't list it. */
+    private final Map<GondorTerrain.Zone, Holder<Biome>> gondorZones = new EnumMap<>(GondorTerrain.Zone.class);
 
     /** Feature size of the region-boundary warp, as a noise input scale. */
     private static final double WARP_SCALE = 1.0 / 40.0;
@@ -98,6 +106,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
         this.shireOutskirts = findBiome(regionBiomes, "shire_outskirts");
         this.shireWoodlands = findBiome(regionBiomes, "shire_woodlands");
         this.lindonWoodlands = findBiome(regionBiomes, "lindon_woodlands");
+        for (GondorTerrain.Zone zone : GondorTerrain.Zone.values()) {
+            if (zone == GondorTerrain.Zone.PLAINS) continue;
+            Holder<Biome> biome = findBiome(regionBiomes, "gondor_" + zone.name().toLowerCase(Locale.ROOT));
+            if (biome != null) gondorZones.put(zone, biome);
+        }
 
         LOTRMod.LOGGER.info("MiddleEarthBiomeSource: resolved {} of {} region biomes",
                 byRegion.size(), Region.biomeRegions().length);
@@ -141,6 +154,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
         if (region == Region.LINDON && lindonWoodlands != null && isLindonWoods(worldX, worldZ)) {
             return lindonWoodlands;
+        }
+
+        if (region == Region.GONDOR) {
+            Holder<Biome> landscape = gondorZones.get(GondorTerrain.zone(worldX, worldZ));
+            if (landscape != null) return landscape;
         }
 
         Holder<Biome> biome = byRegion.get(region);

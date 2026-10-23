@@ -11,6 +11,9 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  * <pre>{"type": "lotrmod:terrain_blend", "argument": <vanilla density>}</pre>
  *
  * <ul>
+ *   <li><b>Gondor</b> fades over to {@link GondorTerrain}'s plains, marble
+ *       hills and wetlands, by {@link MiddleEarthClimate#gondorWeight}. First,
+ *       so the White Mountains still rise to their full height above it.</li>
  *   <li><b>Mountain ranges</b> fade over to {@link MountainTerrain}'s shape,
  *       by {@link MiddleEarthClimate#mountainWeight}.</li>
  *   <li><b>Marshes</b> fade over to {@link MarshTerrain}'s shape, by
@@ -53,6 +56,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         double density = argument.compute(context);
         Column column = LAST.get().at(context.blockX(), context.blockZ());
         int y = context.blockY();
+        if (column.gondorWeight > 0.0) {
+            double gondor = (column.gondorHeight - y) / BLOCKS_PER_UNIT;
+            density += (gondor - density) * column.gondorWeight;
+        }
         if (column.mountainWeight > 0.0) {
             double mountain = (column.mountainHeight - y) / BLOCKS_PER_UNIT;
             density += (mountain - density) * column.mountainWeight;
@@ -119,6 +126,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double rohanHeight;
         private double deadLandsWeight;
         private double deadLandsHeight;
+        private double gondorWeight;
+        private double gondorHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -137,6 +146,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 rohanHeight = rohanWeight > 0.0 ? RohanTerrain.height(x, z) : 0.0;
                 deadLandsWeight = MiddleEarthClimate.deadLandsWeight(x, z);
                 deadLandsHeight = deadLandsWeight > 0.0 ? DeadLandsTerrain.height(x, z) : 0.0;
+                gondorWeight = MiddleEarthClimate.gondorWeight(x, z);
+                gondorHeight = gondorWeight > 0.0 ? GondorTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;
