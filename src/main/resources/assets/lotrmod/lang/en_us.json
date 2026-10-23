@@ -45,5 +45,8 @@
   "block.lotrmod.mirk_oak_leaves": "Mirk Oak Leaves",
   "block.lotrmod.mirk_vines": "Mirk Vines",
   "block.lotrmod.pine_log": "Pine Log",
-  "block.lotrmod.pine_leaves": "Pine Leaves"
+  "block.lotrmod.pine_leaves": "Pine Leaves",
+  "block.lotrmod.maple_log": "Maple Log",
+  "block.lotrmod.maple_leaves": "Maple Leaves",
+  "block.lotrmod.orange_maple_leaves": "Orange Maple Leaves"
 }

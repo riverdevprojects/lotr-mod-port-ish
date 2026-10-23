@@ -1,0 +1,94 @@
+{
+  "feature": "lotrmod:birch_party",
+  "placement": [
+    {
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:all_of",
+        "predicates": [
+          {
+            "type": "minecraft:would_survive",
+            "state": {
+              "Name": "minecraft:birch_sapling",
+              "Properties": {
+                "stage": "0"
+              }
+            }
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              -3,
+              3,
+              0
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              -3,
+              6,
+              0
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              3,
+              3,
+              0
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              3,
+              6,
+              0
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              0,
+              3,
+              -3
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              0,
+              6,
+              -3
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              0,
+              3,
+              3
+            ]
+          },
+          {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air",
+            "offset": [
+              0,
+              6,
+              3
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

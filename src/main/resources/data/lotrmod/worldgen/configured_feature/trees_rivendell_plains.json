@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.25
+      },
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.25
+      },
+      {
+        "feature": "minecraft:birch_checked",
+        "chance": 0.15
+      }
+    ],
+    "default": "lotrmod:rivendell_round_oak_checked"
+  }
+}

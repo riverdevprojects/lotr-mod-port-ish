@@ -42,6 +42,13 @@ import java.util.stream.Stream;
  * open plains ({@code lotrmod:gondor}), tall forest ({@code lotrmod:gondor_forest}),
  * shrubland ({@code lotrmod:gondor_shrubland}), hills of white marble
  * ({@code lotrmod:gondor_marble_hills}) and wetlands ({@code lotrmod:gondor_wetlands}).
+ *
+ * <p>And Rivendell, into the five landscapes of its valley, laid out by
+ * {@link RivendellTerrain#zone}: meadow along the river ({@code lotrmod:rivendell}),
+ * old birch wood ({@code lotrmod:rivendell_birch_forest}), terraces of maple and
+ * beech ({@code lotrmod:rivendell_maple_forest}), jagged peaks
+ * ({@code lotrmod:rivendell_peaks}) and cherry groves on their slopes
+ * ({@code lotrmod:rivendell_cherry_grove}).
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
@@ -66,6 +73,8 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     private final Holder<Biome> lindonWoodlands;
     /** Gondor's landscapes other than its plains, each null if the dimension JSON doesn't list it. */
     private final Map<GondorTerrain.Zone, Holder<Biome>> gondorZones = new EnumMap<>(GondorTerrain.Zone.class);
+    /** Rivendell's landscapes other than its meadow, each null if the dimension JSON doesn't list it. */
+    private final Map<RivendellTerrain.Zone, Holder<Biome>> rivendellZones = new EnumMap<>(RivendellTerrain.Zone.class);
 
     /** Feature size of the region-boundary warp, as a noise input scale. */
     private static final double WARP_SCALE = 1.0 / 40.0;
@@ -110,6 +119,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             if (zone == GondorTerrain.Zone.PLAINS) continue;
             Holder<Biome> biome = findBiome(regionBiomes, "gondor_" + zone.name().toLowerCase(Locale.ROOT));
             if (biome != null) gondorZones.put(zone, biome);
+        }
+        for (RivendellTerrain.Zone zone : RivendellTerrain.Zone.values()) {
+            if (zone == RivendellTerrain.Zone.PLAINS) continue;
+            Holder<Biome> biome = findBiome(regionBiomes, "rivendell_" + zone.name().toLowerCase(Locale.ROOT));
+            if (biome != null) rivendellZones.put(zone, biome);
         }
 
         LOTRMod.LOGGER.info("MiddleEarthBiomeSource: resolved {} of {} region biomes",
@@ -158,6 +172,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
 
         if (region == Region.GONDOR) {
             Holder<Biome> landscape = gondorZones.get(GondorTerrain.zone(worldX, worldZ));
+            if (landscape != null) return landscape;
+        }
+
+        if (region == Region.RIVENDELL) {
+            Holder<Biome> landscape = rivendellZones.get(RivendellTerrain.zone(worldX, worldZ));
             if (landscape != null) return landscape;
         }
 

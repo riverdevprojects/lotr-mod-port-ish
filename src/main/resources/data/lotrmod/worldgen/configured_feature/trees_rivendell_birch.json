@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:rivendell_birch_great",
+        "chance": 0.24
+      },
+      {
+        "feature": "lotrmod:rivendell_birch_party",
+        "chance": 0.053
+      },
+      {
+        "feature": "lotrmod:rivendell_birch_tall",
+        "chance": 0.361
+      },
+      {
+        "feature": "lotrmod:rivendell_birch_super",
+        "chance": 0.348
+      },
+      {
+        "feature": "lotrmod:rivendell_birch_large",
+        "chance": 0.4
+      },
+      {
+        "feature": "lotrmod:rivendell_birch_spruce",
+        "chance": 0.556
+      }
+    ],
+    "default": "lotrmod:rivendell_birch_oak"
+  }
+}

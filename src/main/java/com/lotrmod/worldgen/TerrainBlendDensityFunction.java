@@ -24,6 +24,10 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *       by {@link MiddleEarthClimate#rohanWeight}.</li>
  *   <li><b>The Dead Lands</b> fade over to {@link DeadLandsTerrain}'s low,
  *       ledged ground, by {@link MiddleEarthClimate#deadLandsWeight}.</li>
+ *   <li><b>Rivendell</b> fades over to {@link RivendellTerrain}'s hidden
+ *       valley, by {@link MiddleEarthClimate#rivendellWeight}. After the
+ *       mountains, so the peaks round the valley are its own where the Misty
+ *       Mountains' foothills reach into it.</li>
  *   <li><b>Rivers</b> from {@link RiverMap} cut their channel and valley
  *       ({@link RiverTerrain}). They only ever lower the ground.</li>
  * </ul>
@@ -80,6 +84,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
             double deadLands = (column.deadLandsHeight - y) / BLOCKS_PER_UNIT;
             density += (deadLands - density) * column.deadLandsWeight;
         }
+        if (column.rivendellWeight > 0.0) {
+            double rivendell = (column.rivendellHeight - y) / BLOCKS_PER_UNIT;
+            density += (rivendell - density) * column.rivendellWeight;
+        }
         if (column.riverWeight > 0.0) {
             double river = (column.riverHeight - y) / BLOCKS_PER_UNIT;
             density = Math.min(density, density + (river - density) * column.riverWeight);
@@ -128,6 +136,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double deadLandsHeight;
         private double gondorWeight;
         private double gondorHeight;
+        private double rivendellWeight;
+        private double rivendellHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -148,6 +158,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 deadLandsHeight = deadLandsWeight > 0.0 ? DeadLandsTerrain.height(x, z) : 0.0;
                 gondorWeight = MiddleEarthClimate.gondorWeight(x, z);
                 gondorHeight = gondorWeight > 0.0 ? GondorTerrain.height(x, z) : 0.0;
+                rivendellWeight = MiddleEarthClimate.rivendellWeight(x, z);
+                rivendellHeight = rivendellWeight > 0.0 ? RivendellTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;
