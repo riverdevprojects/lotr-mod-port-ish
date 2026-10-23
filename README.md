@@ -3,13 +3,14 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region** (the Shire, Lindon, Gondor and Rivendell are the exceptions, split up; see below). Apart
+per region** (the Shire, Lindon, Gondor, Rivendell and Lothlórien are the exceptions, split up; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
 newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
-pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock and Rivendell's red and orange
-maple, whose logs craft into oak planks — the one addition is the Shire's **hobbit holes**, with the blocks they
+pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock, Rivendell's red and orange
+maple, whose logs craft into oak planks, and Lothlórien's golden mallorn, elanor and niphredil,
+drawn new for this mod — the one addition is the Shire's **hobbit holes**, with the blocks they
 are built from and the hobbits who live in them (see below). Otherwise this is
 landscape generation and nothing else.
 
@@ -72,7 +73,7 @@ plains instead of stepping up at the map's pixel edges.
 | `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's ground itself comes from `ShireTerrain`, below) |
 | `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Gondor's, Rohan's and the Dead Lands' ground itself comes from `GondorTerrain`, `RohanTerrain` and `DeadLandsTerrain`, below) |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
-| `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 |
+| `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 (Lothlórien's ground itself comes from `LothlorienTerrain`, below) |
 | `DESERT` | Harad | 0.20 | 0.05 ± 0.30 |
 | `MIXED` | Mordor, Forodwaith, Rivendell | 0.25 | −0.10 ± 0.35 |
 | `RIVER` | Anduin, Celduin | unused: rivers come from the river map (below) | |
@@ -127,9 +128,12 @@ vanilla's beaches.
 Rivendell is the eighth: inside it the ground fades over to
 `RivendellTerrain`, a hidden valley ringed by jagged peaks (see below).
 
-All eight are done by the `lotrmod:terrain_blend` density function. It wraps
+Lothlórien is the ninth: inside it the ground fades over to
+`LothlorienTerrain`, rolling ground threaded with streams (see below).
+
+All nine are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
-Rohan, the Dead Lands, Gondor, Rivendell and river valleys still get vanilla's caves,
+Rohan, the Dead Lands, Gondor, Rivendell, Lothlórien and river valleys still get vanilla's caves,
 aquifers and ore veins.
 
 ### Ground
@@ -456,7 +460,7 @@ biomes disagree about which of two shared features comes first, NeoForge's
 feature-order sort hits a cycle and the game **crashes on world load**. If you
 hand-edit a biome's `features`, keep the master order.
 
-`gen_biomes.sh` regenerates all 40 biome JSONs from that single ordering. Prefer
+`gen_biomes.sh` regenerates all 42 biome JSONs from that single ordering. Prefer
 editing the script over editing the JSONs.
 
 ### Gondor
@@ -532,3 +536,47 @@ Misty Mountains in the east and out into Eriador in the west:
   use vanilla's cherry grove colours. The peaks and groves are cold enough
   for snow, the groves all over and the peaks high up.
 - Rivendell's ravines are as rare as Rohan's and Gondor's.
+
+### Lothlórien
+
+Lothlórien, the Golden Wood, is not a port of the original's: it is made
+from scratch, every block, texture and tree, as three landscapes, each its
+own biome. `LothlorienTerrain.zone` lays them out from one broad noise
+saying how deep in the wood a place is, leaning deeper towards the middle
+of Lothlórien on the region map and shallower towards its edges, so the
+oldest trees gather round its heart and the fields lie towards its borders:
+
+| Landscape | Biome | Where | |
+| --- | --- | --- | --- |
+| Old growth | `lotrmod:lothlorien_old_growth` | the deepest wood, mostly round the heart | Towering mallorns (`trees_lothlorien_old_growth`, four tries a chunk): giants on three-block trunks 30 to 46 tall, swelling at the foot, with buttress roots, and great mallorns on two-block trunks; small mallorns and golden bushes beneath them (`trees_lothlorien_understory`), fallen mallorn logs, mossy boulders, ferns, elanor and niphredil; ground broken into low ledges of mossy stone, moss and the odd patch of podzol on the floor |
+| Forest | `lotrmod:lothlorien_forest` | the wood itself | Close golden forest (`trees_lothlorien_forest`, eight tries a chunk) of mallorns on two-block trunks, small ones and the odd great one, golden bushes, ferns, elanor and niphredil |
+| Plains | `lotrmod:lothlorien` | open ground, mostly towards the edges | Rolling fields of golden grass, a lone mallorn in about one chunk in three, clumps of five to nine in about one chunk in nine (`trees_lothlorien_grove`), and a scattering of elanor, niphredil and daisies |
+
+- **Ground** (`LothlorienTerrain`): rolling ground about y 70, the fields
+  in broad, low hills, the old growth in ledges three blocks high. Streams
+  wind through all three, a few blocks wide in shallow valleys of their own,
+  following the lines where a noise crosses zero in stretches where another
+  allows them, and here and there a pool lies in a hollow. Both are cut
+  below the waterline and filled with water like the rivers; their beds are
+  sand and gravel with some clay.
+- **Mallorn** (`lotrmod:mallorn`, `MallornFeature`): a square trunk, bare
+  for its lower part, then boughs of wood spiralling up round it by the
+  golden angle, climbing as they go and shorter towards the top, each ending
+  in a broad, flat pad of leaves with a smaller one part way along; another
+  pad crowns the trunk. So the crown stands in layers of gold. Spokes of
+  wood run out through every pad so no leaf is too far from wood to last,
+  and any leaf they can't reach is left out. The same feature at different
+  sizes makes the giants (`lothlorien_mallorn_giant`), great
+  (`_great`), ordinary (`lothlorien_mallorn`) and small (`_small`) mallorns
+  and the bushes (`lothlorien_bush`).
+- **Blocks**: `lotrmod:mallorn_log`, deep brown bark streaked with silver;
+  `lotrmod:mallorn_wood`, bark on every side, for boughs and roots (four
+  logs make three); `lotrmod:mallorn_leaves`, gold, and
+  `lotrmod:golden_mallorn_leaves`, brighter, over the tops of the pads where
+  the sun catches them. Untinted. Logs and wood craft into oak planks.
+  `lotrmod:elanor`, a small golden star, and `lotrmod:niphredil`, white and
+  nodding, are flowers that make yellow and white dye.
+- **Colours**: a clear sky over a golden haze of fog, golden grass, a
+  little greener under the old growth, and vanilla's leaves and vines
+  golden too.
+- Lothlórien's ravines are as rare as Rohan's and Gondor's.

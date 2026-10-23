@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "bark",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "lotrmod:mallorn_log"
+    }
+  },
+  "result": {
+    "count": 3,
+    "id": "lotrmod:mallorn_wood"
+  }
+}

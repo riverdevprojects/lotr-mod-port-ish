@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "lotrmod:lothlorien_mallorn_giant",
+        "chance": 0.6
+      }
+    ],
+    "default": "lotrmod:lothlorien_mallorn_great"
+  }
+}
