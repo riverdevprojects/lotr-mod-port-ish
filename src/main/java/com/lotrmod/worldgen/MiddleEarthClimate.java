@@ -25,10 +25,10 @@ import java.util.List;
  * </ul>
  *
  * <p>It also says where the mountain ranges, marshes, the Shire, Rohan, the
- * Dead Lands, Gondor, Rivendell and Lothlórien are, for {@link MountainTerrain},
- * {@link MarshTerrain}, {@link ShireTerrain}, {@link RohanTerrain},
- * {@link DeadLandsTerrain}, {@link GondorTerrain}, {@link RivendellTerrain} and
- * {@link LothlorienTerrain}.
+ * Dead Lands, Gondor, Rivendell, Lothlórien and Arnor are, for
+ * {@link MountainTerrain}, {@link MarshTerrain}, {@link ShireTerrain},
+ * {@link RohanTerrain}, {@link DeadLandsTerrain}, {@link GondorTerrain},
+ * {@link RivendellTerrain}, {@link LothlorienTerrain} and {@link ArnorTerrain}.
  *
  * <p>Region values are blurred over roughly a hundred blocks before use, so
  * mountains rise out of the plains and rivers sink into their valleys instead of
@@ -56,11 +56,11 @@ public final class MiddleEarthClimate {
 
     /**
      * Blurred share of mountain range (or marsh, Shire, Rohan, Dead Lands,
-     * Gondor, Rivendell or Lothlórien) below which the ground is all vanilla's,
-     * and over how much more it becomes all {@link MountainTerrain} (or
-     * {@link MarshTerrain}, {@link ShireTerrain}, {@link RohanTerrain},
-     * {@link DeadLandsTerrain}, {@link GondorTerrain}, {@link RivendellTerrain}
-     * or {@link LothlorienTerrain}).
+     * Gondor, Rivendell, Lothlórien or Arnor) below which the ground is all
+     * vanilla's, and over how much more it becomes all {@link MountainTerrain}
+     * (or {@link MarshTerrain}, {@link ShireTerrain}, {@link RohanTerrain},
+     * {@link DeadLandsTerrain}, {@link GondorTerrain}, {@link RivendellTerrain},
+     * {@link LothlorienTerrain} or {@link ArnorTerrain}).
      */
     private static final double MOUNTAIN_EDGE = 0.2;
     private static final double MOUNTAIN_FADE = 0.5;
@@ -251,6 +251,16 @@ public final class MiddleEarthClimate {
         return smoothstep(Mth.clamp((g.sample(g.lothlorien, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
     }
 
+    /**
+     * How much of the ground here is Arnor, from 0 outside to 1 inside: the
+     * share of {@link ArnorTerrain} in the terrain. Zero at sea.
+     */
+    public static double arnorWeight(int x, int z) {
+        Grid g = grid;
+        if (g == null || coastDistance(x, z) <= 0) return 0.0;
+        return smoothstep(Mth.clamp((g.sample(g.arnor, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
+    }
+
     /** Middle of Rivendell on the region map, in blocks, which {@link RivendellTerrain} lays its valley around. */
     public static double rivendellCentreX() {
         Grid g = grid;
@@ -314,7 +324,7 @@ public final class MiddleEarthClimate {
                         float[] continentalness, float[] erosion, float[] erosionSpread,
                         float[] mountain, float[] ridgeHeight, float[] marsh, float[] shire,
                         float[] rohan, float[] deadLands, float[] gondor, float[] rivendell,
-                        float[] lothlorien, double rivendellX, double rivendellZ, double rivendellRadius,
+                        float[] lothlorien, float[] arnor, double rivendellX, double rivendellZ, double rivendellRadius,
                         double lothlorienX, double lothlorienZ, double lothlorienRadius) {
 
         static Grid build() {
@@ -338,6 +348,7 @@ public final class MiddleEarthClimate {
             float[] gondor = new float[width * height];
             float[] rivendell = new float[width * height];
             float[] lothlorien = new float[width * height];
+            float[] arnor = new float[width * height];
             long rivendellPixels = 0;
             double rivendellPx = 0.0;
             double rivendellPz = 0.0;
@@ -358,6 +369,7 @@ public final class MiddleEarthClimate {
                     if (region == Region.ROHAN) rohan[cell] += 1f;
                     if (region == Region.DEAD_LANDS) deadLands[cell] += 1f;
                     if (region == Region.GONDOR) gondor[cell] += 1f;
+                    if (region == Region.ARNOR) arnor[cell] += 1f;
                     if (region == Region.LOTHLORIEN) {
                         lothlorien[cell] += 1f;
                         lothlorienPixels++;
@@ -377,7 +389,7 @@ public final class MiddleEarthClimate {
                 }
             }
 
-            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor, rivendell, lothlorien)) {
+            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor, rivendell, lothlorien, arnor)) {
                 blur(field, width, height);
             }
 
@@ -402,6 +414,7 @@ public final class MiddleEarthClimate {
                     gondor[cell] /= w;
                     rivendell[cell] /= w;
                     lothlorien[cell] /= w;
+                    arnor[cell] /= w;
                 } else {
                     continentalness[cell] = (float) Region.ERIADOR.getContinentalness();
                     erosion[cell] = (float) Region.ERIADOR.getErosion();
@@ -428,7 +441,7 @@ public final class MiddleEarthClimate {
             }
             return new Grid(width, height, imageWidth / 2.0, imageHeight / 2.0,
                     continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor,
-                    rivendell, lothlorien, rivendellX, rivendellZ, rivendellRadius,
+                    rivendell, lothlorien, arnor, rivendellX, rivendellZ, rivendellRadius,
                     lothlorienX, lothlorienZ, lothlorienRadius);
         }
 

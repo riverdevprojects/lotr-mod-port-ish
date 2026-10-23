@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "lotrmod:block/arnor_bricks",
+    "top": "lotrmod:block/arnor_bricks",
+    "side": "lotrmod:block/arnor_bricks"
+  }
+}

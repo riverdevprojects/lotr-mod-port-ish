@@ -68,6 +68,9 @@ mkdir -p "$OUT"
 # 46y lotrmod:trees_lothlorien_understory 46z lotrmod:lothlorien_logs
 # 46za lotrmod:lothlorien_bushes          46zb lotrmod:patch_lothlorien_flowers
 # 46zc lotrmod:patch_lothlorien_forest_flowers 46zd lotrmod:patch_fallen_mallorn_leaves
+#  Arnor's (copses of old pines, ours, and a lone pine here and there):
+# 46ze lotrmod:trees_arnor_copses   46zf lotrmod:trees_arnor_copse_clusters
+# 46zg lotrmod:trees_arnor_lone
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
@@ -83,13 +86,13 @@ mkdir -p "$OUT"
 # 72 lotrmod:ent_jars
 # 73 seagrass_normal     74 kelp_cold
 #
-# Only Eriador, Rohan, the Dead Lands, Gondor, Rivendell and Lothlorien have anything in
-# local_modifications, each its own boulders (lotrmod:eriador_boulders,
+# Only Eriador, Arnor, Rohan, the Dead Lands, Gondor, Rivendell and Lothlorien have anything in
+# local_modifications, each its own boulders (lotrmod:eriador_boulders, lotrmod:arnor_boulders,
 # lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, Gondor's marble ones,
 # always in the order gondor_boulders, gondor_boulders_dense,
 # gondor_boulders_large, lotrmod:rivendell_boulders and lotrmod:lothlorien_boulders), so that step has no
 # other order to keep. Likewise surface_structures: only Harad's well and the
-# Dead Lands' stone ruins; and fluid_springs: only Rivendell's waterfalls,
+# Dead Lands' and Arnor's stone ruins; and fluid_springs: only Rivendell's waterfalls,
 # lotrmod:rivendell_waterfalls or lotrmod:rivendell_waterfalls_peaks.
 #
 # Names without a namespace are minecraft's.
@@ -161,6 +164,8 @@ crt() {
     forest) printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:fox","weight":8,"minCount":2,"maxCount":4},{"type":"minecraft:wolf","weight":5,"minCount":4,"maxCount":4}' ;;
     # Few beasts brave it: wolves, and the odd fox and rabbit
     mirkwood) printf '%s' '{"type":"minecraft:wolf","weight":4,"minCount":2,"maxCount":4},{"type":"minecraft:fox","weight":2,"minCount":1,"maxCount":2},{"type":"minecraft:rabbit","weight":2,"minCount":1,"maxCount":2}' ;;
+    # The empty north: sheep and horses run wild, with foxes, wolves and rabbits
+    arnor)  printf '%s' '{"type":"minecraft:sheep","weight":10,"minCount":2,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":5},{"type":"minecraft:rabbit","weight":6,"minCount":2,"maxCount":3},{"type":"minecraft:fox","weight":4,"minCount":1,"maxCount":3},{"type":"minecraft:wolf","weight":3,"minCount":2,"maxCount":4}' ;;
     *)      printf '%s' '{"type":"minecraft:sheep","weight":12,"minCount":4,"maxCount":4},{"type":"minecraft:pig","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:chicken","weight":10,"minCount":4,"maxCount":4},{"type":"minecraft:cow","weight":8,"minCount":4,"maxCount":4},{"type":"minecraft:horse","weight":5,"minCount":2,"maxCount":6},{"type":"minecraft:donkey","weight":1,"minCount":1,"maxCount":3},{"type":"minecraft:rabbit","weight":4,"minCount":2,"maxCount":3}' ;;
   esac
 }
@@ -286,6 +291,9 @@ P_GONDOR_WET="7907327 12638463 4159204 329011 8826956 6263872"
 P_LOTHLORIEN="8830187 15784096 4165568 997962 13217866 14264368"
 P_LOTHLORIEN_FOREST="8830187 15784096 4165568 997962 9214016 14264368"
 P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 8031288 14264368"
+# Arnor: a cool, grey northern sky over dark, faded grass, as of a land long
+# empty, and the leaves of its scrub a dull olive
+P_ARNOR="8297140 12174540 4025990 329011 7046480 5664831"
 P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
 P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
 P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
@@ -296,7 +304,7 @@ P_RIVENDELL_CHERRY="8364543 12638463 6141935 329011 11983713 11983713"
 biome lindon                   0.9 0.9 true $P_LINDON temp   "$(V lotrmod:trees_lindon lotrmod:trees_lindon_grove lotrmod:trees_lindon_birch_copse lotrmod:trees_lindon_aspen_copse lotrmod:trees_lindon_beech_copse patch_grass_plain patch_tall_grass flower_plains flower_default)" ""
 biome blue_mountains           0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome eriador                  0.9 0.8 true $P_ERIADOR temp  "$(V lotrmod:trees_eriador lotrmod:trees_eriador_grove lotrmod:trees_beech_copse lotrmod:trees_aspen_copse patch_grass_plain patch_tall_grass flower_plains flower_default patch_berry_common)" "" "" "" "$(V lotrmod:eriador_boulders)"
-biome arnor                    0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default)" ""
+biome arnor                    0.5 0.6 true $P_ARNOR  arnor  "$(V lotrmod:trees_arnor_copses lotrmod:trees_arnor_copse_clusters lotrmod:trees_arnor_lone patch_grass_taiga_2 patch_grass_plain patch_tall_grass patch_large_fern patch_berry_common)" "" "" "$(V lotrmod:arnor_ruins)" "$(V lotrmod:arnor_boulders)"
 biome misty_mountains          0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome grey_mountains           0.15 0.4 true $P_MOUNT cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
 biome white_mountains          0.2 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"

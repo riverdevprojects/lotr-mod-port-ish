@@ -1,0 +1,74 @@
+{
+  "type": "lotrmod:copse",
+  "config": {
+    "tree": "lotrmod:arnor_copse_tree",
+    "count": {
+      "type": "minecraft:uniform",
+      "min_inclusive": 4,
+      "max_inclusive": 8
+    },
+    "radius": {
+      "type": "minecraft:uniform",
+      "min_inclusive": 3,
+      "max_inclusive": 5
+    },
+    "floor": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:podzol"
+          },
+          "weight": 6
+        },
+        {
+          "data": {
+            "Name": "minecraft:coarse_dirt"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "minecraft:moss_block"
+          },
+          "weight": 1
+        },
+        {
+          "data": {
+            "Name": "minecraft:rooted_dirt"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "undergrowth": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "minecraft:fern"
+          },
+          "weight": 6
+        },
+        {
+          "data": {
+            "Name": "minecraft:short_grass"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "minecraft:brown_mushroom"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "fallen_log": "lotrmod:arnor_fallen_pine",
+    "fallen_logs": {
+      "type": "minecraft:uniform",
+      "min_inclusive": 0,
+      "max_inclusive": 2
+    }
+  }
+}

@@ -56,5 +56,10 @@
   "block.lotrmod.elanor": "Elanor",
   "block.lotrmod.niphredil": "Niphredil",
   "block.lotrmod.mallorn_ivy": "Mallorn Ivy",
-  "block.lotrmod.fallen_mallorn_leaves": "Fallen Mallorn Leaves"
+  "block.lotrmod.fallen_mallorn_leaves": "Fallen Mallorn Leaves",
+  "block.lotrmod.arnor_bricks": "Arnor Bricks",
+  "block.lotrmod.mossy_arnor_bricks": "Mossy Arnor Bricks",
+  "block.lotrmod.cracked_arnor_bricks": "Cracked Arnor Bricks",
+  "block.lotrmod.chiseled_arnor_bricks": "Chiseled Arnor Bricks",
+  "block.lotrmod.arnor_brick_slab": "Arnor Brick Slab"
 }

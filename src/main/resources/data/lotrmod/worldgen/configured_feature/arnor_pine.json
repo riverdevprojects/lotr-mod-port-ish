@@ -1,0 +1,7 @@
+{
+  "type": "lotrmod:old_pine",
+  "config": {
+    "min_height": 10,
+    "max_height": 15
+  }
+}

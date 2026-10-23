@@ -176,6 +176,19 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> GONDOR_ROCK = BLOCKS.register("gondor_rock",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE).mapColor(MapColor.QUARTZ)));
 
+    // The original's Arnor bricks, pale grey stone dressed by the Dúnedain of
+    // the north, plain, mossy, cracked and carved: what Arnor's ruins are made of
+    public static final DeferredBlock<Block> ARNOR_BRICKS = BLOCKS.register("arnor_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)));
+    public static final DeferredBlock<Block> MOSSY_ARNOR_BRICKS = BLOCKS.register("mossy_arnor_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.MOSSY_STONE_BRICKS)));
+    public static final DeferredBlock<Block> CRACKED_ARNOR_BRICKS = BLOCKS.register("cracked_arnor_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CRACKED_STONE_BRICKS)));
+    public static final DeferredBlock<Block> CHISELED_ARNOR_BRICKS = BLOCKS.register("chiseled_arnor_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CHISELED_STONE_BRICKS)));
+    public static final DeferredBlock<SlabBlock> ARNOR_BRICK_SLAB = BLOCKS.register("arnor_brick_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_SLAB)));
+
     public static final DeferredItem<BlockItem> ASPEN_LOG_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LOG);
     public static final DeferredItem<BlockItem> ASPEN_LEAVES_ITEM = ITEMS.registerSimpleBlockItem(ASPEN_LEAVES);
     public static final DeferredItem<BlockItem> SHIRE_PINE_LOG_ITEM = ITEMS.registerSimpleBlockItem(SHIRE_PINE_LOG);
@@ -253,6 +266,11 @@ public final class ModBlocks {
     public static final DeferredItem<BlockItem> WILD_OATS_ITEM = ITEMS.registerSimpleBlockItem(WILD_OATS);
     public static final DeferredItem<BlockItem> SHORT_GRASS_ITEM = ITEMS.registerSimpleBlockItem(SHORT_GRASS);
     public static final DeferredItem<BlockItem> GONDOR_ROCK_ITEM = ITEMS.registerSimpleBlockItem(GONDOR_ROCK);
+    public static final DeferredItem<BlockItem> ARNOR_BRICKS_ITEM = ITEMS.registerSimpleBlockItem(ARNOR_BRICKS);
+    public static final DeferredItem<BlockItem> MOSSY_ARNOR_BRICKS_ITEM = ITEMS.registerSimpleBlockItem(MOSSY_ARNOR_BRICKS);
+    public static final DeferredItem<BlockItem> CRACKED_ARNOR_BRICKS_ITEM = ITEMS.registerSimpleBlockItem(CRACKED_ARNOR_BRICKS);
+    public static final DeferredItem<BlockItem> CHISELED_ARNOR_BRICKS_ITEM = ITEMS.registerSimpleBlockItem(CHISELED_ARNOR_BRICKS);
+    public static final DeferredItem<BlockItem> ARNOR_BRICK_SLAB_ITEM = ITEMS.registerSimpleBlockItem(ARNOR_BRICK_SLAB);
 
     public static final DeferredItem<BlockItem> GATE_HOBBIT_GREEN_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_GREEN);
     public static final DeferredItem<BlockItem> GATE_HOBBIT_BLUE_ITEM = ITEMS.registerSimpleBlockItem(GATE_HOBBIT_BLUE);
@@ -352,6 +370,11 @@ public final class ModBlocks {
         } else if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(WOOD_BEAM_OAK_ITEM);
             event.accept(CLAY_TILE_GREEN_SLAB_ITEM);
+            event.accept(ARNOR_BRICKS_ITEM);
+            event.accept(MOSSY_ARNOR_BRICKS_ITEM);
+            event.accept(CRACKED_ARNOR_BRICKS_ITEM);
+            event.accept(CHISELED_ARNOR_BRICKS_ITEM);
+            event.accept(ARNOR_BRICK_SLAB_ITEM);
             event.accept(GATE_HOBBIT_GREEN_ITEM);
             event.accept(GATE_HOBBIT_BLUE_ITEM);
             event.accept(GATE_HOBBIT_RED_ITEM);

@@ -3,10 +3,12 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.CopseFeature;
 import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
 import com.lotrmod.worldgen.feature.MallornFeature;
 import com.lotrmod.worldgen.feature.MirkOakFeature;
+import com.lotrmod.worldgen.feature.OldPineFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
 import com.lotrmod.worldgen.feature.PineFeature;
 import com.lotrmod.worldgen.feature.PoplarFeature;
@@ -110,6 +112,12 @@ public class LOTRWorldGen {
     // Lothlórien's golden mallorns, from the towering old growth to saplings
     public static final DeferredHolder<Feature<?>, MallornFeature> MALLORN =
             FEATURES.register("mallorn", () -> new MallornFeature(MallornFeature.Config.CODEC));
+
+    // Arnor's old pines, and the copses they stand in
+    public static final DeferredHolder<Feature<?>, OldPineFeature> OLD_PINE =
+            FEATURES.register("old_pine", () -> new OldPineFeature(OldPineFeature.Config.CODEC));
+    public static final DeferredHolder<Feature<?>, CopseFeature> COPSE =
+            FEATURES.register("copse", () -> new CopseFeature(CopseFeature.Config.CODEC));
 
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =

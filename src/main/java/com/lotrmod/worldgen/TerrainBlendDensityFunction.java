@@ -17,6 +17,9 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *   <li><b>Lothlórien</b> fades over to {@link LothlorienTerrain}'s golden
  *       fields, wood and old growth, by {@link MiddleEarthClimate#lothlorienWeight}.
  *       Before the mountains, so the Misty Mountains still rise above it.</li>
+ *   <li><b>Arnor</b> fades over to {@link ArnorTerrain}'s worn grassland and
+ *       hills, by {@link MiddleEarthClimate#arnorWeight}. Before the
+ *       mountains too, so the Blue Mountains still rise above it.</li>
  *   <li><b>Mountain ranges</b> fade over to {@link MountainTerrain}'s shape,
  *       by {@link MiddleEarthClimate#mountainWeight}.</li>
  *   <li><b>Marshes</b> fade over to {@link MarshTerrain}'s shape, by
@@ -70,6 +73,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         if (column.lothlorienWeight > 0.0) {
             double lothlorien = (column.lothlorienHeight - y) / BLOCKS_PER_UNIT;
             density += (lothlorien - density) * column.lothlorienWeight;
+        }
+        if (column.arnorWeight > 0.0) {
+            double arnor = (column.arnorHeight - y) / BLOCKS_PER_UNIT;
+            density += (arnor - density) * column.arnorWeight;
         }
         if (column.mountainWeight > 0.0) {
             double mountain = (column.mountainHeight - y) / BLOCKS_PER_UNIT;
@@ -147,6 +154,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
         private double rivendellHeight;
         private double lothlorienWeight;
         private double lothlorienHeight;
+        private double arnorWeight;
+        private double arnorHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -171,6 +180,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument) implements D
                 rivendellHeight = rivendellWeight > 0.0 ? RivendellTerrain.height(x, z) : 0.0;
                 lothlorienWeight = MiddleEarthClimate.lothlorienWeight(x, z);
                 lothlorienHeight = lothlorienWeight > 0.0 ? LothlorienTerrain.height(x, z) : 0.0;
+                arnorWeight = MiddleEarthClimate.arnorWeight(x, z);
+                arnorHeight = arnorWeight > 0.0 ? ArnorTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;
