@@ -71,6 +71,14 @@ mkdir -p "$OUT"
 #  Arnor's (copses of the original's Iron Hills trees, and a lone one here and there):
 # 46ze lotrmod:trees_arnor_copses   46zf lotrmod:trees_arnor_copse_clusters
 # 46zg lotrmod:trees_arnor_lone
+#  Dale's (its fields and orchards, built for the era Dale is in; its trees, live and burnt; its ground):
+# 46zh lotrmod:dale_fields          46zi lotrmod:dale_orchards
+# 46zj lotrmod:trees_dale_woods     46zk lotrmod:trees_dale_meadows
+# 46zl lotrmod:trees_dale_lone      46zm lotrmod:trees_erebor
+# 46zn lotrmod:dale_charred_trees   46zo lotrmod:dale_charred_stumps
+# 46zp lotrmod:dale_woods_logs      46zq lotrmod:dale_charred_logs
+# 46zr lotrmod:dale_bones           46zs lotrmod:patch_dale_flowers
+# 46zt lotrmod:patch_dale_meadow_flowers 46zu lotrmod:patch_dale_wild_grass
 # 47 patch_grass_savanna 48 patch_grass_jungle  49 patch_grass_taiga
 # 50 patch_grass_taiga_2 51 patch_grass_forest  52 patch_grass_plain
 # 53 patch_grass_normal  54 patch_tall_grass    55 patch_large_fern
@@ -91,9 +99,12 @@ mkdir -p "$OUT"
 # or lotrmod:arnor_boulders_dense,
 # lotrmod:rohan_boulders, lotrmod:dead_lands_boulders, Gondor's marble ones,
 # always in the order gondor_boulders, gondor_boulders_dense,
-# gondor_boulders_large, lotrmod:rivendell_boulders and lotrmod:lothlorien_boulders), so that step has no
-# other order to keep. Likewise surface_structures: only Harad's well and the
-# Dead Lands' and Arnor's stone ruins; and fluid_springs: only Rivendell's waterfalls,
+# gondor_boulders_large, lotrmod:rivendell_boulders and lotrmod:lothlorien_boulders, and Dale's,
+# lotrmod:dale_boulders or lotrmod:dale_scorched_boulders), so that step has no
+# other order to keep. Likewise surface_structures: only Harad's well, the
+# Dead Lands' and Arnor's stone ruins, and Dale's landmarks (lotrmod:dale_landmarks:
+# its town, roads, Front Gate and Ravenhill, in every Dale biome and the Celduin);
+# and fluid_springs: only Rivendell's waterfalls,
 # lotrmod:rivendell_waterfalls or lotrmod:rivendell_waterfalls_peaks.
 #
 # Names without a namespace are minecraft's.
@@ -237,6 +248,8 @@ V() { # join feature short-names into a quoted csv; bare names are minecraft's
 }
 
 FREEZE='"minecraft:freeze_top_layer"'
+# Dale's town, roads, Front Gate and Ravenhill, built for whichever era Dale is in
+LANDMARKS='"lotrmod:dale_landmarks"'
 
 # ── palettes ────────────────────────────────────────────────────────────────
 # sky        fog        water     waterfog  grass     foliage
@@ -297,6 +310,19 @@ P_LOTHLORIEN_OLD="8830187 15784096 4165568 997962 8031288 14264368"
 P_ARNOR="8297140 12174540 4025990 329011 7046480 5664831"
 # and the split ground's grass greyer still, among the rock
 P_ARNOR_SPLIT="8297140 12174540 4025990 329011 6848082 5664831"
+# Dale in King Girion's day: a clear sky over warm, bright farmland, deeper
+# green in the meadows and the woods, and the Long Lake's water a cool grey-blue
+P_DALE="7907327 12638463 4159204 329011 9813082 7315516"
+P_DALE_MEADOWS="7907327 12638463 4159204 329011 8829018 6594618"
+P_DALE_WOODS="7907327 12638463 4159204 329011 7249480 5212718"
+P_LONG_LAKE="7907327 12638463 4025512 333098 8829018 6594618"
+# The Desolation of Smaug: a hazy, ashen sky and a dun fog over dead brown
+# grass, darker and greyer still among the burnt trees; murky water; further
+# out, where the fire never came, grass gone to straw on abandoned land
+P_DESOLATION="10262672 12103586 5005166 2105636 9338714 8022600"
+P_BURNT_WOODS="9539216 10261642 5005166 2105636 7234640 6181440"
+P_WITHERED="8956382 12638463 4159204 329011 11049570 9079376"
+P_EREBOR_DESOLATION="9539216 11312304 4159204 329011 9338714 8022600"
 P_RIVENDELL="7841791 12638463 4566000 329011 8956490 6137902"
 P_RIVENDELL_BIRCH="7841791 12638463 4566000 329011 7316287 6200884"
 P_RIVENDELL_MAPLE="7841791 12638463 4566000 329011 10394948 12093995"
@@ -316,8 +342,8 @@ biome gondor                   0.8 0.6 true $P_GONDOR temp   "$(V lotrmod:trees_
 biome harad                    2.0 0.0 false $P_DESERT desert "$(V patch_dead_bush patch_cactus_desert patch_grass_savanna)" "" "$(V fossil_upper fossil_lower)" "$(V desert_well)"
 biome lothlorien               0.8 0.8 true $P_LOTHLORIEN temp "$(V lotrmod:trees_lothlorien_plains lotrmod:trees_lothlorien_grove lotrmod:patch_lothlorien_flowers patch_grass_plain patch_tall_grass)" ""
 biome mirkwood                 0.6 0.8 true $P_MIRKWOOD mirkwood "$(V lotrmod:trees_mirkwood lotrmod:trees_mirkwood_understory lotrmod:mirkwood_logs lotrmod:mirkwood_webs patch_grass_taiga patch_large_fern brown_mushroom_normal red_mushroom_normal)" ""
-biome dale                     0.6 0.6 true $P_PLAIN  temp   "$(V trees_plains trees_birch patch_grass_plain patch_tall_grass flower_default patch_pumpkin)" ""
-biome erebor                   0.3 0.4 true $P_MOUNT  cold   "$(V patch_grass_taiga_2 patch_grass_normal)" "$FREEZE"
+biome dale                     0.7 0.6 true $P_DALE   temp   "$(V lotrmod:dale_fields lotrmod:trees_dale_lone lotrmod:patch_dale_flowers patch_grass_plain patch_tall_grass flower_plains patch_pumpkin)" "" "" "$LANDMARKS" "$(V lotrmod:dale_boulders)"
+biome erebor                   0.3 0.4 true $P_MOUNT  cold   "$(V lotrmod:trees_erebor lotrmod:patch_dale_flowers patch_grass_taiga_2 patch_grass_normal)" "$FREEZE" "" "$LANDMARKS" "$(V lotrmod:dale_boulders)"
 biome iron_hills               0.4 0.4 true $P_MOUNT  cold   "$(V patch_grass_normal)" ""
 biome rohan                    0.8 0.3 true $P_ROHAN  rohan  "$(V lotrmod:trees_rohan lotrmod:trees_rohan_lone lotrmod:trees_rohan_copse lotrmod:rohan_scrub lotrmod:rohan_copse_scrub lotrmod:patch_rohan_tall_grass lotrmod:patch_rohan_grass lotrmod:patch_rohan_lush_grass)" "" "" "" "$(V lotrmod:rohan_boulders)"
 biome mordor                   1.5 0.0 false $P_MORDOR barren "$(V patch_dead_bush)" ""
@@ -326,7 +352,7 @@ biome fangorn_forest           0.7 0.8 true $P_FANGORN forest "$(V lotrmod:trees
 biome anduin_river             0.7 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome vale_of_anduin           0.75 0.9 true $P_SWAMP temp   "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_large_fern flower_swamp patch_sugar_cane lotrmod:patch_cattail_marsh patch_waterlily brown_mushroom_normal red_mushroom_normal)" ""
 biome dead_lands               1.0 0.2 false $P_DEAD_LANDS barren "$(V lotrmod:trees_dead_lands lotrmod:patch_dead_lands_grass)" "" "" "$(V lotrmod:dead_lands_stone_ruin)" "$(V lotrmod:dead_lands_boulders)"
-biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
+biome celduin                  0.6 0.8 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" "" "" "$LANDMARKS"
 biome eastern_rhovanian_plains 0.8 0.4 true $P_STEPPE temp   "$(V patch_grass_savanna patch_grass_plain patch_tall_grass flower_default)" ""
 biome sea_of_rhun              0.8 0.6 true $P_RIVER  temp   "$(V patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail)" ""
 biome forodwaith               0.0 0.5 true $P_SNOW   cold   "$(V patch_grass_taiga_2)" "$FREEZE"
@@ -359,6 +385,20 @@ biome lothlorien_old_growth    0.8 0.9 true $P_LOTHLORIEN_OLD forest "$(V lotrmo
 # ── Arnor's other landscapes (not regions on the map: see ArnorTerrain) ───
 biome arnor_hills              0.5 0.6 true $P_ARNOR  arnor  "$(V lotrmod:trees_arnor_copses lotrmod:trees_arnor_copse_clusters lotrmod:trees_arnor_lone patch_grass_taiga_2 patch_grass_plain patch_tall_grass patch_large_fern patch_berry_common)" "" "" "$(V lotrmod:arnor_ruins)" "$(V lotrmod:arnor_boulders)"
 biome arnor_split_ground       0.5 0.5 true $P_ARNOR_SPLIT arnor "$(V lotrmod:trees_arnor_copses lotrmod:trees_arnor_copse_clusters lotrmod:trees_arnor_lone patch_grass_taiga_2 patch_grass_plain patch_large_fern)" "" "" "$(V lotrmod:arnor_ruins)" "$(V lotrmod:arnor_boulders_dense)"
+
+# ── Dale's other landscapes, in both its eras (not regions on the map: see DaleTerrain)
+# Girion's Dale: meadows and orchards, woods, the town, the Long Lake
+biome dale_meadows             0.7 0.7 true $P_DALE_MEADOWS temp "$(V lotrmod:dale_orchards lotrmod:trees_dale_meadows lotrmod:trees_dale_lone lotrmod:patch_dale_meadow_flowers patch_grass_plain patch_tall_grass flower_meadow flower_plains patch_berry_common)" "" "" "$LANDMARKS" "$(V lotrmod:dale_boulders)"
+biome dale_woods               0.6 0.8 true $P_DALE_WOODS forest "$(V lotrmod:trees_dale_woods lotrmod:dale_woods_logs patch_grass_forest patch_large_fern forest_flowers patch_berry_common brown_mushroom_normal)" "" "" "$LANDMARKS" "$(V lotrmod:dale_boulders)"
+biome dale_town                0.7 0.6 true $P_DALE temp "$(V lotrmod:patch_dale_flowers patch_grass_plain)" "" "" "$LANDMARKS"
+biome long_lake                0.6 0.8 true $P_LONG_LAKE temp "$(V lotrmod:trees_marsh patch_grass_normal patch_tall_grass patch_sugar_cane lotrmod:patch_cattail_marsh)" "" "" "$LANDMARKS"
+# The Desolation of Smaug: dead, burnt ground near the Mountain, charred woods,
+# the ruins of the town, and further out, abandoned land gone wild
+biome desolation_of_smaug      0.9 0.1 true $P_DESOLATION barren "$(V patch_dead_bush lotrmod:patch_dead_lands_grass lotrmod:dale_fields lotrmod:dale_orchards lotrmod:dale_charred_stumps lotrmod:dale_bones)" "" "" "$LANDMARKS" "$(V lotrmod:dale_scorched_boulders)"
+biome dale_burnt_woods         0.9 0.1 true $P_BURNT_WOODS barren "$(V patch_dead_bush lotrmod:patch_dead_lands_grass lotrmod:dale_charred_trees lotrmod:dale_charred_stumps lotrmod:dale_charred_logs lotrmod:dale_bones)" "" "" "$LANDMARKS" "$(V lotrmod:dale_scorched_boulders)"
+biome dale_withered_lands      0.8 0.3 true $P_WITHERED arnor "$(V patch_dead_bush lotrmod:trees_dead_lands lotrmod:dale_fields lotrmod:dale_orchards lotrmod:trees_dale_lone lotrmod:patch_dale_wild_grass patch_grass_plain patch_berry_common)" "" "" "$LANDMARKS" "$(V lotrmod:dale_boulders)"
+biome dale_ruins               0.9 0.1 true $P_DESOLATION barren "$(V patch_dead_bush lotrmod:patch_dead_lands_grass lotrmod:dale_bones)" "" "" "$LANDMARKS"
+biome erebor_desolation        0.3 0.3 true $P_EREBOR_DESOLATION barren "$(V patch_dead_bush lotrmod:patch_dead_lands_grass lotrmod:dale_charred_stumps lotrmod:dale_bones)" "$FREEZE" "" "$LANDMARKS" "$(V lotrmod:dale_scorched_boulders)"
 
 # ── the sea (decided by the landmask, not a region on the map) ──────────────
 biome ocean                    0.5 0.5 true $P_OCEAN  ocean  "$(V seagrass_normal kelp_cold)" ""

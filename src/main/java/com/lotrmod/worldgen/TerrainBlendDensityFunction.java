@@ -23,6 +23,10 @@ import net.minecraft.world.level.levelgen.DensityFunction;
  *       split ground, by {@link MiddleEarthClimate#arnorWeight}. Before the
  *       mountains too, so the Blue Mountains still rise above it. With
  *       {@code "ravines": false} the split ground's rifts are left out.</li>
+ *   <li><b>Dale</b> fades over to {@link DaleTerrain}'s vale, the Lonely
+ *       Mountain, the River Running and the Long Lake, by
+ *       {@link MiddleEarthClimate#daleWeight}. Before the mountains, so the
+ *       Grey Mountains still rise above it.</li>
  *   <li><b>Mountain ranges</b> fade over to {@link MountainTerrain}'s shape,
  *       by {@link MiddleEarthClimate#mountainWeight}.</li>
  *   <li><b>Marshes</b> fade over to {@link MarshTerrain}'s shape, by
@@ -83,6 +87,10 @@ public record TerrainBlendDensityFunction(DensityFunction argument, boolean ravi
         if (column.arnorWeight > 0.0) {
             double arnor = ((ravines ? column.arnorHeight : column.arnorGround) - y) / BLOCKS_PER_UNIT;
             density += (arnor - density) * column.arnorWeight;
+        }
+        if (column.daleWeight > 0.0) {
+            double dale = (column.daleHeight - y) / BLOCKS_PER_UNIT;
+            density += (dale - density) * column.daleWeight;
         }
         if (column.mountainWeight > 0.0) {
             double mountain = (column.mountainHeight - y) / BLOCKS_PER_UNIT;
@@ -163,6 +171,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument, boolean ravi
         private double arnorWeight;
         private double arnorHeight;
         private double arnorGround;
+        private double daleWeight;
+        private double daleHeight;
         private double riverWeight;
         private double riverHeight;
 
@@ -190,6 +200,8 @@ public record TerrainBlendDensityFunction(DensityFunction argument, boolean ravi
                 arnorWeight = MiddleEarthClimate.arnorWeight(x, z);
                 arnorGround = arnorWeight > 0.0 ? ArnorTerrain.groundHeight(x, z) : 0.0;
                 arnorHeight = arnorWeight > 0.0 ? ArnorTerrain.height(x, z) : 0.0;
+                daleWeight = MiddleEarthClimate.daleWeight(x, z);
+                daleHeight = daleWeight > 0.0 ? DaleTerrain.height(x, z) : 0.0;
                 RiverMap.Sample river = RiverMap.sample(x, z);
                 riverWeight = river != null ? RiverTerrain.weight(river) : 0.0;
                 riverHeight = river != null ? RiverTerrain.height(river) : 0.0;

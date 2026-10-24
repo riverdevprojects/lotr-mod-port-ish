@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "lotrmod:block/clay_tile_red",
+    "top": "lotrmod:block/clay_tile_red",
+    "side": "lotrmod:block/clay_tile_red"
+  }
+}

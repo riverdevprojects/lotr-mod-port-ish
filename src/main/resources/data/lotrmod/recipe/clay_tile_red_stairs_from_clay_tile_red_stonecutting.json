@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "lotrmod:clay_tile_red"
+  },
+  "result": {
+    "count": 1,
+    "id": "lotrmod:clay_tile_red_stairs"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "lotrmod:dale_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "lotrmod:chiseled_dale_bricks"
+  }
+}

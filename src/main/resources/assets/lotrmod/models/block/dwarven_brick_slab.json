@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "lotrmod:block/dwarven_bricks",
+    "top": "lotrmod:block/dwarven_bricks",
+    "side": "lotrmod:block/dwarven_bricks"
+  }
+}

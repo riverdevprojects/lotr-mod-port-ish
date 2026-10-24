@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "lotrmod:block/clay_tile_blue_slab"
+    },
+    "type=top": {
+      "model": "lotrmod:block/clay_tile_blue_slab_top"
+    },
+    "type=double": {
+      "model": "lotrmod:block/clay_tile_blue"
+    }
+  }
+}

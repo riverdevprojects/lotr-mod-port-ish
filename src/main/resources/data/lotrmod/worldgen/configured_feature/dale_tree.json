@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.068
+      },
+      {
+        "feature": "lotrmod:dale_dead_oak",
+        "chance": 0.073
+      },
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.1575
+      },
+      {
+        "feature": "lotrmod:chestnut_checked",
+        "chance": 0.0935
+      },
+      {
+        "feature": "lotrmod:chestnut_large_checked",
+        "chance": 0.0206
+      },
+      {
+        "feature": "lotrmod:rivendell_maple_red",
+        "chance": 0.0526
+      },
+      {
+        "feature": "lotrmod:arnor_pine",
+        "chance": 0.2222
+      },
+      {
+        "feature": "lotrmod:arnor_fir",
+        "chance": 0.2857
+      }
+    ],
+    "default": "minecraft:oak_checked"
+  }
+}

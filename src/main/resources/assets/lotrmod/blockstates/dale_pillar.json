@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "lotrmod:block/dale_pillar_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lotrmod:block/dale_pillar"
+    },
+    "axis=z": {
+      "model": "lotrmod:block/dale_pillar_horizontal",
+      "x": 90
+    }
+  }
+}
