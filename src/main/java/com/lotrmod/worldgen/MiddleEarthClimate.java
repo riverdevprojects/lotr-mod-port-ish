@@ -261,6 +261,25 @@ public final class MiddleEarthClimate {
         return smoothstep(Mth.clamp((g.sample(g.arnor, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
     }
 
+    /**
+     * How much of the ground here is Dale, from 0 outside to 1 inside: the
+     * share of {@link DaleTerrain} in the terrain. Zero at sea.
+     */
+    public static double daleWeight(int x, int z) {
+        Grid g = grid;
+        if (g == null || coastDistance(x, z) <= 0) return 0.0;
+        return smoothstep(Mth.clamp((g.sample(g.dale, x, z) - MOUNTAIN_EDGE) / MOUNTAIN_FADE, 0.0, 1.0));
+    }
+
+    /**
+     * The box Dale fills on the region map, in blocks: min x, min z, max x,
+     * max z. Null until the maps load, or if the map has no Dale.
+     */
+    public static int[] daleBounds() {
+        Grid g = grid;
+        return g != null ? g.daleBounds() : null;
+    }
+
     /** Middle of Rivendell on the region map, in blocks, which {@link RivendellTerrain} lays its valley around. */
     public static double rivendellCentreX() {
         Grid g = grid;
@@ -324,7 +343,7 @@ public final class MiddleEarthClimate {
                         float[] continentalness, float[] erosion, float[] erosionSpread,
                         float[] mountain, float[] ridgeHeight, float[] marsh, float[] shire,
                         float[] rohan, float[] deadLands, float[] gondor, float[] rivendell,
-                        float[] lothlorien, float[] arnor, double rivendellX, double rivendellZ, double rivendellRadius,
+                        float[] lothlorien, float[] arnor, float[] dale, int[] daleBounds, double rivendellX, double rivendellZ, double rivendellRadius,
                         double lothlorienX, double lothlorienZ, double lothlorienRadius) {
 
         static Grid build() {
@@ -349,6 +368,8 @@ public final class MiddleEarthClimate {
             float[] rivendell = new float[width * height];
             float[] lothlorien = new float[width * height];
             float[] arnor = new float[width * height];
+            float[] dale = new float[width * height];
+            int daleMinPx = Integer.MAX_VALUE, daleMinPz = Integer.MAX_VALUE, daleMaxPx = -1, daleMaxPz = -1;
             long rivendellPixels = 0;
             double rivendellPx = 0.0;
             double rivendellPz = 0.0;
@@ -370,6 +391,13 @@ public final class MiddleEarthClimate {
                     if (region == Region.DEAD_LANDS) deadLands[cell] += 1f;
                     if (region == Region.GONDOR) gondor[cell] += 1f;
                     if (region == Region.ARNOR) arnor[cell] += 1f;
+                    if (region == Region.DALE) {
+                        dale[cell] += 1f;
+                        daleMinPx = Math.min(daleMinPx, px);
+                        daleMinPz = Math.min(daleMinPz, pz);
+                        daleMaxPx = Math.max(daleMaxPx, px);
+                        daleMaxPz = Math.max(daleMaxPz, pz);
+                    }
                     if (region == Region.LOTHLORIEN) {
                         lothlorien[cell] += 1f;
                         lothlorienPixels++;
@@ -389,7 +417,7 @@ public final class MiddleEarthClimate {
                 }
             }
 
-            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor, rivendell, lothlorien, arnor)) {
+            for (float[] field : List.of(weight, continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor, rivendell, lothlorien, arnor, dale)) {
                 blur(field, width, height);
             }
 
@@ -415,6 +443,7 @@ public final class MiddleEarthClimate {
                     rivendell[cell] /= w;
                     lothlorien[cell] /= w;
                     arnor[cell] /= w;
+                    dale[cell] /= w;
                 } else {
                     continentalness[cell] = (float) Region.ERIADOR.getContinentalness();
                     erosion[cell] = (float) Region.ERIADOR.getErosion();
@@ -439,9 +468,12 @@ public final class MiddleEarthClimate {
                 lothlorienZ = (lothlorienPz / lothlorienPixels + 0.5 - imageHeight / 2.0) * 16.0;
                 lothlorienRadius = Math.sqrt(lothlorienPixels / Math.PI) * 16.0;
             }
+            int[] daleBounds = daleMaxPx < 0 ? null : new int[] {
+                    (daleMinPx - imageWidth / 2) * 16, (daleMinPz - imageHeight / 2) * 16,
+                    (daleMaxPx + 1 - imageWidth / 2) * 16, (daleMaxPz + 1 - imageHeight / 2) * 16};
             return new Grid(width, height, imageWidth / 2.0, imageHeight / 2.0,
                     continentalness, erosion, erosionSpread, mountain, ridgeHeight, marsh, shire, rohan, deadLands, gondor,
-                    rivendell, lothlorien, arnor, rivendellX, rivendellZ, rivendellRadius,
+                    rivendell, lothlorien, arnor, dale, daleBounds, rivendellX, rivendellZ, rivendellRadius,
                     lothlorienX, lothlorienZ, lothlorienRadius);
         }
 

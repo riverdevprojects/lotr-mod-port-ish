@@ -1,0 +1,31 @@
+{
+  "type": "lotrmod:boulder",
+  "config": {
+    "state": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "lotrmod:scorched_stone"
+          },
+          "weight": 4
+        },
+        {
+          "data": {
+            "Name": "minecraft:stone"
+          },
+          "weight": 2
+        },
+        {
+          "data": {
+            "Name": "minecraft:cobblestone"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "min_width": 1,
+    "max_width": 3,
+    "height_check": 3
+  }
+}

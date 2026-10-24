@@ -3,6 +3,7 @@ package com.lotrmod;
 import com.lotrmod.block.ModBlockEntities;
 import com.lotrmod.block.ModBlocks;
 import com.lotrmod.block.ModMenus;
+import com.lotrmod.command.DaleCommand;
 import com.lotrmod.command.MiddleEarthCommand;
 import com.lotrmod.entity.ModEntities;
 import com.lotrmod.worldgen.LOTRWorldGen;
@@ -70,6 +71,7 @@ public class LOTRMod {
     @SubscribeEvent
     public void onRegisterCommands(RegisterCommandsEvent event) {
         MiddleEarthCommand.register(event.getDispatcher());
+        DaleCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent

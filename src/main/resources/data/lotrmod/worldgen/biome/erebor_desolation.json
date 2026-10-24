@@ -1,0 +1,38 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.3,
+  "downfall": 0.3,
+  "effects": {
+    "sky_color": 9539216,
+    "fog_color": 11312304,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "grass_color": 9338714,
+    "foliage_color": 8022600,
+    "mood_sound": {
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000,
+      "block_search_extent": 8,
+      "offset": 2.0
+    }
+  },
+  "spawners": {
+    "monster": [{"type":"minecraft:spider","weight":100,"minCount":1,"maxCount":4},{"type":"minecraft:zombie","weight":95,"minCount":4,"maxCount":4},{"type":"minecraft:skeleton","weight":100,"minCount":4,"maxCount":4},{"type":"minecraft:creeper","weight":100,"minCount":4,"maxCount":4},{"type":"minecraft:slime","weight":100,"minCount":4,"maxCount":4}],
+    "creature": []
+  },
+  "spawn_costs": {},
+  "carvers": { "air": ["minecraft:cave","minecraft:cave_extra_underground","minecraft:canyon"] },
+  "features": [
+    [],
+    [],
+    ["lotrmod:dale_scorched_boulders"],
+    [],
+    ["lotrmod:dale_landmarks"],
+    [],
+    ["minecraft:ore_dirt","minecraft:ore_gravel","minecraft:ore_granite_upper","minecraft:ore_granite_lower","minecraft:ore_diorite_upper","minecraft:ore_diorite_lower","minecraft:ore_andesite_upper","minecraft:ore_andesite_lower","minecraft:ore_tuff","minecraft:ore_coal_upper","minecraft:ore_coal_lower","minecraft:ore_iron_upper","minecraft:ore_iron_middle","minecraft:ore_iron_small","minecraft:ore_gold","minecraft:ore_gold_lower","minecraft:ore_redstone","minecraft:ore_redstone_lower","minecraft:ore_diamond","minecraft:ore_diamond_large","minecraft:ore_diamond_buried","minecraft:ore_lapis","minecraft:ore_lapis_buried","minecraft:ore_copper"],
+    ["minecraft:amethyst_geode"],
+    [],
+    ["minecraft:patch_dead_bush","lotrmod:patch_dead_lands_grass","lotrmod:dale_charred_stumps","lotrmod:dale_bones"],
+    ["minecraft:freeze_top_layer"]
+  ]
+}

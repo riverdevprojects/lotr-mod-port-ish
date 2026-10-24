@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:spruce_checked",
+        "chance": 0.0847
+      },
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.0556
+      },
+      {
+        "feature": "lotrmod:dale_dead_oak",
+        "chance": 0.1176
+      },
+      {
+        "feature": "lotrmod:arnor_fir",
+        "chance": 0.4444
+      },
+      {
+        "feature": "minecraft:oak_checked",
+        "chance": 0.2
+      }
+    ],
+    "default": "lotrmod:arnor_pine"
+  }
+}

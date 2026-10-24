@@ -3,7 +3,7 @@
 A NeoForge 1.21.1 mod that adds one thing: a Middle-earth dimension.
 
 Landmass comes from a landmask PNG. Biomes come from a region map PNG, **one biome
-per region** (the Shire, Lindon, Gondor, Rivendell, Lothlórien and Arnor are the exceptions, split up; see below). Apart
+per region** (the Shire, Lindon, Gondor, Rivendell, Lothlórien, Arnor and Dale are the exceptions, split up; see below). Apart
 from the plants the landscape needs that vanilla lacks — the cattail, and the
 aspen, shire pine, beech and chestnut from the original mod, whose logs craft
 into birch, spruce, oak and dark oak planks, and the red poplar from vanilla's
@@ -11,8 +11,9 @@ newer dappled forest, whose logs craft into birch planks, Mirkwood's mirk oak,
 pine and vines, whose logs craft into dark oak and spruce planks, Rohan's dry grasses, the Dead Lands' short grass, Gondor's white rock, Rivendell's red and orange
 maple, whose logs craft into oak planks, and Lothlórien's mallorn, ivy, fallen leaves, elanor
 and niphredil, drawn new for this mod but for the mallorn's bark, the original's, and the original's fir, whose logs craft
-into spruce planks, and Arnor bricks, of which Arnor's ruins are built — the one addition is the Shire's **hobbit holes**, with the blocks they
-are built from and the hobbits who live in them (see below). Otherwise this is
+into spruce planks, and Arnor bricks, of which Arnor's ruins are built — the additions are the Shire's **hobbit holes**, with the blocks they
+are built from and the hobbits who live in them, and **Dale**, its town, fields and the Front Gate of Erebor,
+in two ages, before Smaug and after him, with the blocks they are built from (see below). Otherwise this is
 landscape generation and nothing else.
 
 ## Getting there
@@ -23,6 +24,10 @@ the surface. Vanilla works too:
 ```
 /execute in lotrmod:middleearth run tp @s ~ ~ ~
 ```
+
+`/dale` says which of its two ages Dale is in, and `/dale transform` (op level
+2) turns it to the other: from the green Dale of King Girion's day to the
+Desolation of Smaug, or back (see [Dale](#dale) below).
 
 The F3 debug screen reports whether the maps loaded, the current region and its
 shape, the distance to the coast and the climate values the terrain is built from.
@@ -71,7 +76,7 @@ plains instead of stepping up at the map's pixel edges.
 | Shape | Regions | Continentalness | Erosion |
 | --- | --- | --- | --- |
 | `MOUNTAIN` | Misty, Blue, Grey, White, Shadow, Erebor, Iron Hills | 0.55 | −0.80 to −0.45 by range, ±0.10 |
-| `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's and Arnor's ground itself comes from `ShireTerrain` and `ArnorTerrain`, below) |
+| `HILLY` | Lindon, Eriador, Arnor, Dale, The Shire | 0.25 | 0.00 ± 0.25 (the Shire's, Arnor's and Dale's ground itself comes from `ShireTerrain`, `ArnorTerrain` and `DaleTerrain`, below) |
 | `FLAT` | Gondor, Rohan, Rhûn, Dead Lands, E. Rhovanion | 0.15 | 0.30 ± 0.15 (Gondor's, Rohan's and the Dead Lands' ground itself comes from `GondorTerrain`, `RohanTerrain` and `DeadLandsTerrain`, below) |
 | `MARSH` | Vale of Anduin | 0.15 | 0.30 ± 0.15 (the ground itself comes from `MarshTerrain`, below) |
 | `FOREST` | Lothlórien, Mirkwood, Fangorn | 0.20 | 0.10 ± 0.25 (Lothlórien's ground itself comes from `LothlorienTerrain`, below) |
@@ -91,7 +96,8 @@ The mountain ranges are the exception. Inside them the terrain fades over, acros
 about a hundred blocks, to the mod's original mountain heightfield
 (`MountainTerrain`): stacked 2D noise plus a ridge layer, 110 blocks high in the
 Misty, Blue and Shadow mountains, 85 in the White and Grey, and 60 in Erebor and
-the Iron Hills. Vanilla's top slide still caps peaks at about y 250.
+the Iron Hills. Vanilla's top slide still caps peaks at about y 250, everywhere but
+over the Lonely Mountain (`lotrmod:top_slide`, below).
 
 Rivers are the other exception. `RiverMap` traces each line on the river map,
 smooths it and lets it meander a little, and `RiverTerrain` cuts a channel along
@@ -135,9 +141,13 @@ Lothlórien is the ninth: inside it the ground fades over to
 Arnor is the tenth: inside it the ground fades over to `ArnorTerrain`, old
 grassland, rolling hills, and ground split open by deep rifts (see below).
 
-All ten are done by the `lotrmod:terrain_blend` density function. It wraps
+Dale is the eleventh: inside it the ground fades over to `DaleTerrain`, the
+vale under the Lonely Mountain, with the River Running and the Long Lake (see
+below).
+
+All eleven are done by the `lotrmod:terrain_blend` density function. It wraps
 vanilla's density before caves are carved, so mountains, marshes, the Shire,
-Rohan, the Dead Lands, Gondor, Rivendell, Lothlórien, Arnor and river valleys still get vanilla's caves,
+Rohan, the Dead Lands, Gondor, Rivendell, Lothlórien, Arnor, Dale and river valleys still get vanilla's caves,
 aquifers and ore veins.
 
 ### Ground
@@ -660,3 +670,198 @@ original's Arnor bricks.
   (`arnor_boulders_dense`); sheep, horses, rabbits, foxes and wolves.
 - **Colours**: a cool, grey northern sky and fog over dark, faded grass,
   greyer still on the split ground, the leaves of its scrub a dull olive.
+
+### Dale
+
+Dale, the town of Men under the Lonely Mountain, and the land about it, in
+**two ages**: as it was in the days of King Girion, before the dragon came,
+and the Desolation of Smaug that he made of it in Third Age 2770. The world is
+in one of them at a time. A new world starts in Girion's day; `/dale
+transform` turns Dale to the other age, and back.
+
+#### The land
+
+The region map has no Erebor, so `DaleTerrain` raises the Lonely Mountain in
+the north of Dale, and lays out the land round it. The ground is the same in
+both ages; the Desolation is the same land, burnt.
+
+- **The Mountain**: a lone peak rising to about y 300, towering over
+  everything round it, snow-capped from y 182, and over a thousand
+  across at its foot, its slopes scored by gullies running down from a craggy
+  summit, with eight long spurs reaching out from it. The two longest run
+  south and enfold the vale. At the end of the south-western one is
+  **Ravenhill**, a knoll with the Dwarves' watch-post on it.
+- **The Front Gate**: straight south of the summit a gorge cuts into the
+  Mountain's face, and at its head is the gate, out of which the **River
+  Running** flows.
+- **The vale**: the river runs south down the gorge and swings round the town
+  of Dale in a great loop. The town stands on a low, level rise inside the
+  loop. Then the river winds south to the **Long Lake**, a lake six hundred
+  blocks long, and out of its foot to join the Celduin. River and lake are cut
+  below the waterline and filled with water, as Lothlórien's streams are.
+- **Round about**: rolling ground about y 70, rising into broad downs further
+  from the Mountain.
+- **The summit**: vanilla's top slide fades all terrain out between y 240
+  and 256. Over the Mountain it is held off (`lotrmod:top_slide`,
+  `TopSlideDensityFunction`, wrapped round the slide by `gen_terrain.sh`), so
+  the summit keeps its full height.
+
+`DaleTerrain.zone` divides Dale into landscapes, and the biome source picks
+each one's biome for the age Dale is in:
+
+| Landscape | Girion's day | The Desolation, near the Mountain | The Desolation, further out |
+| --- | --- | --- | --- |
+| Fields, in the vale | `lotrmod:dale` | `lotrmod:desolation_of_smaug` | `lotrmod:dale_withered_lands` |
+| Meadows, further out | `lotrmod:dale_meadows` | `lotrmod:desolation_of_smaug` | `lotrmod:dale_withered_lands` |
+| Woods, round the Mountain's foot and in patches | `lotrmod:dale_woods` | `lotrmod:dale_burnt_woods` | `lotrmod:dale_woods` |
+| The Mountain's rock | `lotrmod:erebor` | `lotrmod:erebor_desolation` | |
+| The town | `lotrmod:dale_town` | `lotrmod:dale_ruins` | |
+| The river | `lotrmod:celduin` | `lotrmod:celduin` | |
+| The Long Lake | `lotrmod:long_lake` | `lotrmod:long_lake` | |
+
+"Near the Mountain" is within about twelve hundred blocks of its summit, give
+or take a noise (`DaleTerrain.scorched`): as far as the fire reached. Beyond
+it, Dale was not burnt but abandoned.
+
+#### Dale in King Girion's day
+
+- **The town** (`DaleTown`): walled round, the wall eight high with a
+  wall-walk and battlements, with towers along it and gates north, towards the
+  Front Gate; south, over the river and down to the lake; and west, out to
+  Ravenhill. Broad paved streets run in from the gates to the market square,
+  with stalls round it under coloured awnings and the original's market
+  pavilion in the middle. Beside it stands the **bell-tower**, its four bells
+  hung in an open belfry thirty blocks up. King Girion's hall (the original's
+  Dale fortress) stands at the head of the north street. Lanes run
+  parallel to the great streets, and a street runs round inside the wall,
+  all lit by lamps. The original's Dale houses, smithies and bakeries fill
+  the blocks between them, close packed, two rows back to back, each facing
+  its street, with a garden here and there. The layout is fixed: there was
+  only one Dale.
+- **The buildings** (`DaleBuildings`) are line-for-line ports of the
+  original's `LOTRWorldGenDale*`: the house, smithy, bakery, village tower,
+  watchtower and fortress. They are built of the original's Dale bricks and
+  pillars, timbered in spruce, oak with pine, or dark oak with fir, and roofed
+  in its dyed clay tiles, orange, red, brown or blue, as it rolled them. Its
+  hearths are campfires, so smoke rises from the chimneys. A fletching table
+  stands in for its Dale crafting table, cakes for its pastries, and blue
+  banners for Dale's. Its Men of Dale and their food and drink are left out.
+- **The roads** (`DaleRoads`): beaten earth with gravel edges, north up the
+  vale to the Front Gate, south over the river by a stone bridge on piers
+  and down to a jetty on the Long Lake, and west up onto Ravenhill.
+- **The Front Gate of Erebor** (`DaleGate`): a carved face of the original's
+  dwarven bricks and pillars forty blocks wide, banded and corniced, with
+  Durin's gold above a great round arch. The river runs out through the arch
+  from a vaulted tunnel, between two stone ledges, past the great doors
+  folded back against the walls, under hanging lanterns. Braziers burn before
+  the face, and the gate-wardens' guardroom opens off the western ledge.
+- **Ravenhill**: the original's Dale watchtower on the top of the knoll, its
+  door towards Dale, inside a low ring wall.
+- **The fields** (`DaleFields`, `lotrmod:dale`): the vale is farmland, a
+  patchwork of plots about twenty blocks square on one grid, their edges a
+  little ragged. Most are sown with wheat; others with carrots, potatoes or
+  beetroot in rows, with an irrigation ditch in every sixth row where the
+  ground is level enough to hold water. Some are pasture or hay meadow with
+  stacked hay bales, or patches of pumpkins and melons. Hedges, dry stone
+  walls, fences and cart-tracks run between them. One plot in fifteen or so is a
+  farmstead, a Dale house on level ground. A lone oak or chestnut stands here
+  and there, and poppies and cornflowers grow along the edges.
+- **The meadows** (`lotrmod:dale_meadows`): flower meadow and pasture, thick
+  with daisies, cornflowers, poppies, alliums and tulips, with oaks and
+  chestnuts. Where a broad noise says, there are **orchards**
+  (`lotrmod:dale_orchards`) of the original's apple, pear and plum trees,
+  planted in staggered rows seven blocks apart, with windfalls under them.
+- **The woods** (`lotrmod:dale_woods`): the original's Dale trees in its
+  weights: oak, large oak, spruce, pine and fir, chestnut, maple and the odd
+  dead oak. The floor is podzol and leaf mould, with ferns, berries,
+  mushrooms and fallen oak logs.
+- **The Mountain** (`lotrmod:erebor`): grass on its skirts under the
+  original's Erebor trees, mostly pine and fir. Higher up the grass breaks up
+  into rock and scree, and the summit has a cap of snow.
+- **The Long Lake** (`lotrmod:long_lake`): sandy shores and bed, cattails,
+  sugar cane and the odd swamp oak.
+- **Animals**: the farm's own, sheep, pigs, cows, chickens and horses.
+
+#### The Desolation of Smaug
+
+"There was little grass, and before long there was neither bush nor tree, and
+only broken and blackened stumps to speak of ones long vanished."
+
+- **The town** (`lotrmod:dale_ruins`): the same town, burnt. The wall is
+  broken to a ragged height, and the houses are roofless shells whose timbers
+  are charred beams. The streets are choked with gravel, ash and rubble. The
+  bells of Dale lie fallen at the foot of the broken bell-tower. The few
+  chests that survived hold little.
+- **The Front Gate**: broken. The doors are gone to splinters and scattered
+  iron, and the top of the arch is smashed open. The face is cracked and
+  scorched black round the arch, and the gold is gone. The braziers are cold
+  and fallen, rubble is heaped in the gorge, and there are bones in the
+  guardroom.
+- **The desolation** (`lotrmod:desolation_of_smaug`): dead ground of dust,
+  coarse earth, gravel and ash, with scorched rock breaking through, dead
+  grass and dead bushes, bones, and charred stumps. The lines of the old
+  fields still show: tumbled stones where the walls were, charred stumps
+  along the old hedges, bare earth tracks, and furrows faintly scored in the
+  dirt. The farmsteads are burnt shells, and a charred stump stands where
+  each orchard tree stood.
+- **The burnt woods** (`lotrmod:dale_burnt_woods`): standing dead trunks five
+  to twelve high, some two blocks thick, leaning a little, their tops broken
+  off and their boughs snapped short, all charred black
+  (`lotrmod:charred_tree`). Charred stumps and fallen trunks
+  (`lotrmod:charred_stump`) lie on a floor deep in ash, under a darker fog.
+- **The Mountain** (`lotrmod:erebor_desolation`): no trees. Its skirts are
+  scorched bare to dust, scree and blackened rock, with only the odd charred
+  stump.
+- **The abandoned land** (`lotrmod:dale_withered_lands`): beyond the fire's
+  reach the folk fled and nobody came back. The grass is gone to straw under
+  a hazy sky, and the fields have gone to wild oats and seeding grass among
+  dead oaks. The walls are mossed over and the hedges grown wild. The
+  farmsteads stand empty and falling in, half their timbers rotted and their
+  roofs gaping. In the orchards half the trees are dead and the rest have
+  grown shaggy. The woods out here still stand. Ravenhill's watch-post is
+  empty, as Thorin's company found it.
+- **Animals**: none near the Mountain; on the abandoned land, sheep and horses
+  gone wild, with rabbits, foxes and wolves.
+
+#### `/dale transform`
+
+Chunks generated from then on are generated in the new age, since the biome
+source reads the world's age (`DaleEra`, saved in the overworld's
+`data/lotrmod_dale.dat`). The chunks of Dale already generated are
+regenerated: `DaleTransformer` keeps two hidden dimensions,
+`lotrmod:dale_flourishing` and `lotrmod:dale_desolation`. Each is Middle-earth
+again, with the same generator and seed, but with Dale held in one age. Each
+of Dale's chunks is generated there and copied across: its blocks, block
+entities and biomes. Only blocks that differ are set, through the level, so
+light and what players see follow as for any other change. No neighbours are
+updated, so nothing falls or flows.
+
+- It works nearest the player first, in at most 25 ms a tick, reporting its
+  progress. About 2,300 chunks took a little over a minute on the dev server.
+  The template dimensions keep what they generate, so turning back and forth
+  again is quicker.
+- The chunks still to do are saved with the age, so a transformation cut
+  short by the server stopping carries on when it starts again.
+- Anything built in Dale is replaced. Entities are left as they are, and a
+  player left inside a block is lifted out on top.
+- Underground, ore blobs straddling chunk edges can come out a little
+  differently, since vanilla places them in whatever order the chunks
+  generate. Above ground a round trip comes back block for block.
+
+#### Blocks
+
+From the original mod, with its textures:
+
+- Dale bricks (plain, mossy, cracked and carved, with slabs, stairs and
+  walls) and the Dale pillar. They are cut from sandstone on a stonecutter.
+- Dwarven bricks (plain, cracked and carved, with slabs and stairs) and the
+  dwarven pillar. They are cut from stone bricks.
+- Clay roof tiles in orange, red, brown and blue, with slabs and stairs.
+  They are cut from terracotta of their colour.
+- Charred logs, wood and planks, and scorched stone.
+- Apple, pear and plum logs and leaves. The leaves drop their fruit a tenth
+  of the time; pears and plums are new foods, as filling as an apple. The
+  logs make oak, birch and dark oak planks.
+
+New: `lotrmod:ash`, grey powder flecked with white and black, which falls like
+sand.

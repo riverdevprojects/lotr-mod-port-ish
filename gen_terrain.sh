@@ -24,6 +24,10 @@
 # times its cave entrance noise. That noise is wrapped in lotrmod:cave_entrances,
 # which raises it inside Rohan so few tunnels break out through its plains.
 #
+# Vanilla's top slide, which fades the terrain out between y 240 and 256, is
+# wrapped in lotrmod:top_slide, which holds it off over the Lonely Mountain so
+# its summit can rise to about y 300.
+#
 # The noise settings get the same treatment: vanilla's overworld settings and
 # noise router, renamed, followed by the surface rule already at the end of
 # noise_settings/middleearth.json, which is ours and is kept as it is.
@@ -64,10 +68,11 @@ NS="$DATA/noise_settings/middleearth.json"
 {
   sed -n '/"surface_rule"/q;p' "$V/noise_settings/overworld.json" | sed -E "$RENAME" |
     sed -E '/^    "initial_density_without_jaggedness": \{$/,/^    \},$/ {
-      s/^(    "initial_density_without_jaggedness": )\{$/\1{"type": "lotrmod:terrain_blend", "argument": {/
+      s/^(    "initial_density_without_jaggedness": )\{$/\1{"type": "lotrmod:terrain_blend", "ravines": false, "argument": {/
       s/^    \},$/    }},/
     }' |
-    perl -0pe 's#("argument1": 5\.0,\n\s*"argument2": )"minecraft:overworld/caves/entrances"#$1\{"type": "lotrmod:cave_entrances", "argument": "minecraft:overworld/caves/entrances"\}#'
+    perl -0pe 's#("argument1": 5\.0,\n\s*"argument2": )"minecraft:overworld/caves/entrances"#$1\{"type": "lotrmod:cave_entrances", "argument": "minecraft:overworld/caves/entrances"\}#' |
+    perl -0pe 's#(\{\s*"type": "minecraft:y_clamped_gradient",\s*"from_value": 1\.0,\s*"from_y": 240,\s*"to_value": 0\.0,\s*"to_y": 256\s*\})#\{"type": "lotrmod:top_slide", "argument": $1\}#g'
   sed -n '/"surface_rule"/,$p' "$NS"
 } > "$NS.tmp"
 mv "$NS.tmp" "$NS"

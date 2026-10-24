@@ -134,7 +134,7 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
 
     /**
      * Whether ground below the waterline here is under water: a river, a marsh, Gondor's wetlands, the Bruinen,
-     * or Lothlórien's streams and pools.
+     * Lothlórien's streams and pools, or Dale's River Running and the Long Lake.
      */
     private static boolean isWet(int x, int z) {
         if (MiddleEarthClimate.marshWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
@@ -142,6 +142,7 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         if (gondor > MARSH_FLOOD_WEIGHT && gondor * GondorTerrain.wetWeight(x, z) > MARSH_FLOOD_WEIGHT) return true;
         if (MiddleEarthClimate.rivendellWeight(x, z) > MARSH_FLOOD_WEIGHT && RivendellTerrain.isRiver(x, z)) return true;
         if (MiddleEarthClimate.lothlorienWeight(x, z) > MARSH_FLOOD_WEIGHT && LothlorienTerrain.isWater(x, z)) return true;
+        if (MiddleEarthClimate.daleWeight(x, z) > MARSH_FLOOD_WEIGHT && DaleTerrain.isWater(x, z)) return true;
         RiverMap.Sample river = RiverMap.sample(x, z);
         return river != null && RiverTerrain.isWater(river);
     }
@@ -243,6 +244,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
         if (rivendell > 0.0) {
             info.add(String.format("Rivendell: %.0f%% %s, height %.1f",
                     rivendell * 100.0, RivendellTerrain.zone(x, z), RivendellTerrain.height(x, z)));
+        }
+        double dale = MiddleEarthClimate.daleWeight(x, z);
+        if (dale > 0.0) {
+            info.add(String.format("Dale: %.0f%% %s, height %.1f, %s",
+                    dale * 100.0, DaleTerrain.zone(x, z), DaleTerrain.height(x, z), com.lotrmod.worldgen.dale.DaleEra.live().getSerializedName()));
         }
         double mountain = MiddleEarthClimate.mountainWeight(x, z);
         if (mountain > 0.0) {

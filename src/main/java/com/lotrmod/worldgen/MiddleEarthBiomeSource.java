@@ -1,6 +1,7 @@
 package com.lotrmod.worldgen;
 
 import com.lotrmod.LOTRMod;
+import com.lotrmod.worldgen.dale.DaleEra;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
@@ -15,6 +16,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -58,19 +60,28 @@ import java.util.stream.Stream;
  * <p>And Arnor, into three landscapes laid out by {@link ArnorTerrain#zone}:
  * open fields ({@code lotrmod:arnor}), rolling hills ({@code lotrmod:arnor_hills})
  * and ground split by rifts ({@code lotrmod:arnor_split_ground}).
+ *
+ * <p>And Dale, into the landscapes laid out by {@link DaleTerrain#zone}, whose
+ * biomes depend on which era Dale is in ({@link #daleBiome}).
  */
 public class MiddleEarthBiomeSource extends BiomeSource {
     public static final MapCodec<MiddleEarthBiomeSource> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
                     Biome.CODEC.fieldOf("ocean_biome").forGetter((MiddleEarthBiomeSource s) -> s.oceanBiome),
                     Biome.CODEC.fieldOf("fallback_biome").forGetter((MiddleEarthBiomeSource s) -> s.fallbackBiome),
-                    Biome.CODEC.listOf().fieldOf("possible_biomes").forGetter((MiddleEarthBiomeSource s) -> s.regionBiomes)
+                    Biome.CODEC.listOf().fieldOf("possible_biomes").forGetter((MiddleEarthBiomeSource s) -> s.regionBiomes),
+                    DaleEra.CODEC.optionalFieldOf("dale_era").forGetter((MiddleEarthBiomeSource s) -> s.daleEra)
             ).apply(instance, MiddleEarthBiomeSource::new)
     );
 
     private final Holder<Biome> oceanBiome;
     private final Holder<Biome> fallbackBiome;
     private final List<Holder<Biome>> regionBiomes;
+    /**
+     * The era Dale is held in, for the template dimensions {@code /dale transform}
+     * copies from; empty for the live world, whose Dale is in {@link DaleEra#live()}.
+     */
+    private final Optional<DaleEra> daleEra;
 
     /** Region to biome holder, resolved once from the dimension JSON. */
     private final Map<Region, Holder<Biome>> byRegion;
@@ -88,6 +99,9 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     private final Map<ArnorTerrain.Zone, Holder<Biome>> arnorZones = new EnumMap<>(ArnorTerrain.Zone.class);
     /** Rivendell's landscapes other than its meadow, each null if the dimension JSON doesn't list it. */
     private final Map<RivendellTerrain.Zone, Holder<Biome>> rivendellZones = new EnumMap<>(RivendellTerrain.Zone.class);
+    /** Dale's landscapes in each era, each null if the dimension JSON doesn't list it; see {@link #daleBiome}. */
+    private final Holder<Biome> daleMeadows, daleWoods, daleTown, erebor, longLake;
+    private final Holder<Biome> desolation, daleWitheredLands, daleBurntWoods, daleRuins, ereborDesolation;
 
     /** Feature size of the region-boundary warp, as a noise input scale. */
     private static final double WARP_SCALE = 1.0 / 40.0;
@@ -103,10 +117,12 @@ public class MiddleEarthBiomeSource extends BiomeSource {
     private static final PerlinSimplexNoise LINDON_WOODS =
             new PerlinSimplexNoise(RandomSource.create(44045L), List.of(0, 1, 2));
 
-    public MiddleEarthBiomeSource(Holder<Biome> oceanBiome, Holder<Biome> fallbackBiome, List<Holder<Biome>> regionBiomes) {
+    public MiddleEarthBiomeSource(Holder<Biome> oceanBiome, Holder<Biome> fallbackBiome, List<Holder<Biome>> regionBiomes,
+            Optional<DaleEra> daleEra) {
         this.oceanBiome = oceanBiome;
         this.fallbackBiome = fallbackBiome;
         this.regionBiomes = regionBiomes;
+        this.daleEra = daleEra;
 
         // Holders arrive from the codec already registry-bound, so they are safe
         // to hand back for chunk save and network sync. Match them to regions by
@@ -148,6 +164,17 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             Holder<Biome> biome = findBiome(regionBiomes, "rivendell_" + zone.name().toLowerCase(Locale.ROOT));
             if (biome != null) rivendellZones.put(zone, biome);
         }
+
+        this.daleMeadows = findBiome(regionBiomes, "dale_meadows");
+        this.daleWoods = findBiome(regionBiomes, "dale_woods");
+        this.daleTown = findBiome(regionBiomes, "dale_town");
+        this.erebor = findBiome(regionBiomes, "erebor");
+        this.longLake = findBiome(regionBiomes, "long_lake");
+        this.desolation = findBiome(regionBiomes, "desolation_of_smaug");
+        this.daleWitheredLands = findBiome(regionBiomes, "dale_withered_lands");
+        this.daleBurntWoods = findBiome(regionBiomes, "dale_burnt_woods");
+        this.daleRuins = findBiome(regionBiomes, "dale_ruins");
+        this.ereborDesolation = findBiome(regionBiomes, "erebor_desolation");
 
         LOTRMod.LOGGER.info("MiddleEarthBiomeSource: resolved {} of {} region biomes",
                 byRegion.size(), Region.biomeRegions().length);
@@ -213,6 +240,11 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             if (landscape != null) return landscape;
         }
 
+        if (region == Region.DALE) {
+            Holder<Biome> landscape = daleBiome(worldX, worldZ);
+            if (landscape != null) return landscape;
+        }
+
         Holder<Biome> biome = byRegion.get(region);
         return biome != null ? biome : fallbackBiome;
     }
@@ -235,6 +267,43 @@ public class MiddleEarthBiomeSource extends BiomeSource {
             last.biome = river != null && RiverTerrain.inChannel(river) ? byRegion.get(river.river()) : null;
         }
         return last.biome;
+    }
+
+    /** The era this dimension's Dale is in. */
+    public DaleEra daleEra() {
+        return daleEra.orElseGet(DaleEra::live);
+    }
+
+    /**
+     * Dale's biome here, for the landscape {@link DaleTerrain#zone} says it is
+     * and the era Dale is in: green fields, meadows, woods and town under the
+     * Mountain in Girion's day; in the Desolation, near the Mountain, burnt
+     * ground, charred woods and the ruins of the town, and further out,
+     * fields and meadows gone wild, the woods still standing. The river and
+     * the Long Lake are the same in both.
+     */
+    private Holder<Biome> daleBiome(int x, int z) {
+        DaleTerrain.Zone zone = DaleTerrain.zone(x, z);
+        if (daleEra() == DaleEra.FLOURISHING) {
+            return switch (zone) {
+                case FIELDS -> byRegion.get(Region.DALE);
+                case MEADOWS -> daleMeadows;
+                case WOODS -> daleWoods;
+                case MOUNTAIN -> erebor;
+                case TOWN -> daleTown;
+                case RIVER -> byRegion.get(Region.CELDUIN);
+                case LAKE -> longLake;
+            };
+        }
+        boolean scorched = DaleTerrain.scorched(x, z);
+        return switch (zone) {
+            case FIELDS, MEADOWS -> scorched ? desolation : daleWitheredLands;
+            case WOODS -> scorched ? daleBurntWoods : daleWoods;
+            case MOUNTAIN -> ereborDesolation;
+            case TOWN -> daleRuins;
+            case RIVER -> byRegion.get(Region.CELDUIN);
+            case LAKE -> longLake;
+        };
     }
 
     /** Whether this column of Lindon lies in its woods rather than its fields. */

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:random_selector",
+  "config": {
+    "features": [
+      {
+        "feature": "minecraft:fancy_oak_checked",
+        "chance": 0.3
+      },
+      {
+        "feature": "lotrmod:chestnut_checked",
+        "chance": 0.2143
+      },
+      {
+        "feature": "lotrmod:chestnut_large_checked",
+        "chance": 0.0909
+      }
+    ],
+    "default": "minecraft:oak_checked"
+  }
+}

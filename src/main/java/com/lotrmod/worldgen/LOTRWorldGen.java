@@ -1,5 +1,7 @@
 package com.lotrmod.worldgen;
 
+import com.lotrmod.worldgen.dale.DaleFeatures;
+
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
@@ -79,6 +81,8 @@ public class LOTRWorldGen {
     // Keeps cave entrances from breaking out through Rohan's plains
     public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<CaveEntranceDensityFunction>> CAVE_ENTRANCES =
             DENSITY_FUNCTION_TYPES.register("cave_entrances", () -> CaveEntranceDensityFunction.DATA_CODEC);
+    public static final DeferredHolder<MapCodec<? extends DensityFunction>, MapCodec<TopSlideDensityFunction>> TOP_SLIDE =
+            DENSITY_FUNCTION_TYPES.register("top_slide", () -> TopSlideDensityFunction.DATA_CODEC);
 
     // The Shire's trees and Eriador's boulders, ported from the original mod's generators
     public static final DeferredHolder<Feature<?>, AspenFeature> ASPEN =
@@ -119,6 +123,17 @@ public class LOTRWorldGen {
             FEATURES.register("fir", () -> new FirFeature(FirFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, CopseFeature> COPSE =
             FEATURES.register("copse", () -> new CopseFeature(CopseFeature.Config.CODEC));
+    // Dale's town, roads and gate, its fields, its orchards, and the trees Smaug burnt
+    public static final DeferredHolder<Feature<?>, DaleFeatures.Landmarks> DALE_LANDMARKS =
+            FEATURES.register("dale_landmarks", () -> new DaleFeatures.Landmarks(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, DaleFeatures.Fields> DALE_FIELDS =
+            FEATURES.register("dale_fields", () -> new DaleFeatures.Fields(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, DaleFeatures.Orchards> DALE_ORCHARDS =
+            FEATURES.register("dale_orchards", () -> new DaleFeatures.Orchards(NoneFeatureConfiguration.CODEC));
+    public static final DeferredHolder<Feature<?>, DaleFeatures.CharredTree> CHARRED_TREE =
+            FEATURES.register("charred_tree", () -> new DaleFeatures.CharredTree(NoneFeatureConfiguration.CODEC, false));
+    public static final DeferredHolder<Feature<?>, DaleFeatures.CharredTree> CHARRED_STUMP =
+            FEATURES.register("charred_stump", () -> new DaleFeatures.CharredTree(NoneFeatureConfiguration.CODEC, true));
 
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =

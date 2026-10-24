@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "lotrmod:block/dwarven_pillar_top",
+    "side": "lotrmod:block/dwarven_pillar"
+  }
+}

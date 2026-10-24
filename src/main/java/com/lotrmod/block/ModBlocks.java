@@ -328,9 +328,11 @@ public final class ModBlocks {
     }
 
     public static void register(IEventBus modEventBus) {
+        DaleBlocks.init();
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         modEventBus.addListener(ModBlocks::addToCreativeTabs);
+        modEventBus.addListener(DaleBlocks::addToCreativeTabs);
     }
 
     private static void addToCreativeTabs(BuildCreativeModeTabContentsEvent event) {

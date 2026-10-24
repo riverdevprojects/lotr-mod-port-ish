@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "item": "lotrmod:charred_log"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "lotrmod:charred_planks"
+  }
+}
