@@ -624,9 +624,11 @@ original's Arnor bricks.
   the highest hills and on steep slopes, and all over the split ground in
   broad patches of stone and gravel; elsewhere the grass is broken only by
   worn, bald patches of coarse dirt and specks of it.
-- **Trees**: the original's Iron Hills trees, in its weights
-  (`arnor_tree`): vanilla's spruce (500), giant spruce (200) and thin giant
-  spruce (50), the original's fir (400) and Mirkwood's pine (400). They
+- **Trees**: the original's Iron Hills trees but its giant spruces, in its
+  weights (`arnor_tree`): vanilla's spruce (500), the original's fir (400)
+  and a fuller pine (400, `arnor_pine`): Mirkwood's pine 10 to 16 tall,
+  bare for only its lowest quarter, without its stub branches, and crowned
+  with one ragged cone instead of its stack of plates (`"full": true`). They
   stand in copses in all three landscapes (`lotrmod:copse`, `CopseFeature`):
   four to eight trees crowded within three to five blocks, on a floor of
   their own, the grass under them turned to podzol with some coarse dirt,

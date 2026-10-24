@@ -101,7 +101,7 @@ public class LOTRWorldGen {
     public static final DeferredHolder<Feature<?>, MirkOakFeature> MIRK_OAK =
             FEATURES.register("mirk_oak", () -> new MirkOakFeature(MirkOakFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, PineFeature> PINE =
-            FEATURES.register("pine", () -> new PineFeature(NoneFeatureConfiguration.CODEC));
+            FEATURES.register("pine", () -> new PineFeature(PineFeature.Config.CODEC));
 
     // The Dead Lands' dead oaks and stone ruins, ported from the original mod's Brown Lands
     public static final DeferredHolder<Feature<?>, DeadTreeFeature> DEAD_TREE =
