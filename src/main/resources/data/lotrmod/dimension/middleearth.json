@@ -9,6 +9,8 @@
       "possible_biomes": [
         "lotrmod:anduin_river",
         "lotrmod:arnor",
+        "lotrmod:arnor_hills",
+        "lotrmod:arnor_split_ground",
         "lotrmod:blue_mountains",
         "lotrmod:celduin",
         "lotrmod:dale",

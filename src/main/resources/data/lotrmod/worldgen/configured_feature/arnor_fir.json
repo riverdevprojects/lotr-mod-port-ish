@@ -1,0 +1,7 @@
+{
+  "type": "lotrmod:fir",
+  "config": {
+    "min_height": 6,
+    "max_height": 13
+  }
+}

@@ -3,8 +3,11 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.ClearOfTreesFilter;
+import com.lotrmod.worldgen.feature.CopseFeature;
 import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
+import com.lotrmod.worldgen.feature.FirFeature;
 import com.lotrmod.worldgen.feature.MallornFeature;
 import com.lotrmod.worldgen.feature.MirkOakFeature;
 import com.lotrmod.worldgen.feature.PartyTreeFeature;
@@ -99,7 +102,7 @@ public class LOTRWorldGen {
     public static final DeferredHolder<Feature<?>, MirkOakFeature> MIRK_OAK =
             FEATURES.register("mirk_oak", () -> new MirkOakFeature(MirkOakFeature.Config.CODEC));
     public static final DeferredHolder<Feature<?>, PineFeature> PINE =
-            FEATURES.register("pine", () -> new PineFeature(NoneFeatureConfiguration.CODEC));
+            FEATURES.register("pine", () -> new PineFeature(PineFeature.Config.CODEC));
 
     // The Dead Lands' dead oaks and stone ruins, ported from the original mod's Brown Lands
     public static final DeferredHolder<Feature<?>, DeadTreeFeature> DEAD_TREE =
@@ -111,9 +114,19 @@ public class LOTRWorldGen {
     public static final DeferredHolder<Feature<?>, MallornFeature> MALLORN =
             FEATURES.register("mallorn", () -> new MallornFeature(MallornFeature.Config.CODEC));
 
+    // Arnor's firs, ported from the original mod's Iron Hills, and the copses its trees stand in
+    public static final DeferredHolder<Feature<?>, FirFeature> FIR =
+            FEATURES.register("fir", () -> new FirFeature(FirFeature.Config.CODEC));
+    public static final DeferredHolder<Feature<?>, CopseFeature> COPSE =
+            FEATURES.register("copse", () -> new CopseFeature(CopseFeature.Config.CODEC));
+
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =
             PLACEMENT_MODIFIERS.register("rohan_moisture", () -> () -> RohanMoistureFilter.CODEC);
+
+    // Keeps Arnor's trees from growing into one another
+    public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<ClearOfTreesFilter>> CLEAR_OF_TREES =
+            PLACEMENT_MODIFIERS.register("clear_of_trees", () -> () -> ClearOfTreesFilter.CODEC);
 
     // Fangorn's giant trees, grown as structures so their crowns come out whole
     public static final DeferredHolder<StructureType<?>, StructureType<FangornTreeStructure>> FANGORN_TREE =

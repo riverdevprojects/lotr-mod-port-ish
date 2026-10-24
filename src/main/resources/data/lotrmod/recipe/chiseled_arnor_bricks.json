@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "lotrmod:arnor_brick_slab"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "lotrmod:chiseled_arnor_bricks"
+  }
+}

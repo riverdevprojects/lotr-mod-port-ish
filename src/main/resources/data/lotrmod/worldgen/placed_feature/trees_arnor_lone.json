@@ -1,0 +1,27 @@
+{
+  "feature": "lotrmod:arnor_tree",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 14
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:surface_water_depth_filter",
+      "max_water_depth": 0
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "OCEAN_FLOOR"
+    },
+    {
+      "type": "lotrmod:clear_of_trees",
+      "radius": 6
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

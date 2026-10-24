@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "mossy_arnor_bricks",
+  "ingredients": [
+    {
+      "item": "lotrmod:arnor_bricks"
+    },
+    {
+      "item": "minecraft:vine"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "lotrmod:mossy_arnor_bricks"
+  }
+}

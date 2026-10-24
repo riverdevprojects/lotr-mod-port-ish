@@ -234,6 +234,11 @@ public class MiddleEarthChunkGenerator extends NoiseBasedChunkGenerator {
             info.add(String.format("Lothlórien: %.0f%% %s, height %.1f",
                     lothlorien * 100.0, LothlorienTerrain.zone(x, z), LothlorienTerrain.height(x, z)));
         }
+        double arnor = MiddleEarthClimate.arnorWeight(x, z);
+        if (arnor > 0.0) {
+            info.add(String.format("Arnor: %.0f%% %s, height %.1f, ground %.1f",
+                    arnor * 100.0, ArnorTerrain.zone(x, z), ArnorTerrain.height(x, z), ArnorTerrain.groundHeight(x, z)));
+        }
         double rivendell = MiddleEarthClimate.rivendellWeight(x, z);
         if (rivendell > 0.0) {
             info.add(String.format("Rivendell: %.0f%% %s, height %.1f",

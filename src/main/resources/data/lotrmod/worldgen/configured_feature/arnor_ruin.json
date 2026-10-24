@@ -1,0 +1,46 @@
+{
+  "type": "lotrmod:stone_ruin",
+  "config": {
+    "brick": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "data": {
+            "Name": "lotrmod:arnor_bricks"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "lotrmod:mossy_arnor_bricks"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "lotrmod:cracked_arnor_bricks"
+          },
+          "weight": 3
+        },
+        {
+          "data": {
+            "Name": "lotrmod:chiseled_arnor_bricks"
+          },
+          "weight": 1
+        }
+      ]
+    },
+    "slab": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "lotrmod:arnor_brick_slab",
+        "Properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "min_width": 1,
+    "max_width": 3
+  }
+}

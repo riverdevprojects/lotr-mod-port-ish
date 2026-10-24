@@ -1,0 +1,10 @@
+{
+  "type": "lotrmod:pine",
+  "config": {
+    "min_height": 10,
+    "max_height": 16,
+    "bare": 0.25,
+    "branches": false,
+    "full": true
+  }
+}
