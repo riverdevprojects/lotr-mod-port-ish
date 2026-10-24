@@ -3,6 +3,7 @@ package com.lotrmod.worldgen;
 import com.lotrmod.LOTRMod;
 import com.lotrmod.worldgen.feature.AspenFeature;
 import com.lotrmod.worldgen.feature.BoulderFeature;
+import com.lotrmod.worldgen.feature.ClearOfTreesFilter;
 import com.lotrmod.worldgen.feature.CopseFeature;
 import com.lotrmod.worldgen.feature.DeadTreeFeature;
 import com.lotrmod.worldgen.feature.FallenLogFeature;
@@ -122,6 +123,10 @@ public class LOTRWorldGen {
     // Keeps Rohan's scrub to its swales, by how wet the ground is
     public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<RohanMoistureFilter>> ROHAN_MOISTURE =
             PLACEMENT_MODIFIERS.register("rohan_moisture", () -> () -> RohanMoistureFilter.CODEC);
+
+    // Keeps Arnor's trees from growing into one another
+    public static final DeferredHolder<PlacementModifierType<?>, PlacementModifierType<ClearOfTreesFilter>> CLEAR_OF_TREES =
+            PLACEMENT_MODIFIERS.register("clear_of_trees", () -> () -> ClearOfTreesFilter.CODEC);
 
     // Fangorn's giant trees, grown as structures so their crowns come out whole
     public static final DeferredHolder<StructureType<?>, StructureType<FangornTreeStructure>> FANGORN_TREE =

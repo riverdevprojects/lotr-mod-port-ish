@@ -26,21 +26,24 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
  * soil, ferns and the like growing in its shade, and a fallen log or two.
  *
  * <p>The floor is laid first, in a ragged round {@code radius} blocks across,
- * then {@code count} trees go in, crowded towards the middle, then the logs
- * and the undergrowth.
+ * then {@code count} trees go in, crowded towards the middle but each
+ * {@code spacing} blocks clear of any other trunk and out from under any other
+ * crown ({@link ClearOfTreesFilter#clear}); a tree with no room after a few
+ * tries is left out. Then the logs and the undergrowth.
  *
- * <pre>{"type": "lotrmod:copse", "config": {"tree": "...", "count": 6, "radius": 6,
+ * <pre>{"type": "lotrmod:copse", "config": {"tree": "...", "count": 6, "radius": 6, "spacing": 4,
  *   "floor": {...}, "undergrowth": {...}, "fallen_log": "...", "fallen_logs": 1}}</pre>
  */
 public class CopseFeature extends Feature<CopseFeature.Config> {
 
-    public record Config(Holder<PlacedFeature> tree, IntProvider count, IntProvider radius,
+    public record Config(Holder<PlacedFeature> tree, IntProvider count, IntProvider radius, int spacing,
                          BlockStateProvider floor, BlockStateProvider undergrowth,
                          Holder<PlacedFeature> fallenLog, IntProvider fallenLogs) implements FeatureConfiguration {
         public static final Codec<Config> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 PlacedFeature.CODEC.fieldOf("tree").forGetter(Config::tree),
                 IntProvider.codec(1, 64).fieldOf("count").forGetter(Config::count),
                 IntProvider.codec(1, 12).fieldOf("radius").forGetter(Config::radius),
+                Codec.intRange(0, 8).optionalFieldOf("spacing", 4).forGetter(Config::spacing),
                 BlockStateProvider.CODEC.fieldOf("floor").forGetter(Config::floor),
                 BlockStateProvider.CODEC.fieldOf("undergrowth").forGetter(Config::undergrowth),
                 PlacedFeature.CODEC.fieldOf("fallen_log").forGetter(Config::fallenLog),
@@ -48,6 +51,8 @@ public class CopseFeature extends Feature<CopseFeature.Config> {
         ).apply(instance, Config::new));
     }
 
+    /** Spots tried for each tree before it is left out for want of room. */
+    private static final int TRIES = 4;
     /** Share of the grass under a copse turned to its floor, at the middle. */
     private static final float FLOOR_COVER = 0.85F;
 
@@ -81,8 +86,12 @@ public class CopseFeature extends Feature<CopseFeature.Config> {
 
         int count = config.count().sample(random);
         for (int n = 0; n < count; n++) {
-            BlockPos at = somewhere(level, random, origin, radius);
-            config.tree().value().place(level, generator, random, at);
+            for (int t = 0; t < TRIES; t++) {
+                BlockPos at = somewhere(level, random, origin, radius);
+                if (!ClearOfTreesFilter.clear(level, at, config.spacing())) continue;
+                config.tree().value().place(level, generator, random, at);
+                break;
+            }
         }
 
         int logs = config.fallenLogs().sample(random);

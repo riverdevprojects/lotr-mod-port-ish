@@ -630,8 +630,10 @@ original's Arnor bricks.
   bare for only its lowest quarter, without its stub branches, and crowned
   with one ragged cone instead of its stack of plates (`"full": true`). They
   stand in copses in all three landscapes (`lotrmod:copse`, `CopseFeature`):
-  four to eight trees crowded within three to five blocks, on a floor of
-  their own, the grass under them turned to podzol with some coarse dirt,
+  four to eight trees within five to eight blocks, each at least five
+  blocks from any other trunk and out from under any other crown
+  (`lotrmod:clear_of_trees`, which the lone trees use too, so no tree grows
+  up through another), on a floor of their own, the grass under them turned to podzol with some coarse dirt,
   moss and rooted dirt, ferns, grass and brown mushrooms in their shade, and
   a fallen fir log or two. About one chunk in sixteen has one
   (`trees_arnor_copses`), and more gather where a broad noise allows

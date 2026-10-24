@@ -17,6 +17,10 @@
       "heightmap": "OCEAN_FLOOR"
     },
     {
+      "type": "lotrmod:clear_of_trees",
+      "radius": 6
+    },
+    {
       "type": "minecraft:biome"
     }
   ]
